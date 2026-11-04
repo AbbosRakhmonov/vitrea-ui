@@ -46,8 +46,8 @@ jobs:
 
       - name: Clean up older npm versions (unpublish or deprecate)
         run: |
-          npm unpublish @abbosraxmonov/liquid-ui@0.2.0 --force || npm deprecate @abbosraxmonov/liquid-ui@0.2.0 "Deprecated in favor of 0.1.0 release" || true
-          npm unpublish @abbosraxmonov/liquid-ui@0.1.1 --force || npm deprecate @abbosraxmonov/liquid-ui@0.1.1 "Deprecated in favor of 0.1.0 release" || true
+          npm unpublish @abbosraxmonov/liquid-ui@0.2.0 --force || npm deprecate @abbosraxmonov/liquid-ui@0.2.0 "Deprecated in favor of 1.0.0 release" || true
+          npm unpublish @abbosraxmonov/liquid-ui@0.1.1 --force || npm deprecate @abbosraxmonov/liquid-ui@0.1.1 "Deprecated in favor of 1.0.0 release" || true
           npm unpublish @abbosraxmonov/liquid-ui@0.0.0-stage --force || npm deprecate @abbosraxmonov/liquid-ui@0.0.0-stage "Deprecated" || true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
