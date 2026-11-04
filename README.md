@@ -1,78 +1,198 @@
+<div align="center">
+
 # @abbosraxmonov/liquid-ui
 
-React, Radix UI, Tailwind CSS v4 va TypeScript ustida **Apple Liquid Glass** dizayn tili. Ikki mavzu: **Light** va **Dark** (Apple grafit).
+**Apple Liquid Glass Design Language for React 19, Radix UI & Tailwind CSS v4**
 
-Bitta paket: atomlar (tugma, input, dialog, sheet, jadval…), kompozitlar (DataTable, formalar, filtrlar, sana tanlash, galereya…), layout (PageHeader, StatusScreen), tokenlar va Liquid Glass material — barchasi `@abbosraxmonov/liquid-ui` va uning subpath'lari ostida.
+[![npm version](https://img.shields.io/npm/v/@abbosraxmonov/liquid-ui.svg?color=blue&style=flat-square)](https://www.npmjs.com/package/@abbosraxmonov/liquid-ui)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![React 19](https://img.shields.io/badge/React-19.1+-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 
-- **npm:** [`@abbosraxmonov/liquid-ui`](https://www.npmjs.com/package/@abbosraxmonov/liquid-ui)
-- **GitHub:** [`AbbosRakhmonov/liquid-ui`](https://github.com/AbbosRakhmonov/liquid-ui)
+<br />
 
-## O'rnatish
+<p align="center">
+  <a href="https://abbosrakhmonov.github.io/liquid-ui/">
+    <img src="https://img.shields.io/badge/Live%20Demo-Explore%20Components%20in%20Storybook-blue?style=for-the-badge&logo=storybook&logoColor=white" alt="Live Storybook Showcase" />
+  </a>
+</p>
+
+[**Explore Live Interactive Demo →**](https://abbosrakhmonov.github.io/liquid-ui/)
+
+</div>
+
+---
+
+## 🌟 Overview
+
+`@abbosraxmonov/liquid-ui` is a modern, production-grade UI component library built on the **Apple macOS Tahoe Liquid Glass** design foundation. It provides an uncompromised blend of aesthetic translucency, accessibility, and high runtime performance for complex operator dashboards and consumer applications alike.
+
+### Key Highlights
+
+- 🪟 **True Liquid Glass Material:** Real-time multi-layered backdrop blur, specular rims, chromatic edges, and vibrance layers.
+- 🌓 **Dual Adaptive Themes:** Hand-calibrated **Light** and **Dark (Apple Graphite)** modes driven entirely by semantic design tokens.
+- ♿ **Accessible by Design:** Built on top of Radix UI primitives with full WAI-ARIA compliance, keyboard navigation, and visible focus rings.
+- 🧩 **26+ Primitives & 16+ Composites:** Complete set of atoms (Buttons, Dialogs, Cards) and advanced composites (Virtual Kanban Board, DataTable, DatePickers).
+- 🌲 **Tree-Shakeable Subpaths:** Import granularly (`@abbosraxmonov/liquid-ui/button`, `@abbosraxmonov/liquid-ui/card`) to optimize your production bundle.
+
+---
+
+## 🚀 Quick Start
+
+### 1. Installation
 
 ```bash
+# npm
 npm install @abbosraxmonov/liquid-ui
-# yoki
+
+# yarn
 yarn add @abbosraxmonov/liquid-ui
+
+# pnpm
+pnpm add @abbosraxmonov/liquid-ui
 ```
 
-Peer bog'liqliklar (loyihaning o'zida bo'lishi kerak): `react >=19.1`, `react-dom >=19.1`, `react-hook-form ^7.50`, `i18next >=24`, `react-i18next >=15`.
+> **Peer Dependencies:** `react >= 19.1`, `react-dom >= 19.1`, `react-hook-form ^7.50`, `i18next >= 24`, `react-i18next >= 15`.
 
-## Ulash
+### 2. Include Styles
 
-```ts
-// main.tsx — CSS tartibi muhim
-import '@abbosraxmonov/liquid-ui/styles.css'; // utility'lar, tokenlar va material
-import './index.css'; // loyihaning o'z CSS'i
-import '@abbosraxmonov/liquid-ui/theme.css'; // OXIRIDA: tokenlar va materialni qayta tasdiqlaydi
-```
+Import the stylesheets in your root entry file (`main.tsx` or `index.tsx`). **Order is critical** to ensure proper CSS cascade:
 
 ```tsx
-import { Button, Sheet, SheetContent, Table } from '@abbosraxmonov/liquid-ui';
-import { Card } from '@abbosraxmonov/liquid-ui/card';
-import { PageHeader, StatusScreen } from '@abbosraxmonov/liquid-ui/components/layout';
-import { Form, MyInput } from '@abbosraxmonov/liquid-ui/components/form';
-
-<Card material="glass">…</Card>
-<Button variant="tinted">Shablonlar</Button>
-<PageHeader title="Qurilmalar" actions={<Button>Qo'shish</Button>} />
+// main.tsx
+import '@abbosraxmonov/liquid-ui/styles.css'; // 1. Base tokens, utilities & Liquid Glass material
+import './index.css';                         // 2. Your application's custom CSS
+import '@abbosraxmonov/liquid-ui/theme.css';  // 3. (Last): Theme overrides & token enforcement
 ```
 
-Mavzu: `<html>`dagi `dark` klassi (kitning `ThemeProvider`i boshqaradi). Ranglar faqat tokenlardan olinadi: `--label`, `--label-2`, `--fill-1..4`, `--separator`, `--bg-*`, `--accent`, `--green` / `--red` / `--orange` va boshqalar (`src/styles/liquid-tokens.css`).
+### 3. Usage Example
 
-## Tarkib
+```tsx
+import React from 'react';
+import { Button } from '@abbosraxmonov/liquid-ui/button';
+import { Card } from '@abbosraxmonov/liquid-ui/card';
+import { PageHeader } from '@abbosraxmonov/liquid-ui/components/layout';
 
-- **Atomlar:** `accordion, alert, alert-dialog, avatar, badge, breadcrumb, button, calendar, card, carousel, collapsible, dialog, dropdown, form, pagination, popover, progress, scroll-area, separator, sheet, skeleton, stepper, tab, table, toast, tooltip`
-- **Kompozitlar** (`@abbosraxmonov/liquid-ui/components/*`): `actions, confirm, datatable, datepicker, empty, export, filters, form, gallery, kanban, layout, loader, modal, pagination, scroll, stat, theme, tooltip`
-- **Boshqalar:** `@abbosraxmonov/liquid-ui/{hooks, enums, providers, stores, utils, types}`
+export function Dashboard() {
+  return (
+    <div className="min-h-screen lq-canvas p-6 space-y-6">
+      <PageHeader 
+        title="Workspace Overview" 
+        actions={
+          <div className="flex gap-2">
+            <Button variant="tinted">Export</Button>
+            <Button variant="default">New Project</Button>
+          </div>
+        } 
+      />
 
-Har bir komponentning to'liq variantlari va API'si Storybook'da (`npm run storybook`) hujjatlangan.
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card material="glass" className="p-6">
+          <h3 className="text-lg font-medium text-[var(--label)]">Liquid Glass Surface</h3>
+          <p className="mt-1 text-sm text-[var(--label-2)]">
+            Translucent frosted backdrop with specular rim highlights.
+          </p>
+          <div className="mt-4 flex gap-3">
+            <Button variant="primary">Confirm</Button>
+            <Button variant="tinted">Details</Button>
+          </div>
+        </Card>
 
-## Hujjatlar
+        <Card material="solid" className="p-6">
+          <h3 className="text-lg font-medium text-[var(--label)]">Solid Surface</h3>
+          <p className="mt-1 text-sm text-[var(--label-2)]">
+            High-contrast opaque ground for dense data readability.
+          </p>
+        </Card>
+      </div>
+    </div>
+  );
+}
+```
 
-- [`.claude/skills/liquid-glass/SKILL.md`](.claude/skills/liquid-glass/SKILL.md) — dizayn qoidalari: glass ustma-ust qo'yilmaydi, glass ichida `--fill-4`, ikkilamchi tugma `tinted`, rang faqat tokendan.
-- [Kanban](src/components/kanban/README.md) — controlled board, drag/drop, virtualizatsiya va moslashtirish.
-- [Changelog](CHANGELOG.md) — versiyalar va release o'zgarishlari.
+---
 
-## Ishlab chiqish
+## 🎨 Design System & The Liquid Glass Principle
+
+### The Golden Rule: *Glass is Chrome, Never Content*
+
+In Liquid Glass, blur and translucency are reserved for persistent navigation, overlays, floating chrome, and contextual controls. Dense content (such as table rows, form inputs, and list feeds) remains on opaque or solid tile surfaces to prevent GPU composite bloat and preserve legibility.
+
+| Surface Type | When to Use | Recommended Material |
+| :--- | :--- | :--- |
+| **Chrome & Shell** | Navigation, Sidebars, Toolbars, ActionBars | `.lq-glass` / `<Card material="glass">` |
+| **Overlays** | Modals, Sheets, Drawers, Dropdowns, Popovers | `.lq-glass` with `.lq-scrim` |
+| **Interactive Controls** | Buttons, Segmented Tabs, Status Badges | `.lq-btn`, `.lq-segmented`, `.lq-badge` |
+| **Repeating Data** | Table rows, List cards, KPI tiles | Solid tiles (`var(--fill-4)`) |
+
+### Color Tokens
+
+Colors resolve through semantic CSS variables defined in `src/styles/liquid-tokens.css`:
+
+- **Text:** `--label`, `--label-2`, `--label-3`, `--label-disabled`
+- **Fills:** `--fill-1`, `--fill-2`, `--fill-3`, `--fill-4` (soft neutral backdrops)
+- **Accents:** `--accent`, `--accent-soft`, `--accent-contrast`
+- **Status Tones:** `--green`, `--red`, `--orange` (with `-soft` and `-text` variants)
+- **Separators:** `--separator`, `--separator-opaque`
+
+Theme switching is handled by adding or removing the `.dark` class on the `<html>` element (or via the built-in `<ThemeProvider />`).
+
+---
+
+## 📦 Component Catalog
+
+### Core Primitives (Atoms)
+
+| Component | Path | Description |
+| :--- | :--- | :--- |
+| **Accordion** | `@abbosraxmonov/liquid-ui/accordion` | Collapsible interactive accordion panels. |
+| **Alert & Dialog** | `@abbosraxmonov/liquid-ui/alert`, `/alert-dialog` | Accessible system banners and modal confirmation dialogs. |
+| **Avatar & Badge** | `@abbosraxmonov/liquid-ui/avatar`, `/badge` | User disc representation and status notification badges. |
+| **Button** | `@abbosraxmonov/liquid-ui/button` | Primary, Tinted, Glass, Plain and Icon button variants. |
+| **Calendar & Picker** | `@abbosraxmonov/liquid-ui/calendar` | Interactive date, time, and multi-range calendar selectors. |
+| **Card & Sheet** | `@abbosraxmonov/liquid-ui/card`, `/sheet` | Glass-morphic containers and edge-anchored slide-out sheets. |
+| **Form Controls** | `@abbosraxmonov/liquid-ui/form` | Inputs, Checkboxes, Switches, Radio Groups, ReactSelect, HtmlEditor. |
+| **Tabs & Stepper** | `@abbosraxmonov/liquid-ui/tab`, `/stepper` | macOS segmented controls and progress steppers. |
+| **Toast** | `@abbosraxmonov/liquid-ui/toast` | Glass capsule notification presets for Sonner. |
+
+### Composite Patterns
+
+| Pattern | Path | Description |
+| :--- | :--- | :--- |
+| **Kanban Board** | `@abbosraxmonov/liquid-ui/components/kanban` | Native Pragmatic DnD virtualized drag-and-drop board. |
+| **DataTable** | `@abbosraxmonov/liquid-ui/components/datatable` | Sortable, filterable, paginated enterprise data table. |
+| **Layouts** | `@abbosraxmonov/liquid-ui/components/layout` | `PageHeader`, `ActionBar`, `DetailList`, `StatusScreen`. |
+| **Filters** | `@abbosraxmonov/liquid-ui/components/filters` | `FilterWrapper`, `AppliedFilters`, `SearchWithCtrl`. |
+| **Media Gallery** | `@abbosraxmonov/liquid-ui/components/gallery` | Fullscreen zoom and thumbnail carousel gallery. |
+
+---
+
+## 🛠️ Local Development & Storybook
+
+To explore and test components locally:
 
 ```bash
-npm ci              # o'rnatish (prepare kitni ham yig'adi)
-npm run storybook   # komponentlar (port 6006)
+# Clone the repository
+git clone https://github.com/AbbosRakhmonov/liquid-ui.git
+cd liquid-ui
+
+# Install dependencies
+npm ci
+
+# Start interactive Storybook
+npm run storybook
+
+# Run test suite & type checks
+npm test
 npm run typecheck
-npm test            # vitest (Storybook stories browser'da)
-npm run build       # dist/
+
+# Production build
+npm run build
 ```
 
-## Nashr etish (publish)
+---
 
-npm'ga nashr avtomatik — **GitHub Release** chiqarilganda `.github/workflows/publish.yml` ishga tushadi (`npm ci` → typecheck → build → `npm publish --provenance`).
+## 📄 License
 
-1. `package.json`dagi `version`ni oshiring (npm bir xil versiyani ikki marta qabul qilmaydi).
-2. GitHub'da tegishli tag bilan Release yarating (masalan `v0.1.1`).
-3. Workflow avtomatik publish qiladi. (Repo secret: `NPM_TOKEN` — npm Automation token.)
-
-Qo'lda nashr: `npm login && npm publish` yoki Actions'dan `workflow_dispatch`.
-
-## Litsenziya
-
-MIT. shadcn/ui va Radix UI (MIT) asosida. Kanban adaptatsiyasi va boshqa dependency'lar uchun [third-party notices](THIRD_PARTY_NOTICES.md)ga qarang.
+Distributed under the [MIT License](LICENSE). Built on foundations from Radix UI and shadcn/ui. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for full licensing details.
