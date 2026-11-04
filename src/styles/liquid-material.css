@@ -1,0 +1,944 @@
+/* ============================================================================
+ * Liquid Glass — material and component layer
+ * ----------------------------------------------------------------------------
+ * The spec's core rule: chrome is glass, content is a solid surface.
+ *   chrome  — sidebar, page toolbar, date field, segmented control,
+ *             pagination buttons, popover          -> .lq-glass
+ *   content — platform cards, charts, tables, lists -> .lq-card
+ *
+ * Everything lives in @layer components so a Tailwind utility on the same
+ * element always wins. This file loads after Tailwind's utilities, and an
+ * unlayered rule here would outrank them regardless of specificity — the bug
+ * that silently broke modal positioning earlier in this project.
+ * ========================================================================== */
+
+@layer components {
+  /* ============================================================ canvas === */
+
+  /* Glass only reads when something sits under it. The page root carries the
+   * two ambient beams that give the material something to refract; without
+   * this, glass over a flat page is indistinguishable from flat paint. */
+  .lq-canvas,
+  .ph-canvas {
+    position: relative;
+    isolation: isolate;
+    min-height: 100%;
+    background-color: var(--bg-canvas);
+  }
+
+  .lq-canvas::before,
+  .ph-canvas::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(
+        60rem 40rem at 12% -5%,
+        var(--ambient-1),
+        transparent 60%
+      ),
+      radial-gradient(50rem 36rem at 95% 8%, var(--ambient-2), transparent 55%);
+  }
+
+  /* ============================================================= glass === */
+
+  /* The five layers, in the spec's order:
+   *   1 translucent fill   2 backdrop blur + saturate
+   *   3 hairline stroke + top rim   4 elevation   5 specular edge (::before)
+   */
+  .lq-glass,
+  .ph-glass {
+    --_fill: var(--glass-fill);
+    --_shadow: var(--shadow-glass);
+
+    position: relative;
+    border-radius: var(--radius-lg);
+    background-color: var(--_fill);
+
+    /* The -webkit- prefix is not optional: Safari ignores the unprefixed
+     * property and the panel renders as flat paint without it. */
+    -webkit-backdrop-filter: blur(var(--glass-blur))
+      saturate(var(--glass-saturate));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+
+    box-shadow:
+      inset 0 0 0 0.5px var(--glass-stroke),
+      inset 0 1px 0 0 var(--glass-rim),
+      var(--_shadow);
+  }
+
+  /* Specular edge: bright at top-left, soft at bottom-right. A masked
+   * gradient border is the only way to vary a ring's colour around its path. */
+  .lq-glass::before,
+  .ph-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      135deg,
+      var(--glass-rim) 0%,
+      transparent 40%,
+      transparent 60%,
+      var(--glass-rim-soft) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  /* An edge-anchored glass panel: a sheet, an inspector, a drawer.
+   * Only the leading edge is rounded, because the other three sit flush with
+   * the viewport and a radius there would show a sliver of page behind it. */
+  .lq-sheet,
+  .ph-sheet {
+    border-radius: 0;
+  }
+  .lq-sheet--right,
+  .ph-sheet--right {
+    border-start-start-radius: var(--radius-xl);
+    border-end-start-radius: var(--radius-xl);
+  }
+  .lq-sheet--left,
+  .ph-sheet--left {
+    border-start-end-radius: var(--radius-xl);
+    border-end-end-radius: var(--radius-xl);
+  }
+  .lq-sheet--top,
+  .ph-sheet--top {
+    border-end-start-radius: var(--radius-xl);
+    border-end-end-radius: var(--radius-xl);
+  }
+  .lq-sheet--bottom,
+  .ph-sheet--bottom {
+    border-start-start-radius: var(--radius-xl);
+    border-start-end-radius: var(--radius-xl);
+  }
+
+  /* Menu glass - dropdowns, popovers, the date picker. Thinner than a panel
+   * and lit harder: a lower fill lets the content beneath show through, a
+   * stronger saturate keeps it vivid, and an inner glow along the bottom edge
+   * plus the top rim make the edge read as a curved, light-catching lens. */
+  .lq-glass--menu,
+  .ph-glass--menu {
+    --_fill: var(--glass-fill-menu);
+    --_shadow: var(--shadow-menu);
+    -webkit-backdrop-filter: blur(30px) saturate(210%);
+    backdrop-filter: blur(30px) saturate(210%);
+    box-shadow:
+      inset 0 0 0 0.5px var(--glass-stroke),
+      inset 0 1px 0 0 var(--glass-rim),
+      inset 0 -1px 0 0 var(--glass-glow),
+      inset 0 0 24px 0 var(--glass-glow),
+      var(--_shadow);
+  }
+
+  /* A KPI tile rests on the canvas rather than floating above it. */
+  .lq-stat.lq-glass,
+  .ph-stat.ph-glass {
+    --_shadow: var(--shadow-rest);
+  }
+
+  /* Content glass — the KPI tile's material carried to a content card (a
+   * chart, a table, a platform card): same fill, blur and rim, and the same
+   * light rest shadow rather than the floating panel's deeper one. */
+  .lq-glass--content,
+  .ph-glass--content {
+    --_shadow: var(--shadow-rest);
+  }
+
+  /* Glass is never stacked. A card or tile inside glass becomes a quiet
+   * translucent fill, so the material underneath still shows through it. */
+  .lq-glass .lq-card,
+  .ph-glass .ph-card,
+  .lq-glass .lq-tile,
+  .ph-glass .ph-tile {
+    background-color: var(--fill-4);
+    box-shadow: none;
+  }
+
+  /* Clear variant — for glass over imagery. */
+  .lq-glass--clear,
+  .ph-glass--clear {
+    --_fill: var(--glass-fill-clear);
+  }
+
+  /* A control-sized surface sits lower than a panel. */
+  .lq-glass--control,
+  .ph-glass--control {
+    --_shadow: var(--shadow-control);
+    border-radius: var(--radius-full);
+  }
+
+  /* Glass is never layered on glass: the inner one would double-blur and cost
+   * a second compositing layer. Nested, it becomes a plain translucent fill. */
+  .lq-glass .lq-glass,
+  .ph-glass .ph-glass {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  /* ============================================================== card === */
+
+  /* The content layer. Solid on purpose — tables, charts and lists must stay
+   * legible and must not each cost a backdrop sample. */
+  .lq-card,
+  .ph-card {
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-raised);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* A card inside a card is not raised twice: it recedes to the inset surface
+   * and drops its own shadow, the way a tile sits inside its card. */
+  .lq-card .lq-card,
+  .ph-card .ph-card {
+    background-color: var(--bg-inset);
+    box-shadow: none;
+  }
+
+  /* A tile inside a card. Concentric: the card is 24 with 12px of padding,
+   * so the tile that touches its corner is 24 − 12 = 12. */
+  .lq-tile,
+  .ph-tile {
+    border-radius: var(--radius-md);
+    background-color: var(--bg-inset);
+  }
+
+  /* A floating solid element — menus and popovers that are not glass. */
+  .lq-elevated,
+  .ph-elevated {
+    border-radius: var(--radius-md);
+    background-color: var(--bg-elevated);
+    box-shadow: var(--shadow-control);
+  }
+
+  /* ============================================================== type === */
+
+  .lq-large-title,
+  .ph-large-title {
+    font: 700 34px / 1.2 var(--font-text);
+    letter-spacing: -0.022em;
+  }
+  .lq-title-1,
+  .ph-title-1 {
+    font: 700 28px / 1.21 var(--font-text);
+    letter-spacing: -0.021em;
+  }
+  .lq-title-2,
+  .ph-title-2 {
+    font: 700 22px / 1.27 var(--font-text);
+    letter-spacing: -0.02em;
+  }
+  .lq-title-3,
+  .ph-title-3 {
+    font: 600 20px / 1.25 var(--font-text);
+    letter-spacing: -0.017em;
+  }
+  .lq-headline,
+  .ph-headline {
+    font: 600 17px / 1.29 var(--font-text);
+    letter-spacing: -0.012em;
+  }
+  .lq-body,
+  .ph-body {
+    font: 400 17px / 1.41 var(--font-text);
+    letter-spacing: -0.012em;
+  }
+  .lq-callout,
+  .ph-callout {
+    font: 400 16px / 1.31 var(--font-text);
+    letter-spacing: -0.009em;
+  }
+  .lq-subheadline,
+  .ph-subheadline {
+    font: 400 15px / 1.33 var(--font-text);
+    letter-spacing: -0.006em;
+  }
+  .lq-footnote,
+  .ph-footnote {
+    font: 400 13px / 1.38 var(--font-text);
+  }
+  .lq-caption-1,
+  .ph-caption-1 {
+    font: 400 12px / 1.33 var(--font-text);
+  }
+  .lq-caption-2,
+  .ph-caption-2 {
+    font: 400 11px / 1.18 var(--font-text);
+  }
+
+  /* Numerals use the rounded face and always line up in columns. */
+  .lq-numeral-l,
+  .ph-numeral-l,
+  .lq-numeral-m,
+  .ph-numeral-m,
+  .lq-numeral-s,
+  .ph-numeral-s {
+    font-family: var(--font-rounded);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+  .lq-numeral-l,
+  .ph-numeral-l {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.022em;
+  }
+  .lq-numeral-m,
+  .ph-numeral-m {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.27;
+    letter-spacing: -0.02em;
+  }
+  .lq-numeral-s,
+  .ph-numeral-s {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.33;
+  }
+  .lq-code,
+  .ph-code {
+    font: 400 13px / 1.38 var(--font-mono);
+  }
+
+  /* Text colours are tokens, never the series colour. */
+  .lq-label,
+  .ph-label {
+    color: var(--label);
+  }
+  .lq-label-2,
+  .ph-label-2 {
+    color: var(--label-2);
+  }
+  .lq-label-3,
+  .ph-label-3 {
+    color: var(--label-3);
+  }
+  .lq-link,
+  .ph-link {
+    color: var(--link);
+  }
+
+  /* ========================================================== controls === */
+
+  /* Every control is a capsule. */
+  .lq-btn,
+  .ph-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    border: 0;
+    border-radius: var(--radius-full);
+    font: 600 15px / 1 var(--font-text);
+    letter-spacing: -0.006em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      transform 100ms ease-out,
+      background-color var(--duration-fast) var(--ease-liquid),
+      box-shadow var(--duration-fast) var(--ease-liquid);
+  }
+
+  .lq-btn:active,
+  .ph-btn:active {
+    transform: scale(0.96);
+  }
+
+  .lq-btn:focus-visible,
+  .ph-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .lq-btn:disabled,
+  .ph-btn:disabled,
+  .lq-btn[aria-disabled='true'],
+  .ph-btn[aria-disabled='true'] {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* sm / md / lg — lg meets the 44px touch minimum. */
+  .lq-btn--sm,
+  .ph-btn--sm {
+    height: 32px;
+    padding-inline: var(--space-3);
+    font-size: 13px;
+  }
+  .lq-btn--md,
+  .ph-btn--md {
+    height: 38px;
+    padding-inline: var(--space-4);
+  }
+  .lq-btn--lg,
+  .ph-btn--lg {
+    height: 44px;
+    padding-inline: var(--space-5);
+    font-size: 17px;
+  }
+
+  .lq-btn--icon,
+  .ph-btn--icon {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+  }
+  .lq-btn--icon.lq-btn--lg,
+  .ph-btn--icon.ph-btn--lg {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Primary — the only filled control. */
+  .lq-btn--primary,
+  .ph-btn--primary {
+    background-color: var(--accent-fill);
+    color: var(--on-accent);
+    box-shadow: var(--shadow-control);
+  }
+  .lq-btn--primary:hover,
+  .ph-btn--primary:hover {
+    filter: brightness(1.06);
+  }
+
+  /* Glass — the default control on the chrome layer. */
+  .lq-btn--glass,
+  .ph-btn--glass {
+    background-color: var(--glass-fill);
+    color: var(--label);
+    -webkit-backdrop-filter: blur(var(--glass-blur))
+      saturate(var(--glass-saturate));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow:
+      inset 0 0 0 0.5px var(--glass-stroke),
+      inset 0 1px 0 0 var(--glass-rim),
+      var(--shadow-control);
+  }
+
+  /* Tinted - a control that lives inside a glass panel, such as a sidebar
+   * pop-up button. It keeps the liquid read (translucent fill, hairline,
+   * lit top rim) without a second backdrop blur: glass is never stacked on
+   * glass, because the inner layer would sample an already-blurred backdrop
+   * and cost another compositing pass. */
+  .lq-btn--tinted,
+  .ph-btn--tinted {
+    background-color: var(--fill-3);
+    color: var(--label);
+    box-shadow:
+      inset 0 0 0 0.5px var(--glass-stroke),
+      inset 0 1px 0 0 var(--glass-rim-soft);
+  }
+  .lq-btn--tinted:hover,
+  .ph-btn--tinted:hover {
+    background-color: var(--fill-2);
+  }
+  .lq-btn--tinted:active,
+  .ph-btn--tinted:active,
+  .lq-btn--tinted[data-state='open'],
+  .ph-btn--tinted[data-state='open'] {
+    background-color: var(--fill-1);
+  }
+
+  /* Inside a glass panel, buttons go plain — glass is never stacked. */
+  .lq-btn--plain,
+  .ph-btn--plain {
+    background-color: transparent;
+    color: var(--accent);
+    padding-inline: var(--space-2);
+  }
+  .lq-btn--plain:hover,
+  .ph-btn--plain:hover {
+    background-color: var(--fill-3);
+  }
+  .lq-btn--plain:active,
+  .ph-btn--plain:active {
+    background-color: var(--fill-1);
+  }
+
+  /* ================================================ segmented control === */
+
+  .lq-segmented,
+  .ph-segmented {
+    position: relative;
+    display: inline-flex;
+    padding: 2px;
+    border-radius: var(--radius-full);
+    background-color: var(--glass-fill);
+    -webkit-backdrop-filter: blur(var(--glass-blur))
+      saturate(var(--glass-saturate));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow:
+      inset 0 0 0 0.5px var(--glass-stroke),
+      var(--shadow-control);
+  }
+
+  /* On a solid content card the control sits in the card, not over the page:
+   * a grey track, no backdrop sample. Glass belongs to the chrome layer. */
+  .lq-segmented--inset,
+  .ph-segmented--inset {
+    background-color: var(--fill-3);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  .lq-segmented__item,
+  .ph-segmented__item {
+    border: 0;
+    background: transparent;
+    border-radius: var(--radius-full);
+    padding: 7px var(--space-4);
+    font: 500 14px / 1 var(--font-text);
+    color: var(--label-2);
+    cursor: pointer;
+    transition:
+      color var(--duration-fast) var(--ease-liquid),
+      background-color var(--duration-base) var(--ease-liquid);
+  }
+
+  .lq-segmented__item[aria-selected='true'],
+  .ph-segmented__item[aria-selected='true'],
+  .lq-segmented__item[data-selected='true'],
+  .ph-segmented__item[data-selected='true'] {
+    background-color: var(--bg-raised);
+    color: var(--label);
+    font-weight: 600;
+    box-shadow: var(--shadow-thumb);
+  }
+
+  /* ============================================================ badge === */
+
+  /* Status never travels on colour alone — the dot is paired with its word. */
+  .lq-badge,
+  .ph-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    border-radius: var(--radius-full);
+    padding: 3px var(--space-2);
+    font: 500 12px / 1.33 var(--font-text);
+    background-color: var(--fill-3);
+    color: var(--label-2);
+  }
+
+  .lq-badge__dot,
+  .ph-badge__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background-color: currentColor;
+    flex: none;
+  }
+
+  .lq-badge--green,
+  .ph-badge--green {
+    background-color: var(--green-soft);
+    color: var(--green-text);
+  }
+  .lq-badge--red,
+  .ph-badge--red {
+    background-color: var(--red-soft);
+    color: var(--red-text);
+  }
+  .lq-badge--orange,
+  .ph-badge--orange {
+    background-color: var(--orange-soft);
+    color: var(--orange-text);
+  }
+  .lq-badge--accent,
+  .ph-badge--accent {
+    background-color: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  /* ===================================================== platform mark === */
+
+  .lq-mark,
+  .ph-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--label);
+  }
+  .lq-mark__dot,
+  .ph-mark__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    flex: none;
+    background-color: var(--_platform, var(--label-2));
+  }
+  .lq-mark--sm .lq-mark__dot,
+  .ph-mark--sm .ph-mark__dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .lq-platform-youtube,
+  .ph-platform-youtube {
+    --_platform: var(--platform-youtube);
+  }
+  .lq-platform-facebook,
+  .ph-platform-facebook {
+    --_platform: var(--platform-facebook);
+  }
+  .lq-platform-instagram,
+  .ph-platform-instagram {
+    --_platform: var(--platform-instagram);
+  }
+  .lq-platform-threads,
+  .ph-platform-threads {
+    --_platform: var(--platform-threads);
+  }
+  .lq-platform-telegram,
+  .ph-platform-telegram {
+    --_platform: var(--platform-telegram);
+  }
+  .lq-platform-x,
+  .ph-platform-x {
+    --_platform: var(--platform-x);
+  }
+  .lq-platform-tiktok,
+  .ph-platform-tiktok {
+    --_platform: var(--platform-tiktok);
+  }
+
+  /* ============================================================ meter === */
+
+  .lq-meter,
+  .ph-meter {
+    height: 6px;
+    border-radius: var(--radius-full);
+    background-color: var(--fill-3);
+    overflow: hidden;
+  }
+  /* Meters are never painted in a platform colour — they read as magnitude,
+   * not identity. */
+  .lq-meter__bar,
+  .ph-meter__bar {
+    height: 100%;
+    border-radius: var(--radius-full);
+    background-color: var(--accent);
+    transition: width var(--duration-base) var(--ease-liquid);
+  }
+
+  /* ========================================================= stat card === */
+
+  .lq-stat,
+  .ph-stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+  }
+  /* The icon chip is concentric to the 16px padding: 24 − 16 = 8. */
+  .lq-stat__chip,
+  .ph-stat__chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background-color: var(--accent-soft);
+    color: var(--accent);
+    flex: none;
+  }
+
+  /* =========================================================== vibrancy === */
+
+  /* Text sitting on a translucent surface cannot be flat grey: the backdrop
+   * shifts under it, so a fixed mid-grey loses contrast wherever the content
+   * behind happens to be light. Raise contrast, add a little weight, and open
+   * the tracking slightly — Apple's vibrancy, approximated. */
+  .lq-glass .lq-label-2,
+  .ph-glass .ph-label-2,
+  .lq-vibrant-2,
+  .ph-vibrant-2 {
+    color: color-mix(in srgb, var(--label) 62%, var(--label-2));
+    font-weight: 500;
+    letter-spacing: 0.004em;
+  }
+
+  /* ======================================================== scroll edge === */
+
+  /* Floating chrome overlapping scrolling content gets a fade, not a rule.
+   * Put this on the scroll container; it masks the first and last few pixels
+   * so content dissolves into the chrome instead of being cut by a line. */
+  .lq-edge-fade,
+  .ph-edge-fade {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--space-5),
+      #000 calc(100% - var(--space-5)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--space-5),
+      #000 calc(100% - var(--space-5)),
+      transparent 100%
+    );
+  }
+
+  /* ======================================================= materialize === */
+
+  /* Glass should arrive as a material, not as a rectangle fading in: the blur
+   * builds up while the surface scales into place. Radix drives this from
+   * data-state, so it works for every portalled atom without extra props. */
+  @keyframes ph-materialize-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+      -webkit-backdrop-filter: blur(0) saturate(100%);
+      backdrop-filter: blur(0) saturate(100%);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+      -webkit-backdrop-filter: blur(var(--glass-blur))
+        saturate(var(--glass-saturate));
+      backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    }
+  }
+
+  @keyframes ph-materialize-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+  }
+
+  .lq-glass[data-state='open'],
+  .ph-glass[data-state='open'] {
+    animation: ph-materialize-in var(--duration-base) var(--ease-liquid);
+  }
+  .lq-glass[data-state='closed'],
+  .ph-glass[data-state='closed'] {
+    animation: ph-materialize-out var(--duration-fast) var(--ease-liquid);
+  }
+
+  /* ======================================================== interaction === */
+
+  .lq-interactive,
+  .ph-interactive {
+    transition:
+      background-color var(--duration-fast) var(--ease-liquid),
+      transform var(--duration-fast) var(--ease-liquid);
+  }
+  .lq-interactive:hover,
+  .ph-interactive:hover {
+    background-color: var(--fill-3);
+  }
+  .lq-interactive:active,
+  .ph-interactive:active {
+    background-color: var(--fill-1);
+  }
+  .lq-interactive[aria-current='page'],
+  .ph-interactive[aria-current='page'],
+  .lq-interactive[data-selected='true'],
+  .ph-interactive[data-selected='true'] {
+    background-color: var(--fill-2);
+    color: var(--label);
+    font-weight: 600;
+  }
+  .lq-interactive:focus-visible,
+  .ph-interactive:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Modal scrim. A modal is chrome, so what is behind it is dimmed and
+   * lightly blurred rather than covered with a flat wash. */
+  .lq-scrim,
+  .ph-scrim {
+    background-color: var(--scrim);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
+  .lq-separator,
+  .ph-separator {
+    border: 0;
+    border-top: 0.5px solid var(--separator);
+  }
+}
+
+/* ======================================================= scroll fade === */
+/* A scroll edge effect that appears only on the edge where content actually
+ * continues. .lq-edge-fade fades both edges always, which dims the first item
+ * of a list that has not been scrolled at all. Here the fade depths are driven
+ * by the element's own scroll position: nothing at the top until you scroll,
+ * nothing at the bottom once you reach it, and nothing at all when the content
+ * fits - an inactive scroll timeline leaves both depths at 0. Browsers without
+ * scroll-driven animations simply show no fade, which is the previous look.
+ * Outside @layer because @property registrations are global. */
+@property --lq-fade-top {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --ph-fade-top {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --lq-fade-bottom {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --ph-fade-bottom {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@keyframes ph-scroll-fade {
+  0% {
+    --lq-fade-top: 0px;
+    --lq-fade-bottom: var(--space-6);
+  }
+  8% {
+    --lq-fade-top: var(--space-6);
+  }
+  92% {
+    --lq-fade-bottom: var(--space-6);
+  }
+  100% {
+    --lq-fade-top: var(--space-6);
+    --lq-fade-bottom: 0px;
+  }
+}
+@supports (animation-timeline: scroll()) {
+  .lq-scroll-fade,
+  .ph-scroll-fade {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--lq-fade-top),
+      #000 calc(100% - var(--lq-fade-bottom)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--lq-fade-top),
+      #000 calc(100% - var(--lq-fade-bottom)),
+      transparent 100%
+    );
+    animation: ph-scroll-fade linear both;
+    animation-timeline: scroll(self);
+  }
+}
+
+/* ========================================================== fallbacks === */
+/* Unlayered on purpose: these must beat the layered material above. */
+
+/* The spec's rule — glass degrades to the solid raised surface, it never
+ * degrades to a half-transparent panel nobody can read. */
+@supports not (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .lq-glass,
+  .ph-glass,
+  .lq-btn--glass,
+  .ph-btn--glass,
+  .lq-segmented,
+  .ph-segmented {
+    background-color: var(--bg-raised);
+  }
+  .lq-glass::before,
+  .ph-glass::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .lq-scrim,
+  .ph-scrim {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .lq-glass,
+  .ph-glass,
+  .lq-btn--glass,
+  .ph-btn--glass,
+  .lq-segmented,
+  .ph-segmented {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: var(--bg-raised);
+  }
+  .lq-glass::before,
+  .ph-glass::before {
+    display: none;
+  }
+  .lq-canvas::before,
+  .ph-canvas::before {
+    display: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .lq-glass,
+  .ph-glass,
+  .lq-btn--glass,
+  .ph-btn--glass,
+  .lq-segmented,
+  .ph-segmented {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: var(--bg-raised);
+    box-shadow:
+      inset 0 0 0 1px var(--label-2),
+      var(--shadow-control);
+  }
+  .lq-glass::before,
+  .ph-glass::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lq-glass[data-state='open'],
+  .ph-glass[data-state='open'],
+  .lq-glass[data-state='closed'],
+  .ph-glass[data-state='closed'] {
+    animation: none;
+  }
+  .lq-btn,
+  .ph-btn,
+  .lq-segmented__item,
+  .ph-segmented__item,
+  .lq-interactive,
+  .ph-interactive,
+  .lq-meter__bar,
+  .ph-meter__bar {
+    transition: none;
+  }
+  .lq-btn:active,
+  .ph-btn:active {
+    transform: none;
+  }
+}

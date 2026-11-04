@@ -1,0 +1,58 @@
+name: Publish to npm
+
+# Publishes @abbosraxmonov/liquid-ui to npm when a GitHub Release is published
+# (or manually from the Actions tab). npm refuses to republish an existing
+# version, so bump "version" in package.json before you tag / release.
+#
+# Requirements:
+#   - Repo secret NPM_TOKEN: an npm "Automation" access token for the account
+#     that owns the @abbosraxmonov scope.
+#   - For --provenance the repo must be public and package.json "repository.url"
+#     must match this repo. If the repo is private, drop --provenance below.
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write # required for npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Build package
+        run: npm run build
+
+      - name: Clean up older npm versions (unpublish or deprecate)
+        run: |
+          npm unpublish @abbosraxmonov/liquid-ui@0.2.0 --force || npm deprecate @abbosraxmonov/liquid-ui@0.2.0 "Deprecated in favor of 0.1.0 release" || true
+          npm unpublish @abbosraxmonov/liquid-ui@0.1.1 --force || npm deprecate @abbosraxmonov/liquid-ui@0.1.1 "Deprecated in favor of 0.1.0 release" || true
+          npm unpublish @abbosraxmonov/liquid-ui@0.0.0-stage --force || npm deprecate @abbosraxmonov/liquid-ui@0.0.0-stage "Deprecated" || true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

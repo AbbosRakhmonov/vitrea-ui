@@ -1,0 +1,258 @@
+/* Adapted from react-kanban-kit (Copyright 2024 Hazem braiek).
+ * Structural rkk-* classes remain public styling hooks. See THIRD_PARTY_NOTICES.md.
+ * Override --kanban-* on a board to customise geometry without replacing slots. */
+.rkk-board {
+  display: flex;
+  gap: var(--kanban-column-gap, 8px);
+  height: 100%;
+  overflow: auto;
+  color: var(--label);
+}
+
+.rkk-column-host {
+  flex: 0 0 auto;
+  height: 100%;
+  min-height: 0;
+}
+
+.rkk-column-outer {
+  display: flex;
+  flex-direction: column;
+  min-width: var(--kanban-column-width, 264px);
+  max-width: var(--kanban-column-width, 264px);
+  height: 100%;
+  min-height: 0;
+  border-radius: var(--kanban-column-radius, 10px);
+  background: var(--kanban-column-background, var(--bg-inset));
+}
+
+.rkk-column {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  padding: var(--kanban-column-padding, 10px);
+  overflow: hidden;
+  border-radius: var(--kanban-column-radius, 10px);
+}
+
+.rkk-column-wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+  max-height: 100%;
+}
+
+.rkk-column-header-slot {
+  flex-shrink: 0;
+}
+
+.rkk-column-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.rkk-column-header-left {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.rkk-column-header-right {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: var(--fill-3);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.rkk-column-content {
+  position: relative;
+  flex: 1;
+  height: 0;
+  min-height: 0;
+}
+
+.rkk-column-content-list {
+  height: 100%;
+  overflow: hidden auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+.rkk-column-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  color: var(--label-2);
+  pointer-events: none;
+}
+
+.rkk-column-empty > * {
+  pointer-events: auto;
+}
+
+.rkk-column-outer.rkk-column-dragging {
+  z-index: 1000;
+  cursor: grabbing;
+}
+
+.rkk-column.rkk-column-dragging {
+  opacity: 0.6;
+  box-shadow: var(--shadow-card);
+}
+
+.rkk-column-dragging .rkk-column-wrapper {
+  pointer-events: none;
+}
+
+.rkk-column-drag-indicator {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 10;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+  pointer-events: none;
+}
+
+.rkk-card-shadow-container {
+  position: relative;
+}
+
+.rkk-card-shadow {
+  border: 1px solid var(--separator);
+  border-radius: var(--kanban-card-radius, 8px);
+  background: var(--kanban-drop-background, var(--accent-soft));
+}
+
+.rkk-default-card {
+  padding: 10px;
+  border: 1px solid var(--glass-stroke);
+  border-radius: var(--kanban-card-radius, 8px);
+  background: var(--bg-raised);
+  box-shadow: var(--shadow-card);
+}
+
+.rkk-skeleton {
+  position: relative;
+  margin-bottom: 8px;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px solid var(--glass-stroke);
+  border-radius: var(--kanban-card-radius, 8px);
+  background: var(--bg-raised);
+  box-shadow: var(--shadow-card);
+}
+
+.rkk-skeleton-content,
+.rkk-skeleton-description {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rkk-skeleton-description {
+  gap: 8px;
+}
+
+.rkk-skeleton-title,
+.rkk-skeleton-line {
+  position: relative;
+  overflow: hidden;
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--fill-4) 25%,
+    var(--fill-2) 50%,
+    var(--fill-4) 75%
+  );
+  background-size: 200px 100%;
+  animation: rkk-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.rkk-skeleton-title {
+  width: 80%;
+  height: 20px;
+  border-radius: 6px;
+}
+
+.rkk-skeleton-line-short {
+  width: 65%;
+}
+
+.rkk-skeleton-wave :is(.rkk-skeleton-title, .rkk-skeleton-line) {
+  background: var(--fill-4);
+  animation: none;
+}
+
+.rkk-skeleton-wave :is(.rkk-skeleton-title, .rkk-skeleton-line)::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--fill-2), transparent);
+  content: '';
+  animation: rkk-skeleton-wave 2s infinite;
+}
+
+.rkk-skeleton-pulse :is(.rkk-skeleton-title, .rkk-skeleton-line) {
+  background: var(--fill-4);
+  animation: rkk-skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes rkk-skeleton-shimmer {
+  from {
+    background-position: -200px 0;
+  }
+  to {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes rkk-skeleton-wave {
+  from {
+    transform: translateX(-100%);
+  }
+  50%,
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes rkk-skeleton-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .rkk-skeleton {
+    padding: 12px;
+  }
+  .rkk-skeleton-content {
+    gap: 10px;
+  }
+  .rkk-skeleton-title {
+    height: 18px;
+  }
+  .rkk-skeleton-line {
+    height: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rkk-skeleton *,
+  .rkk-skeleton *::after {
+    animation: none;
+  }
+}

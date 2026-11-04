@@ -1,0 +1,258 @@
+/* ============================================================================
+ * Liquid Glass — token layer
+ * ----------------------------------------------------------------------------
+ * Transcribed from the Liquid Glass design system artifact.
+ * Values here are the spec's, not derived — where a value had to be derived
+ * (the two-layer shadows, which the spec gives as "2 layers" + an opacity)
+ * the derivation is marked.
+ *
+ * This is a SEPARATE vocabulary from the primitive tokens in tokens.css.
+ * Both ship: the primitive names keep the 24 base components working, these
+ * names are what the Liquid Glass layer and all new work use.
+ * ========================================================================== */
+
+:root {
+  /* ----------------------------------------------------------- surfaces --- */
+  --bg-canvas: #f2f2f7;
+  --bg-raised: #ffffff;
+  --bg-inset: #f2f2f7;
+  --bg-elevated: #ffffff;
+
+  /* Ambient light behind the canvas. Glass only reads when something sits
+   * under it, so these two beams are what make the material visible at all. */
+  --ambient-1: rgb(0 113 227 / 20%);
+  --ambient-2: rgb(50 173 230 / 16%);
+
+  /* -------------------------------------------------------------- text --- */
+  --label: #000000;
+  --label-2: #6c6c70;
+  --label-3: rgb(60 60 67 / 30%); /* placeholder and disabled only */
+  --link: #0060c0;
+
+  /* ------------------------------------------------------------- fills --- */
+  --fill-1: rgb(120 120 128 / 20%); /* pressed */
+  --fill-2: rgb(120 120 128 / 16%); /* selected */
+  --fill-3: rgb(118 118 128 / 12%); /* hover */
+  --fill-4: rgb(116 116 128 / 8%); /* a tile inside glass */
+  /* A table's column-name row: a hair off the rows below it, not a band. */
+  --fill-head: rgb(116 116 128 / 5%);
+  --separator: rgb(60 60 67 / 29%);
+  --scrollbar-thumb: rgb(60 60 67 / 28%);
+
+  /* ------------------------------------------------------------ accent --- */
+  --accent: #0071e3;
+  --accent-fill: #0071e3;
+  /* The shadcn-style "accent" - a subtle hover fill, as an hsl triplet for
+   * hsl(var(--x)) utilities. It shared the name --accent with the spec's
+   * blue above, which won, so hsl(#0071e3) was invalid and bg-accent /
+   * text-accent painted nothing across the product. Kept under its own name. */
+  --ui-accent: 240 7% 97%;
+  /* The outline of an unchecked checkbox or radio: a control that has to be
+   * found before it can be used, so it clears the 3:1 non-text minimum
+   * (about 3.5:1 on white). The old alpha-subtle border measured 1.12:1. */
+  --control-stroke: rgb(60 60 67 / 60%);
+  --accent-soft: rgb(0 113 227 / 12%);
+  --on-accent: #ffffff;
+
+  /* ------------------------------------------------------------ status --- */
+  /* Status is never colour alone — it always ships with its word. */
+  --green: #34c759;
+  --green-text: #1f7a35;
+  /* A filled green chip and the ink that goes on it. The ramp inverts between
+   * themes, so a single pair cannot serve both: measured, white on systemGreen
+   * is 2.22:1 in light and 2.02:1 in dark - under the 3:1 a glyph needs. Light
+   * therefore darkens the fill and keeps white ink (5.39:1); dark keeps the
+   * bright fill and switches to dark ink (10.9:1). */
+  --green-fill: #1f7a35;
+  --on-green: #ffffff;
+
+  /* ------------------------------------------------------------ dataviz --- */
+  /* Validated with the dataviz palette script against #ffffff (light) and
+   * #1c1c1e (dark): every pair passes lightness, chroma, CVD and contrast.
+   * cat-*: identity with no platform behind it (e.g. gender) - kept apart from
+   *   the platform hues so a colour never means two things on one screen.
+   * div-*: ordered polarity (sentiment). Warm/cool poles; the midpoint is a
+   *   neutral grey because "neutral" must read as nothing, not as a third hue. */
+  --viz-cat-1: #0071e3;
+  --viz-cat-2: #eb6834;
+  --viz-div-pos: #0071e3;
+  --viz-div-neg: #e34948;
+  --viz-div-mid: #c7c7cc;
+
+  /* Action families - what an operation did, grouped by meaning so that
+   * thirteen action types need only four hues and a grey: past ~7 colour
+   * classes hues stop being told apart. Validated with --pairs all in both
+   * themes: normal-vision separation >= 15 everywhere, CVD in the 6-8 band,
+   * which is legal only with secondary encoding - every chip carries its icon
+   * and its word, and text stays in the label colour. */
+  --act-engage: #eda100;
+  --act-content: #2a78d6;
+  --act-follow: #1baf7a;
+  --act-moderate: #e34948;
+  --green-soft: rgb(52 199 89 / 15%);
+  --red: #ff3b30;
+  --red-text: #d70015;
+  --red-soft: rgb(255 59 48 / 12%);
+  --orange: #ff9500;
+  --orange-text: #c93400;
+  --orange-soft: rgb(255 149 0 / 12%);
+
+  /* ---------------------------------------------------------- platform --- */
+  /* Series colours for charts and PlatformMark dots. These are brand
+   * identities, not an arbitrary categorical ramp, so they are kept as
+   * specified — but the palette validator fails two checks on them
+   * (platform-x reads grey; instagram/facebook separate by only ΔE 5.9 under
+   * protanopia), which is why a PlatformMark dot and the platform's name are
+   * mandatory in every legend. Colour is never the only identifier. */
+  --platform-youtube: #ff3b30;
+  --platform-facebook: #007aff;
+  --platform-instagram: #af52de;
+  --platform-threads: #e07800;
+  --platform-telegram: #0a9bd6;
+  --platform-x: #3a3a3c;
+  --platform-tiktok: #009e96;
+
+  /* ------------------------------------------------------------- glass --- */
+  --glass-fill: rgb(255 255 255 / 58%);
+  --glass-fill-clear: rgb(255 255 255 / 34%);
+  --glass-stroke: rgb(0 0 0 / 6%);
+  --glass-rim: rgb(255 255 255 / 95%);
+  --glass-rim-soft: rgb(255 255 255 / 50%);
+  --glass-blur: 24px;
+  --glass-saturate: 180%;
+  /* Menus and popovers: thinner glass than a panel, so what lies beneath
+   * shows through and the lit edges carry the shape. 58% white over a white
+   * card read as plain paint. */
+  --glass-fill-menu: rgb(255 255 255 / 40%);
+  --glass-glow: rgb(255 255 255 / 45%);
+
+  /* The dim behind a modal surface, paired with .ph-scrim's light 2px blur.
+   * The dim is what does the work; the blur stays far below the glass blur in
+   * front of it so the panel is not reading an already-soft backdrop. */
+  --scrim: rgb(0 0 0 / 18%);
+
+  /* ----------------------------------------------------------- shadows --- */
+  /* The spec gives these as "N layers" at an opacity; the offsets below are
+   * the derivation, built to Apple's usual tight-contact + wide-diffuse pair. */
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 4%), 0 4px 12px rgb(0 0 0 / 4%);
+  --shadow-glass: 0 2px 8px rgb(0 0 0 / 10%), 0 12px 32px rgb(0 0 0 / 10%);
+  /* A small surface resting on the canvas (a KPI tile) lifts less than a
+   * floating panel; the panel shadow on it read as a grey halo. */
+  --shadow-rest: 0 1px 2px rgb(0 0 0 / 3%), 0 6px 18px rgb(0 0 0 / 4%);
+  --shadow-menu: 0 1px 3px rgb(0 0 0 / 6%), 0 12px 36px rgb(0 0 0 / 12%);
+  --shadow-control: 0 2px 8px rgb(0 0 0 / 8%);
+  --shadow-thumb: 0 1px 2px rgb(0 0 0 / 12%), 0 3px 8px rgb(0 0 0 / 12%);
+
+  /* ---------------------------------------------------------- geometry --- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* -------------------------------------------------------------- type --- */
+  --font-text:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, 'Segoe UI',
+    system-ui, sans-serif;
+  /* ui-rounded is SF Pro Rounded on Apple platforms; elsewhere it falls back
+   * to the text face, which is why numerals also carry tabular-nums. */
+  --font-rounded: ui-rounded, 'SF Pro Rounded', var(--font-text);
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, monospace;
+
+  /* ------------------------------------------------------------ motion --- */
+  --ease-liquid: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-base: 320ms;
+  --duration-fast: 160ms;
+}
+
+/* ============================================================== dark === */
+/* Dark - Apple graphite.
+ *
+ * Not an inversion: the canvas goes black and depth is carried by surfaces
+ * getting *lighter*, with a hairline standing in for the card shadow. */
+.dark {
+  --bg-canvas: #000000;
+  --bg-raised: #1c1c1e;
+  --bg-inset: #2c2c2e;
+  --bg-elevated: #3a3a3c;
+
+  --ambient-1: rgb(10 132 255 / 24%);
+  --ambient-2: rgb(100 210 255 / 14%);
+
+  --label: #ffffff;
+  --label-2: #aeaeb2;
+  --label-3: rgb(235 235 245 / 30%);
+  --link: #4da3ff;
+
+  --fill-1: rgb(120 120 128 / 36%);
+  --fill-2: rgb(120 120 128 / 32%);
+  --fill-3: rgb(118 118 128 / 24%);
+  --fill-4: rgb(118 118 128 / 18%);
+  --fill-head: rgb(118 118 128 / 7%);
+  --separator: rgb(84 84 88 / 60%);
+  --scrollbar-thumb: rgb(235 235 245 / 26%);
+
+  --accent: #0a84ff;
+  --ui-accent: 240 2% 17%;
+  --control-stroke: rgb(235 235 245 / 50%);
+  --accent-fill: #0071e3; /* stays dark-blue so on-accent white holds up */
+  --accent-soft: rgb(10 132 255 / 20%);
+  --on-accent: #ffffff;
+
+  --green: #30d158;
+  --green-text: #30d158;
+  --green-fill: #30d158;
+  --on-green: #052e13;
+
+  --viz-cat-1: #0a84ff;
+  --viz-cat-2: #d95926;
+  --viz-div-pos: #0a84ff;
+  --viz-div-neg: #e66767;
+  --viz-div-mid: #48484a;
+
+  --act-engage: #c98500;
+  --act-content: #3987e5;
+  --act-follow: #199e70;
+  --act-moderate: #e5484d;
+  --green-soft: rgb(48 209 88 / 20%);
+  --red: #ff453a;
+  --red-text: #ff6961;
+  --red-soft: rgb(255 69 58 / 20%);
+  --orange: #ff9f0a;
+  --orange-text: #ffb340;
+  --orange-soft: rgb(255 159 10 / 20%);
+
+  --platform-youtube: #ff453a;
+  --platform-facebook: #0a84ff;
+  --platform-instagram: #bf5af2;
+  --platform-threads: #ff9f0a;
+  --platform-telegram: #64d2ff;
+  --platform-x: #d1d1d6;
+  --platform-tiktok: #66d4cf; /* spec row was cut off; systemMint dark */
+
+  --glass-fill: rgb(44 44 46 / 55%);
+  --glass-fill-clear: rgb(255 255 255 / 8%);
+  --glass-stroke: rgb(255 255 255 / 12%);
+  --glass-rim: rgb(255 255 255 / 30%);
+  --glass-rim-soft: rgb(255 255 255 / 10%);
+  --glass-fill-menu: rgb(44 44 46 / 45%);
+  --glass-glow: rgb(255 255 255 / 8%);
+  /* Heavier on a black ground, where 18% would barely register. */
+  --scrim: rgb(0 0 0 / 45%);
+
+  /* A card gets a hairline instead of a shadow on a black ground. */
+  --shadow-card: 0 0 0 0.5px rgb(255 255 255 / 8%);
+  --shadow-glass: 0 2px 8px rgb(0 0 0 / 40%), 0 12px 32px rgb(0 0 0 / 40%);
+  --shadow-rest: 0 0 0 0.5px rgb(255 255 255 / 8%);
+  --shadow-menu: 0 1px 3px rgb(0 0 0 / 30%), 0 12px 36px rgb(0 0 0 / 45%);
+  --shadow-control: 0 2px 8px rgb(0 0 0 / 35%);
+  --shadow-thumb: 0 3px 8px rgb(0 0 0 / 30%);
+}

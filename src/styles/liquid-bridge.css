@@ -1,0 +1,493 @@
+/* ============================================================================
+ * Liquid Glass — compatibility bridge
+ * ----------------------------------------------------------------------------
+ * Carries the design onto markup that already exists, so the product adopts it
+ * without its components being rewritten and without anything being renamed.
+ *
+ * Most of the work is already done by the token layer: every primitive
+ * resolves `bg-item-primary`, `text-secondary`, `rounded-md` and friends
+ * through custom properties, so re-pointing the values re-skins them for free,
+ * in both themes. What a token cannot carry is *shape* — a capsule control is
+ * a radius, and a radius arrives as a utility class.
+ *
+ * Hence two layers:
+ *   @layer components  — defaults a utility on the same element may override
+ *   @layer ph-overrides — the few rules the spec states unconditionally, which
+ *                        therefore have to beat the utility
+ *
+ * Declaring ph-overrides here appends it after Tailwind's own layers (layer
+ * order follows first appearance), so it outranks `utilities` while still
+ * losing to unlayered CSS and inline styles — a deliberate escape hatch, and
+ * much narrower than making these rules unlayered.
+ * ========================================================================== */
+
+@layer liquid-overrides, ph-overrides;
+
+@layer liquid-overrides {
+
+  /* The spec is unconditional: every control is a capsule. Each Button
+   * variant carries exactly one bg-item-* class, so this covers all five
+   * without touching a component or a call site.
+   *
+   * Scoped to controls: bg-item-* is also a plain fill on rows and panels,
+   * and unscoped this turned a 1248px queue row into a capsule and bent its
+   * status stripe into an arc. inline-flex is the Button base (it also
+   * catches an asChild Button rendered as a div); button and a cover the
+   * rest, such as a calendar's selected day. */
+  :is(button, a, .inline-flex):is(
+    .bg-item-primary,
+    .bg-item-secondary,
+    .bg-item-tertiary,
+    .bg-item-ghost,
+    .bg-item-destructive,
+    .lq-btn--tinted
+    .ph-btn--tinted
+  ) {
+    border-radius: var(--radius-full);
+  }
+}
+
+@layer components {
+  /* The filled primary is the only control that carries elevation. */
+  .bg-item-primary {
+    box-shadow: var(--shadow-control);
+  }
+
+  /* Feedback on press, not on release — a button compresses under the
+   * pointer. 100ms, because the moment latency shows up here the control
+   * stops feeling direct. */
+  button {
+    transition: transform 100ms ease-out;
+  }
+  button:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  /* Rows are content and stay opaque; only the separator and the hover wash
+   * move onto tokens so tables match the rest of the system. */
+  table tr {
+    border-color: var(--separator);
+  }
+  tbody tr:hover {
+    background-color: var(--fill-3);
+  }
+
+  /* ======================================================== hit areas === */
+
+  /* The spec puts the minimum touch target at 44x44. Two controls in the
+   * product fall well under it, and both are the kind that cannot simply be
+   * made bigger: a 16px checkbox has to stay 16px, and a sidebar link is as
+   * tall as its text. A transparent pseudo-element extends what the pointer
+   * can hit without moving a single pixel of layout.
+   *
+   * Both hosts were checked first: the checkbox is a leaf with no children,
+   * and the sidebar link has no ::after of its own, so neither rule can
+   * collide with existing content. */
+  [role='checkbox'],
+  [role='radio'] {
+    position: relative;
+  }
+  [role='checkbox']::after,
+  [role='radio']::after {
+    content: '';
+    position: absolute;
+    /* 16px control + 12px on each side = a 40px target. */
+    inset: -12px;
+  }
+
+  /* Sidebar sub-items: the row is 26px tall but only the 18px text node
+   * responds, so the padding around it looks clickable and is not. */
+  [data-sidebar] a,
+  [data-sidebar] li > div > a {
+    position: relative;
+  }
+  [data-sidebar] a::after {
+    content: '';
+    position: absolute;
+    inset-block: -13px;
+    inset-inline: 0;
+  }
+
+  /* Icon-only buttons — including ones a third-party library renders, like
+   * the image-zoom control at 18x18. A button whose only child is an svg has
+   * no positioned descendants, so the same pseudo-element trick is safe.
+   *
+   * The expansion is 13px vertically and 8px horizontally rather than an even
+   * 13 all round: table rows are tall enough to absorb the vertical growth,
+   * but icon buttons sit side by side in toolbars and a 13px horizontal bleed
+   * would have them overlapping each other. 34x44 is the honest result —
+   * short of the spec's 44x44 on one axis, and the reason is written here
+   * rather than papered over. */
+  button:has(> svg:only-child):not([class*='size-']):not([class*='h-']),
+  button:has(> span:only-child > svg:only-child):not([class*='size-']):not(
+      [class*='h-']
+    ),
+  a:has(> svg:only-child):not([class*='size-']):not([class*='h-']),
+  a:has(> span:only-child > svg:only-child):not([class*='size-']):not(
+      [class*='h-']
+    ) {
+    position: relative;
+  }
+  button:has(> svg:only-child):not([class*='size-']):not([class*='h-'])::after,
+  button:has(> span:only-child > svg:only-child):not([class*='size-']):not(
+      [class*='h-']
+    )::after,
+  a:has(> svg:only-child):not([class*='size-']):not([class*='h-'])::after,
+  a:has(> span:only-child > svg:only-child):not([class*='size-']):not(
+      [class*='h-']
+    )::after {
+    content: '';
+    position: absolute;
+    inset-block: -13px;
+    inset-inline: -8px;
+  }
+
+  /* A hairline, not a drawn rule. */
+  hr {
+    border-color: var(--separator);
+  }
+}
+
+/* ===================================================== react-select === */
+/* react-select paints with emotion: unlayered class rules injected at
+ * runtime, which beat anything in a cascade layer. These are unlayered too,
+ * with the class doubled so they win on specificity rather than !important.
+ * The menu takes the same menu glass as dropdowns and popovers; options
+ * highlight as an inset capsule instead of react-select's own #2684FF. */
+.selectform__menu.selectform__menu {
+  margin-top: 6px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background-color: var(--glass-fill-menu);
+  -webkit-backdrop-filter: blur(30px) saturate(210%);
+  backdrop-filter: blur(30px) saturate(210%);
+  box-shadow:
+    inset 0 0 0 0.5px var(--glass-stroke),
+    inset 0 1px 0 0 var(--glass-rim),
+    inset 0 -1px 0 0 var(--glass-glow),
+    var(--shadow-menu);
+}
+/* Opened inside glass - a filter popover, a sheet - a second translucent layer
+ * lets the fields beneath read through the options ("Фаол" landed on top of
+ * the next field's label). The parent's backdrop-filter also makes it the
+ * child's backdrop root, so the child's own blur does not soften them - even
+ * 94% left a legible ghost. Light on light collapses legibility, so a nested
+ * menu is solid; the lit edges keep it in the same family. */
+.lq-glass .selectform__menu.selectform__menu,
+.ph-glass .selectform__menu.selectform__menu {
+  background-color: var(--bg-elevated);
+}
+.selectform__menu-list.selectform__menu-list {
+  padding: 4px;
+}
+.selectform__option.selectform__option {
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--label);
+  cursor: pointer;
+}
+.selectform__option--is-focused.selectform__option--is-focused {
+  background-color: var(--fill-2);
+}
+.selectform__option.selectform__option:active {
+  background-color: var(--fill-1);
+}
+.selectform__option--is-selected.selectform__option--is-selected {
+  background-color: transparent;
+  font-weight: 600;
+}
+/* The bar between the value and the chevron is chrome no other field has;
+ * it showed up as a stray "|" in the multi-selects. */
+.selectform__indicator-separator.selectform__indicator-separator {
+  display: none;
+}
+.selectform__menu-notice.selectform__menu-notice {
+  color: var(--label-2);
+}
+
+/* ============================================== react-medium-image-zoom === */
+/* The zoom overlay was solid white in both themes: in dark mode, opening a
+ * thumbnail flashed the whole screen white - an abrupt brightness jump. It is
+ * the canvas colour, frosted, so the photo is the brightest thing on screen;
+ * the unzoom control is a glass capsule rather than a black disc. Unlayered,
+ * attribute doubled, because the library's stylesheet is unlayered too. */
+/* A light veil, not a wall: the page stays faintly legible behind the photo,
+ * so it still reads as a layer over the app, not a new screen. */
+[data-rmiz-modal-overlay][data-rmiz-modal-overlay='visible'] {
+  background-color: color-mix(in srgb, var(--bg-canvas) 40%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  backdrop-filter: blur(8px) saturate(140%);
+}
+[data-rmiz-btn-unzoom][data-rmiz-btn-unzoom] {
+  background-color: var(--glass-fill);
+  color: var(--label);
+  -webkit-backdrop-filter: blur(var(--glass-blur))
+    saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow:
+    inset 0 0 0 0.5px var(--glass-stroke),
+    inset 0 1px 0 0 var(--glass-rim),
+    var(--shadow-control);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
+  }
+  button:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* ====================================================== scrollbars === */
+
+/* The default scrollbar kept a light track in dark mode and a grey slab in
+ * light, a stripe down the side of every glass card. The scrollbar-thin
+ * utilities the app relies on came from a Tailwind 3 plugin and resolve to
+ * nothing under Tailwind 4. One rule for every scroller: thin, no track, a
+ * thumb in the label grey of the active theme. In the base layer, so a
+ * utility on an element can still override it. */
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+}
+
+/* ===================================================== sheet footer === */
+
+/* A sheet's footer holds one primary action and quieter ones around it
+ * (cancel, clear, logs, remote view). Those were white bordered boxes and
+ * tertiary text next to a capsule; in a footer they are all the same tinted
+ * capsule, so every form in the product ends the same way - whatever button
+ * variant its code happens to use. In ph-overrides: the button's own
+ * background utility would beat a components-layer rule. */
+@layer liquid-overrides {
+
+  /* The same capsule for a secondary button on a glass card's toolbar
+   * ("Templates" next to the primary add) - a white bordered box there was a
+   * second surface stacked on the glass. */
+  .lq-glass .bg-item-secondary,
+  .ph-glass .bg-item-secondary,
+  [data-slot='sheet-footer'] :is(.bg-item-secondary, .bg-item-tertiary) {
+    border-color: transparent;
+    border-radius: var(--radius-full);
+    background-color: var(--fill-3);
+    color: var(--label);
+    box-shadow:
+      inset 0 0 0 0.5px var(--glass-stroke),
+      inset 0 1px 0 0 var(--glass-rim-soft);
+  }
+  .lq-glass .bg-item-secondary:hover,
+  .ph-glass .bg-item-secondary:hover,
+  [data-slot='sheet-footer'] :is(.bg-item-secondary, .bg-item-tertiary):hover {
+    background-color: var(--fill-2);
+  }
+  [data-slot='sheet-footer'] :is(.bg-item-secondary, .bg-item-tertiary) svg {
+    color: currentColor;
+  }
+  /* The save button set its label and icon in two colours of its own;
+   * on the accent capsule both are white, in either theme. */
+  [data-slot='sheet-footer'] .bg-item-primary,
+  [data-slot='sheet-footer'] .bg-item-primary * {
+    color: #fff;
+  }
+}
+
+/* ====================================================== nested popovers === */
+
+/* A popover opened over a modal sheet or dialog (a date picker in a form)
+ * sits on glass. A second translucent layer let the form behind read through
+ * the calendar; glass never stacks, so there it is the solid elevated
+ * surface, keeping the lit edge. Unlayered: Tailwind's background utility on
+ * the popover would win inside a layer. */
+body:has(.lq-scrim) [data-radix-popper-content-wrapper] > .lq-glass.lq-glass,
+body:has(.ph-scrim) [data-radix-popper-content-wrapper] > .ph-glass.ph-glass {
+  background-color: var(--bg-elevated);
+}
+
+/* ======================================================== FilePond === */
+
+/* FilePond ships its own greys (#f1f0ef drop panel, #64605e file tile) and
+ * the app had added white tiles and blue hovers, so in dark mode the upload
+ * area was a bright slab. On tokens: an inset fill with a dashed separator,
+ * file tiles on the elevated surface, text in the label colours. Unlayered
+ * and doubled like the react-select rules, to beat the library's CSS. */
+.filepond--panel-root.filepond--panel-root {
+  background-color: var(--fill-4);
+  border: 1px dashed var(--separator);
+  border-radius: var(--radius-md);
+}
+.filepond--panel.filepond--panel {
+  border-color: var(--separator);
+}
+.filepond--root:hover .filepond--panel-root.filepond--panel-root {
+  background-color: var(--fill-3);
+}
+.filepond--drop-label.filepond--drop-label {
+  color: var(--label-2);
+}
+.filepond--label-action.filepond--label-action {
+  color: var(--link);
+  text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
+}
+.filepond--item.filepond--item {
+  background-color: var(--bg-elevated);
+  box-shadow:
+    0 0 0 0.5px var(--separator),
+    var(--shadow-rest);
+}
+.filepond--item-panel.filepond--item-panel {
+  background-color: var(--bg-inset);
+}
+.filepond--file-info-main.filepond--file-info-main,
+.filepond--file-status-main.filepond--file-status-main {
+  color: var(--label);
+}
+.filepond--file-info-sub.filepond--file-info-sub,
+.filepond--file-status-sub.filepond--file-status-sub {
+  color: var(--label-2);
+}
+.filepond--progress-indicator.filepond--progress-indicator {
+  color: var(--accent);
+}
+
+/* ================================================== overlay focus ring === */
+
+/* Radix moves focus to a sheet's, dialog's or menu's own container when it
+ * opens, and the browser drew its focus ring around the whole panel - in dark
+ * a bright white frame on the account sheet. The container is not a control;
+ * focus inside it (fields, buttons, menu items) keeps its own ring. */
+[role='dialog']:focus-visible,
+[role='alertdialog']:focus-visible,
+[role='menu']:focus-visible,
+[data-radix-popper-content-wrapper] > :focus-visible {
+  outline: none;
+}
+
+/* =========================================================== toasts === */
+
+/* Glass toasts (see ui/toast): label-coloured text on the menu material, the
+ * status carried by the icon's colour and its word. Unlayered and doubled to
+ * win over sonner's injected rules; sonner keeps positioning and motion. */
+.lq-toast.lq-toast,
+.ph-toast.ph-toast {
+  --_fill: var(--glass-fill-menu);
+  --_shadow: var(--shadow-menu);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: var(--width);
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  color: var(--label);
+  font: 500 14px / 1.3 var(--font-text);
+  letter-spacing: -0.006em;
+  pointer-events: auto;
+}
+.lq-toast__icon.lq-toast__icon,
+.ph-toast__icon.ph-toast__icon {
+  display: flex;
+  flex: none;
+  margin: 0;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+.lq-toast__icon svg,
+.ph-toast__icon svg {
+  width: 22px;
+  height: 22px;
+}
+.lq-toast--success .lq-toast__icon,
+.ph-toast--success .ph-toast__icon {
+  color: var(--green);
+}
+.lq-toast--error .lq-toast__icon,
+.ph-toast--error .ph-toast__icon {
+  color: var(--red);
+}
+.lq-toast--warning .lq-toast__icon,
+.ph-toast--warning .ph-toast__icon {
+  color: var(--orange);
+}
+.lq-toast__content.lq-toast__content,
+.ph-toast__content.ph-toast__content {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+.lq-toast__title.lq-toast__title,
+.ph-toast__title.ph-toast__title {
+  font-weight: 600;
+}
+.lq-toast__description.lq-toast__description,
+.ph-toast__description.ph-toast__description {
+  color: var(--label-2);
+  font-size: 13px;
+  font-weight: 400;
+}
+.lq-toast__close.lq-toast__close,
+.ph-toast__close.ph-toast__close {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  z-index: 2;
+  display: flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  color: var(--label-2);
+  box-shadow:
+    0 0 0 0.5px var(--separator),
+    var(--shadow-control);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-liquid);
+}
+.lq-toast:hover .lq-toast__close,
+.ph-toast:hover .ph-toast__close,
+.lq-toast__close:focus-visible,
+.ph-toast__close:focus-visible {
+  opacity: 1;
+}
+.lq-toast__close svg,
+.ph-toast__close svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ===================================================== segmented tabs === */
+
+/* Radix tabs in TabsList type="segmented" take the segmented-control item
+ * look; the trigger's own utilities (h-7, hover fill) are overridden here,
+ * unlayered and doubled. */
+.lq-segmented > [role='tab'][role='tab'],
+.ph-segmented > [role='tab'][role='tab'] {
+  flex: none;
+  height: auto;
+  border-radius: var(--radius-full);
+  padding: 7px var(--space-4);
+  font: 500 14px / 1 var(--font-text);
+  color: var(--label-2);
+  background-color: transparent;
+}
+.lq-segmented > [role='tab'][data-state='inactive']:hover,
+.ph-segmented > [role='tab'][data-state='inactive']:hover {
+  color: var(--label);
+  background-color: transparent !important;
+}
+.lq-segmented > [role='tab'][data-state='active'][data-state='active'],
+.ph-segmented > [role='tab'][data-state='active'][data-state='active'] {
+  background-color: var(--bg-raised);
+  color: var(--label);
+  font-weight: 600;
+  box-shadow: var(--shadow-thumb);
+}

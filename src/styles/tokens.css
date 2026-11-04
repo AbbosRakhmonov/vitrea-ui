@@ -1,0 +1,522 @@
+/* ============================================================================
+ * Liquid UI — Apple Liquid Glass token base (macOS Tahoe)
+ * ----------------------------------------------------------------------------
+ * Loaded AFTER src/index.css so these values win by cascade order.
+ * Deliberately plain CSS (no @apply / no Tailwind layer) so ordering is
+ * controlled by the JS import site, not by @import hoisting.
+ *
+ * CONTRACT: these primitive token NAMES are the kit's public contract and must
+ * not change — every primitive resolves its Tailwind utilities through them
+ * (bg-item-primary -> --color-item-primary-primary, rounded-4 -> --radius-xs).
+ * Re-pointing the values therefore re-skins all 24 primitives with zero
+ * component edits. Add new names freely; never rename an inherited one.
+ * ========================================================================== */
+
+/* ---------------------------------------------------------------- palette ---
+ * Apple system colors, sRGB. Neutrals are the systemGray family, which is
+ * cool-biased toward systemBlue — chosen, not a default mid-grey.
+ */
+:root {
+  /* Neutral ramp — light: systemGray6..1 then the dark grays for text */
+  --color-neutral-base: #ffffff;
+  --color-neutral-0: var(--color-neutral-base);
+  --color-neutral-50: #fafafc;
+  --color-neutral-100: #f2f2f7; /* systemGray6 */
+  --color-neutral-200: #e5e5ea; /* systemGray5 */
+  --color-neutral-300: #d1d1d6; /* systemGray4 */
+  --color-neutral-400: #aeaeb2; /* systemGray2 */
+  --color-neutral-500: #8e8e93; /* systemGray  */
+  --color-neutral-600: #636366;
+  --color-neutral-700: #48484a;
+  --color-neutral-800: #3a3a3c;
+  --color-neutral-900: #2c2c2e;
+  --color-neutral-950: #1c1c1e;
+
+  /* Alpha ramps derive from these two bases via rgb(from ...) in index.css.
+   * Apple's label/separator colors are pure-black alphas in light mode. */
+  --color-neutral-alpha-base: #000000;
+
+  /* systemBlue — the single accent */
+  --color-blue-50: #f0f7ff;
+  --color-blue-100: #e1efff;
+  --color-blue-200: #bbd9ff;
+  --color-blue-300: #8cbfff;
+  --color-blue-400: #4a9eff;
+  --color-blue-500: #007aff; /* systemBlue (light) */
+  --color-blue-600: #0068db;
+  --color-blue-700: #0056b8;
+  --color-blue-800: #004494;
+  --color-blue-900: #003472;
+  --color-blue-950: #00224a;
+
+  /* systemGreen — success */
+  --color-green-50: #ebfaef;
+  --color-green-100: #d6f5df;
+  --color-green-200: #a8e9bb;
+  --color-green-300: #74db96;
+  --color-green-400: #4ed077;
+  --color-green-500: #34c759; /* systemGreen (light) */
+  --color-green-600: #28a548;
+  --color-green-700: #1f8639;
+  --color-green-800: #19692d;
+  --color-green-900: #124f21;
+  --color-green-950: #0a3014;
+
+  /* systemMint — reserved for secondary-positive states */
+  --color-lime-50: #e9faf6;
+  --color-lime-100: #d2f5ed;
+  --color-lime-200: #a3ebdb;
+  --color-lime-300: #6fdcc6;
+  --color-lime-400: #45cdb2;
+  --color-lime-500: #00c7be; /* systemMint */
+  --color-lime-600: #00a39c;
+  --color-lime-700: #00847e;
+  --color-lime-800: #016863;
+  --color-lime-900: #014e4a;
+  --color-lime-950: #002f2d;
+
+  /* systemTeal — info */
+  --color-cyan-50: #eef8fb;
+  --color-cyan-100: #d9f0f6;
+  --color-cyan-200: #ade0ec;
+  --color-cyan-300: #7bcde0;
+  --color-cyan-400: #4fbdd4;
+  --color-cyan-500: #30b0c7; /* systemTeal (light) */
+  --color-cyan-600: #2591a5;
+  --color-cyan-700: #1d7585;
+  --color-cyan-800: #185c69;
+  --color-cyan-900: #11444e;
+  --color-cyan-950: #0a2a30;
+
+  /* systemOrange — warning */
+  --color-orange-50: #fff6e8;
+  --color-orange-100: #ffecd1;
+  --color-orange-200: #ffd79e;
+  --color-orange-300: #ffc06b;
+  --color-orange-400: #ffac3d;
+  --color-orange-500: #ff9500; /* systemOrange (light) */
+  --color-orange-600: #d67c00;
+  --color-orange-700: #ad6400;
+  --color-orange-800: #874e00;
+  --color-orange-900: #633900;
+  --color-orange-950: #3b2200;
+
+  /* systemRed — destructive */
+  --color-red-50: #fff0ef;
+  --color-red-100: #ffdedc;
+  --color-red-200: #ffb8b4;
+  --color-red-300: #ff8f89;
+  --color-red-400: #ff655d;
+  --color-red-500: #ff3b30; /* systemRed (light) */
+  --color-red-600: #e02419;
+  --color-red-700: #b81b12;
+  --color-red-800: #92150e;
+  --color-red-900: #6c0f0a;
+  --color-red-950: #420705;
+
+  /* systemPurple */
+  --color-purple-50: #f7f0fd;
+  --color-purple-100: #efe1fb;
+  --color-purple-200: #ddbff5;
+  --color-purple-300: #c99bee;
+  --color-purple-400: #b978e6;
+  --color-purple-500: #af52de; /* systemPurple (light) */
+  --color-purple-600: #9239c0;
+  --color-purple-700: #752c9c;
+  --color-purple-800: #5c237b;
+  --color-purple-900: #43195a;
+  --color-purple-950: #290f37;
+
+  /* systemIndigo — brand */
+  --color-indigo-50: #f1f1fd;
+  --color-indigo-100: #e3e3fb;
+  --color-indigo-200: #c4c3f4;
+  --color-indigo-300: #a2a1ec;
+  --color-indigo-400: #807ee3;
+  --color-indigo-500: #5856d6; /* systemIndigo (light) */
+  --color-indigo-600: #4442b5;
+  --color-indigo-700: #343293;
+  --color-indigo-800: #282674;
+  --color-indigo-900: #1c1b55;
+  --color-indigo-950: #110f33;
+}
+
+.dark {
+  /* Dark ramp — inverted per the upstream convention: 0 is the window ground,
+   * 950 is the primary label. Apple's dark grays, never pure black/white. */
+  --color-neutral-base: #ffffff;
+  --color-neutral-0: #1c1c1e; /* systemGray6 dark — window ground */
+  --color-neutral-50: #232325;
+  --color-neutral-100: #2c2c2e; /* systemGray5 dark */
+  --color-neutral-200: #3a3a3c; /* systemGray4 dark */
+  --color-neutral-300: #48484a; /* systemGray3 dark */
+  --color-neutral-400: #636366; /* systemGray2 dark */
+  --color-neutral-500: #8e8e93; /* systemGray  dark */
+  --color-neutral-600: #aeaeb2;
+  --color-neutral-700: #c7c7cc;
+  --color-neutral-800: #d1d1d6;
+  --color-neutral-900: #e5e5ea;
+  --color-neutral-950: #f5f5f7; /* off-white label, not #fff */
+
+  --color-neutral-alpha-base: #ffffff;
+
+  /* systemBlue (dark) = #0A84FF, ramp inverted */
+  --color-blue-50: #00224a;
+  --color-blue-100: #003472;
+  --color-blue-200: #004494;
+  --color-blue-300: #0056b8;
+  --color-blue-400: #0068db;
+  --color-blue-500: #0a84ff; /* systemBlue (dark) */
+  --color-blue-600: #409cff;
+  --color-blue-700: #70b5ff;
+  --color-blue-800: #a3cfff;
+  --color-blue-900: #cfe5ff;
+  --color-blue-950: #eaf4ff;
+
+  /* systemGreen (dark) = #30D158 */
+  --color-green-50: #0a3014;
+  --color-green-100: #124f21;
+  --color-green-200: #19692d;
+  --color-green-300: #1f8639;
+  --color-green-400: #28a548;
+  --color-green-500: #30d158; /* systemGreen (dark) */
+  --color-green-600: #5ddc7c;
+  --color-green-700: #8be8a1;
+  --color-green-800: #b5f1c3;
+  --color-green-900: #d8f8e0;
+  --color-green-950: #ecfcf0;
+
+  /* systemMint (dark) = #66D4CF */
+  --color-lime-50: #002f2d;
+  --color-lime-100: #014e4a;
+  --color-lime-200: #016863;
+  --color-lime-300: #00847e;
+  --color-lime-400: #00a39c;
+  --color-lime-500: #66d4cf; /* systemMint (dark) */
+  --color-lime-600: #8adedb;
+  --color-lime-700: #abe8e5;
+  --color-lime-800: #c8f0ee;
+  --color-lime-900: #e0f7f6;
+  --color-lime-950: #effbfa;
+
+  /* systemTeal (dark) = #40C8E0 */
+  --color-cyan-50: #0a2a30;
+  --color-cyan-100: #11444e;
+  --color-cyan-200: #185c69;
+  --color-cyan-300: #1d7585;
+  --color-cyan-400: #2591a5;
+  --color-cyan-500: #40c8e0; /* systemTeal (dark) */
+  --color-cyan-600: #6bd5e8;
+  --color-cyan-700: #95e2ef;
+  --color-cyan-800: #bbedf5;
+  --color-cyan-900: #daf5fa;
+  --color-cyan-950: #edfafc;
+
+  /* systemOrange (dark) = #FF9F0A */
+  --color-orange-50: #3b2200;
+  --color-orange-100: #633900;
+  --color-orange-200: #874e00;
+  --color-orange-300: #ad6400;
+  --color-orange-400: #d67c00;
+  --color-orange-500: #ff9f0a; /* systemOrange (dark) */
+  --color-orange-600: #ffb443;
+  --color-orange-700: #ffc876;
+  --color-orange-800: #ffdca8;
+  --color-orange-900: #ffeed2;
+  --color-orange-950: #fff7e9;
+
+  /* systemRed (dark) = #FF453A */
+  --color-red-50: #420705;
+  --color-red-100: #6c0f0a;
+  --color-red-200: #92150e;
+  --color-red-300: #b81b12;
+  --color-red-400: #e02419;
+  --color-red-500: #ff453a; /* systemRed (dark) */
+  --color-red-600: #ff6f66;
+  --color-red-700: #ff948d;
+  --color-red-800: #ffb9b4;
+  --color-red-900: #ffdcda;
+  --color-red-950: #ffeeed;
+
+  /* systemPurple (dark) = #BF5AF2 */
+  --color-purple-50: #290f37;
+  --color-purple-100: #43195a;
+  --color-purple-200: #5c237b;
+  --color-purple-300: #752c9c;
+  --color-purple-400: #9239c0;
+  --color-purple-500: #bf5af2; /* systemPurple (dark) */
+  --color-purple-600: #cd7df5;
+  --color-purple-700: #da9ff8;
+  --color-purple-800: #e7c1fa;
+  --color-purple-900: #f3e0fd;
+  --color-purple-950: #f9f0fe;
+
+  /* systemIndigo (dark) = #5E5CE6 */
+  --color-indigo-50: #110f33;
+  --color-indigo-100: #1c1b55;
+  --color-indigo-200: #282674;
+  --color-indigo-300: #343293;
+  --color-indigo-400: #4442b5;
+  --color-indigo-500: #5e5ce6; /* systemIndigo (dark) */
+  --color-indigo-600: #817feb;
+  --color-indigo-700: #a3a2f0;
+  --color-indigo-800: #c5c4f6;
+  --color-indigo-900: #e2e1fb;
+  --color-indigo-950: #f1f1fd;
+}
+
+/* ------------------------------------------------------------- semantics ---
+ * Label hierarchy uses Apple's exact label alphas rather than ramp steps —
+ * these are the tokens all body copy resolves through, so fidelity matters
+ * more than ramp tidiness here.
+ */
+:root {
+  --destructive: 356 100% 42%; /* #d70015, red-text */
+  /* Labels — macOS: label 85%, secondary 50%, tertiary 26%, quaternary 10% */
+  --color-item-primary: rgb(0 0 0 / 85%);
+  --color-item-secondary: rgb(0 0 0 / 50%);
+  --color-item-tertiary: rgb(0 0 0 / 26%);
+  --color-item-quaternary: rgb(0 0 0 / 10%);
+
+  /* Accent fills — point at systemBlue proper, not the darkened 600 step */
+  /* Not blue-500. systemBlue is #007aff, and white on it measures 3.98:1 -
+   * below AA for the button labels every primary button puts on it. accent-fill
+   * is the darker blue the spec names for exactly this, at 4.70:1, and it holds
+   * the same value in dark mode where systemBlue gets lighter still. */
+  --color-item-primary-primary: var(--accent-fill);
+  --color-item-primary-primary-hover: var(--color-blue-600);
+  --color-item-primary-primary-active: var(--color-blue-700);
+  --color-item-primary-primary-focus: rgb(0 122 255 / 35%);
+
+  /* Neutral control fills — Apple's controlColor over the window ground */
+  --color-item-primary-secondary: rgb(255 255 255 / 80%);
+  --color-item-primary-secondary-hover: rgb(255 255 255 / 92%);
+  --color-item-primary-secondary-active: rgb(240 240 245 / 95%);
+
+  --color-item-primary-tertiary: rgb(0 0 0 / 4%);
+  --color-item-primary-tertiary-hover: rgb(0 0 0 / 7%);
+  --color-item-primary-tertiary-active: rgb(0 0 0 / 10%);
+
+  --color-item-primary-ghost: rgb(0 0 0 / 0%);
+  --color-item-primary-ghost-hover: rgb(0 0 0 / 5%);
+  --color-item-primary-ghost-active: rgb(0 0 0 / 8%);
+
+  --color-item-primary-destructive: var(--color-red-500);
+  --color-item-primary-destructive-hover: var(--color-red-600);
+  --color-item-primary-destructive-active: var(--color-red-700);
+  --color-item-primary-destructive-focus: rgb(255 59 48 / 35%);
+
+  --color-item-inverted: rgb(255 255 255 / 92%);
+  --color-item-inverted-secondary: rgb(255 255 255 / 55%);
+  --color-item-inverted-tertiary: rgb(255 255 255 / 25%);
+  --color-item-inverted-quaternary: rgb(255 255 255 / 10%);
+
+  /* Surfaces — opaque grounds. Translucent materials live in liquid-material.css;
+   * a token cannot carry backdrop-filter, so these stay solid on purpose. */
+  --color-surface-base-primary: var(--color-neutral-0);
+  --color-surface-base-secondary: var(--color-neutral-100);
+  --color-surface-base-tertiary: var(--color-neutral-200);
+  --color-surface-base-inverted: var(--color-neutral-950);
+
+  --color-surface-component-primary: var(--color-neutral-0);
+  --color-surface-component-secondary: var(--color-neutral-50);
+  --color-surface-component-tertiary: var(--color-neutral-100);
+
+  --color-surface-compact-primary: var(--color-neutral-0);
+  --color-surface-compact-secondary: var(--color-neutral-50);
+  --color-surface-compact-tertiary: var(--color-neutral-100);
+
+  /* Scrim behind modals — the upstream value rgba(52,52,52,10) had an invalid
+   * alpha of 10 and resolved fully opaque. */
+  --color-surface-overlay: rgb(0 0 0 / 28%);
+
+  --color-surface-muted: var(--color-neutral-100);
+  --color-surface-muted-hover: var(--color-neutral-200);
+  --color-surface-muted-pressed: var(--color-neutral-300);
+
+  /* Shadow colors — upstream used rgba(22,25,29,8), whose alpha of 8 clamps
+   * to 1 and painted solid black. These are proper fractional alphas. */
+  --color-shadows-inner-0: rgb(0 0 0 / 0%);
+  --color-shadows-inner-1: rgb(0 0 0 / 6%);
+  --color-shadows-inner-2: rgb(0 0 0 / 10%);
+  --color-shadows-drop-1: rgb(0 0 0 / 4%);
+  --color-shadows-drop-2: rgb(0 0 0 / 8%);
+  --color-shadows-drop-3: rgb(0 0 0 / 12%);
+  --color-shadows-drop-4: rgb(0 0 0 / 18%);
+  --color-shadows-highlight-1: rgb(0 122 255 / 25%);
+  --color-shadows-highlight-2: var(--color-blue-500);
+  --color-shadows-danger-1: rgb(255 59 48 / 25%);
+  --color-shadows-danger-2: var(--color-red-500);
+  --color-shadows-card-border: rgb(0 0 0 / 8%);
+  --color-shadows-card-border-2: rgb(0 0 0 / 4%);
+
+  /* Separators — macOS separatorColor is a 10% black hairline */
+  --border: rgb(0 0 0 / 10%);
+  --color-border-base: var(--border);
+  --color-border-alpha-strong: rgb(0 0 0 / 16%);
+  --color-border-alpha-light: rgb(0 0 0 / 8%);
+  --color-border-alpha-subtle: rgb(0 0 0 / 5%);
+  --color-border-light: var(--color-neutral-200);
+
+  /* shadcn-era aliases. Note: tailwind.config.js reads --foreground bare but
+   * wraps --card/--popover/--muted/--accent in hsl(), so the bare ones must be
+   * real colors and the wrapped ones must stay HSL triplets. */
+  --primary: var(--color-item-primary);
+  --secondary: var(--color-item-secondary);
+  --background: var(--color-neutral-0);
+  --background-secondary: var(--color-neutral-100);
+  --foreground: rgb(0 0 0 / 85%);
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 11%;
+  --muted: 240 7% 97%;
+  --muted-foreground: 240 2% 56%;
+  --accent: 240 7% 97%;
+  --accent-foreground: 240 6% 11%;
+  --input: 240 11% 92%;
+  --ring: 211 100% 50%;
+  --info: var(--color-cyan-500);
+  --info-foreground: var(--color-cyan-600);
+  --high: var(--color-purple-500);
+  --high-foreground: var(--color-purple-600);
+
+  /* Chart series — hand-picked for separation at a glance, not the accent ramp.
+   * Series colors are distinct hues so a legend is never load-bearing. */
+  --chart-1: 211 100% 50%; /* systemBlue   */
+  --chart-2: 145 60% 49%; /* systemGreen  */
+  --chart-3: 35 100% 50%; /* systemOrange */
+  --chart-4: 283 68% 59%; /* systemPurple */
+  --chart-5: 189 61% 48%; /* systemTeal   */
+
+  /* ------------------------------------------------------------ geometry ---
+   * Rebased 2px -> 3px. The scale shape is inherited, so every step grows:
+   * rounded-2 6, rounded-3 9, rounded-4 12 (controls), rounded-5 15 (cards),
+   * rounded-6 18, rounded-7 24, rounded-8 36 (sheets), rounded-9 48.
+   */
+  --radius-xs: 0.1875rem;
+
+  /* -------------------------------------------------------------- type ----
+   * --font-family-base was referenced by tailwind.config.js but never defined
+   * upstream, so font-inter silently fell back. Defined here.
+   * SF Pro is not redistributable; Segoe UI Variable is the closest match on
+   * Windows, where operators actually work.
+   */
+  --font-family-base:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI Variable Text',
+    'Segoe UI', Inter, system-ui, sans-serif;
+  --font-family-display:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+    'Segoe UI Variable Display', 'Segoe UI', Inter, system-ui, sans-serif;
+  --font-family-mono:
+    ui-monospace, 'SF Mono', SFMono-Regular, Menlo, 'Cascadia Mono',
+    'JetBrains Mono', Consolas, monospace;
+
+  /* ------------------------------------------------------------ motion ----
+   * Apple's sheet curve plus a spring that overshoots for gel-like presses.
+   */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-glass: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+}
+
+.dark {
+  /* shadcn's --destructive is a dark-red *fill* in dark (30% lightness); the
+   * kit and the app use it as text (form errors, alerts), where it measured
+   * under 2:1 in dark. Pinned to the red-text pair in both themes. */
+  --destructive: 3 100% 69%; /* #ff6961 */
+
+  --color-item-primary: rgb(255 255 255 / 92%);
+  --color-item-secondary: rgb(255 255 255 / 55%);
+  --color-item-tertiary: rgb(255 255 255 / 25%);
+  --color-item-quaternary: rgb(255 255 255 / 10%);
+
+  --color-item-primary-primary-focus: rgb(10 132 255 / 45%);
+
+  --color-item-primary-secondary: rgb(255 255 255 / 12%);
+  --color-item-primary-secondary-hover: rgb(255 255 255 / 18%);
+  --color-item-primary-secondary-active: rgb(255 255 255 / 24%);
+
+  --color-item-primary-tertiary: rgb(255 255 255 / 8%);
+  --color-item-primary-tertiary-hover: rgb(255 255 255 / 12%);
+  --color-item-primary-tertiary-active: rgb(255 255 255 / 16%);
+
+  --color-item-primary-ghost: rgb(255 255 255 / 0%);
+  --color-item-primary-ghost-hover: rgb(255 255 255 / 8%);
+  --color-item-primary-ghost-active: rgb(255 255 255 / 12%);
+
+  --color-item-primary-destructive-focus: rgb(255 69 58 / 45%);
+
+  --color-item-inverted: rgb(0 0 0 / 85%);
+  --color-item-inverted-secondary: rgb(0 0 0 / 50%);
+  --color-item-inverted-tertiary: rgb(0 0 0 / 26%);
+  --color-item-inverted-quaternary: rgb(0 0 0 / 10%);
+
+  --color-surface-overlay: rgb(0 0 0 / 50%);
+
+  /* Shadows must be markedly stronger on a dark ground to read at all.
+   * NOTE: upstream .dark wrote --color-shadow-* (singular) while :root and
+   * tailwind.config.js read --color-shadows-* (plural), so dark-mode shadows
+   * never applied. Spelled correctly here. */
+  --color-shadows-inner-0: rgb(255 255 255 / 0%);
+  --color-shadows-inner-1: rgb(255 255 255 / 6%);
+  --color-shadows-inner-2: rgb(255 255 255 / 10%);
+  --color-shadows-drop-1: rgb(0 0 0 / 24%);
+  --color-shadows-drop-2: rgb(0 0 0 / 36%);
+  --color-shadows-drop-3: rgb(0 0 0 / 48%);
+  --color-shadows-drop-4: rgb(0 0 0 / 60%);
+  --color-shadows-highlight-1: rgb(10 132 255 / 35%);
+  --color-shadows-danger-1: rgb(255 69 58 / 35%);
+  --color-shadows-card-border: rgb(255 255 255 / 10%);
+  --color-shadows-card-border-2: rgb(255 255 255 / 5%);
+
+  --border: rgb(255 255 255 / 14%);
+  --color-border-base: var(--border);
+  --color-border-alpha-strong: rgb(255 255 255 / 20%);
+  --color-border-alpha-light: rgb(255 255 255 / 10%);
+  --color-border-alpha-subtle: rgb(255 255 255 / 6%);
+  --color-border-light: var(--color-neutral-200);
+
+  --foreground: rgb(255 255 255 / 92%);
+  --card: 240 3% 11%;
+  --card-foreground: 240 11% 96%;
+  /* A popover is an elevated surface, and in dark mode depth comes from a
+   * surface getting lighter, not darker. 11% sat it below the canvas; this is
+   * the spec's --bg-elevated (#3a3a3c) expressed in hsl. */
+  --popover: 240 2% 23%;
+  --popover-foreground: 240 11% 96%;
+  --muted: 240 2% 17%;
+  --muted-foreground: 240 2% 58%;
+  --accent: 240 2% 17%;
+  --accent-foreground: 240 11% 96%;
+  --input: 240 2% 23%;
+  --ring: 211 100% 52%;
+
+  --chart-1: 211 100% 52%;
+  --chart-2: 145 62% 51%;
+  --chart-3: 37 100% 52%;
+  --chart-4: 283 85% 65%;
+  --chart-5: 189 73% 56%;
+}
+
+/* ------------------------------------------------------------- base type --- */
+body {
+  font-family: var(--font-family-base);
+  font-feature-settings: 'cv11', 'ss01';
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Digits that share a column must not shimmer as values update — every KPI
+ * tile, table cell and pagination control in the kit relies on this. */
+table,
+[data-numeric],
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
