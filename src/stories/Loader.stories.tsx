@@ -13,3 +13,7 @@ type Story = StoryObj<typeof Loader>;
 export const Default: Story = {
   args: {},
 };
+
+export const LargeWithText: Story = {
+  args: { size: 'lg', text: 'Loading…' },
+};

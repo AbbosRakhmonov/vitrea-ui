@@ -63,9 +63,10 @@ export const MyLimitSelect = ({
 
   return (
     <div className={'flex items-center gap-3'}>
-      <span className={'font-semibold'}>{t('Rows per page')}:</span>
+      <span className="lq-footnote lq-label-2">{t('Rows per page')}</span>
       <Select onValueChange={onLimitChange} value={`${defaultValue}`}>
-        <SelectTrigger className="h-8.5 w-17">
+        {/* A tinted capsule beside the pager, not a bordered box. */}
+        <SelectTrigger className="h-8 w-auto gap-1.5 rounded-full border-0 bg-[var(--fill-3)] px-3 tabular-nums hover:bg-[var(--fill-2)]">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

@@ -46,3 +46,12 @@ export const SinglePage: Story = {
     onPageChange: (page) => console.log('page:', page),
   },
 };
+
+export const PagerOnly: Story = {
+  args: {
+    currentPage: 5,
+    totalPages: 10,
+    showPageSelect: false,
+    onPageChange: (page) => console.log('page:', page),
+  },
+};
