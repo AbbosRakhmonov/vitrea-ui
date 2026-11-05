@@ -515,6 +515,16 @@
       border-color var(--duration-fast) var(--ease-liquid),
       box-shadow var(--duration-fast) var(--ease-liquid);
   }
+  /* A number field is typed, not spun: the browser's stepper arrows were a
+   * grey Windows control inside the capsule. */
+  .lq-field[type='number'] {
+    appearance: textfield;
+  }
+  .lq-field[type='number']::-webkit-inner-spin-button,
+  .lq-field[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
   .lq-field:hover:not(:disabled):not(:focus-visible):not(:focus-within) {
     border-color: var(--field-stroke-hover);
   }

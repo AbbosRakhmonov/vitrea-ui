@@ -24,8 +24,10 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <textarea
         className={cn(
-          'min-h-20 px-3 py-2',
           inputVariants({ variant }),
+          // Grows with its text up to 24rem, then scrolls - no resize grip in
+          // the corner of the field.
+          'field-sizing-content h-auto max-h-96 min-h-20 resize-none px-3 py-2',
           className
         )}
         ref={ref}
