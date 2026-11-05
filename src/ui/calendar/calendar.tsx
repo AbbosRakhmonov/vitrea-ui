@@ -298,6 +298,15 @@ function Calendar({
   const MemoizedDayButton = useCallback(
     (dayButtonProps: Parameters<typeof DayButton>[0]) => {
       const { day, modifiers, ...rest } = dayButtonProps;
+      const inRange =
+        !!selectedFromDate &&
+        !!selectedToDate &&
+        selectedFromDate <= day.date &&
+        selectedToDate >= day.date;
+      const same = (a: Date, b: Date) => dayjs(a).isSame(b, 'day');
+      const isStart = inRange && same(day.date, selectedFromDate!);
+      const isEnd = inRange && same(day.date, selectedToDate!);
+      const weekday = day.date.getDay();
       return (
         <DayButton
           day={day}
@@ -305,15 +314,15 @@ function Calendar({
           {...rest}
           className={twMerge(
             'size-7 cursor-pointer rounded-sm',
-            // Today and the days inside a range: a soft accent tint with the
-            // numeral in the label colour. Accent text on an accent tint fell
-            // under 3:1 in dark.
-            (modifiers.today ||
-              (selectedFromDate &&
-                selectedFromDate <= day.date &&
-                selectedToDate &&
-                selectedToDate >= day.date)) &&
-              'bg-[var(--accent-soft)] text-[var(--label)]',
+            // Today: a soft accent tint with the numeral in the label colour.
+            // Accent text on an accent tint fell under 3:1 in dark.
+            modifiers.today && 'bg-[var(--accent-soft)] text-[var(--label)]',
+            // A range is one band: its days fill the cell edge to edge and
+            // only the ends - and the ends of each week - are rounded.
+            inRange &&
+              'w-8 rounded-none bg-[var(--accent-soft)] text-[var(--label)]',
+            inRange && (isStart || weekday === 1) && 'rounded-l-md',
+            inRange && (isEnd || weekday === 0) && 'rounded-r-md',
             // The chosen day: the solid accent with white ink in both themes.
             modifiers.selected &&
               'bg-[var(--accent-fill)] font-semibold !text-white',
