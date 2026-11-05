@@ -579,8 +579,10 @@
   /* Text sitting on a translucent surface cannot be flat grey: the backdrop
    * shifts under it, so a fixed mid-grey loses contrast wherever the content
    * behind happens to be light. Raise contrast, add a little weight, and open
-   * the tracking slightly — Apple's vibrancy, approximated. */
-  .lq-glass .lq-label-2,
+   * the tracking slightly — Apple's vibrancy, approximated. A modal or a
+   * sheet is opaque (--glass-fill-modal), so its secondary text stays the
+   * plain secondary label, as on any solid surface. */
+  .lq-glass:not(.lq-glass--modal, .lq-sheet) .lq-label-2,
   .lq-vibrant-2 {
     color: color-mix(in srgb, var(--label) 62%, var(--label-2));
     font-weight: 500;

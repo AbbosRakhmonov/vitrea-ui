@@ -141,7 +141,27 @@ function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="sheet-header"
-      className={cn('flex flex-col gap-1.5 p-6', className)}
+      className={cn('flex flex-col gap-1 px-6 pt-5 pb-4', className)}
+      {...props}
+    />
+  );
+}
+
+/**
+ * SheetBody - The scrolling area between a Sheet's header and its footer.
+ * Holds the content on the header's 24px inset, sections 20px apart.
+ *
+ * @param {object} props - The properties for the component.
+ * @param {string} [props.className] - Additional classes for the sheet body.
+ */
+function SheetBody({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="sheet-body"
+      className={cn(
+        'scrollbar-thin flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-6 pb-6',
+        className
+      )}
       {...props}
     />
   );
@@ -159,7 +179,8 @@ function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot="sheet-footer"
       // One footer for every form: a hairline above the actions.
       className={cn(
-        'mt-auto flex flex-col gap-2 border-t border-[var(--separator)] p-4',
+        // A row on the same 24px inset as the header and the body.
+        'mt-auto flex flex-row flex-wrap items-center gap-2 border-t border-[var(--separator)] px-6 py-4',
         className
       )}
       {...props}
@@ -180,7 +201,7 @@ function SheetTitle({
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
-      className={cn('text-body-md-medium text-[var(--label)]', className)}
+      className={cn('lq-headline text-[var(--label)]', className)}
       {...props}
     />
   );
@@ -199,7 +220,7 @@ function SheetDescription({
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"
-      className={cn('text-sm text-[var(--label-2)]', className)}
+      className={cn('lq-footnote lq-label-2', className)}
       {...props}
     />
   );
@@ -207,6 +228,7 @@ function SheetDescription({
 
 export {
   Sheet,
+  SheetBody,
   SheetClose,
   SheetContent,
   SheetDescription,

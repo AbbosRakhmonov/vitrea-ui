@@ -95,7 +95,8 @@ const DialogHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'flex flex-col space-y-1.5 text-center sm:text-left',
+      // One header for every modal: left-aligned, as a macOS sheet reads.
+      'flex flex-col gap-1 text-left',
       className
     )}
     {...props}
@@ -113,7 +114,7 @@ const DialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+      'flex flex-row flex-wrap items-center justify-end gap-2',
       className
     )}
     {...props}
@@ -132,7 +133,8 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      'text-lg leading-none font-semibold tracking-tight',
+      // The same title as a sheet's: one headline size for every modal.
+      'lq-headline text-[var(--label)]',
       className
     )}
     {...props}
@@ -150,7 +152,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn('text-muted-foreground text-sm', className)}
+    className={cn('lq-footnote lq-label-2', className)}
     {...props}
   />
 ));

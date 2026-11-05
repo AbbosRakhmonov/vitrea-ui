@@ -50,7 +50,8 @@ const AlertDialogContent = React.forwardRef<
     <AlertDialogPrimitive.Content
       ref={ref}
       className={cn(
-        'lq-glass rounded-6 sm:rounded-7 fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6 duration-200',
+        // The modal material, as on every dialog; an alert is the compact one.
+        'lq-glass lq-glass--modal rounded-6 sm:rounded-7 fixed top-[50%] left-[50%] z-50 grid w-[calc(100%-2rem)] max-w-md translate-x-[-50%] translate-y-[-50%] gap-5 p-6 duration-200 outline-none',
         className
       )}
       {...props}
@@ -67,13 +68,7 @@ const AlertDialogHeader = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      'flex flex-col space-y-2 text-center sm:text-left',
-      className
-    )}
-    {...props}
-  />
+  <div className={cn('flex flex-col gap-2 text-left', className)} {...props} />
 );
 AlertDialogHeader.displayName = 'AlertDialogHeader';
 
@@ -85,7 +80,13 @@ const AlertDialogFooter = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex gap-2 sm:justify-end', className)} {...props} />
+  <div
+    className={cn(
+      'flex flex-row flex-wrap items-center justify-end gap-2',
+      className
+    )}
+    {...props}
+  />
 );
 AlertDialogFooter.displayName = 'AlertDialogFooter';
 
@@ -99,7 +100,7 @@ const AlertDialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Title
     ref={ref}
-    className={cn('text-lg font-semibold', className)}
+    className={cn('lq-headline text-[var(--label)]', className)}
     {...props}
   />
 ));
@@ -115,7 +116,7 @@ const AlertDialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Description
     ref={ref}
-    className={cn('text-muted-foreground text-sm', className)}
+    className={cn('lq-subheadline lq-label-2', className)}
     {...props}
   />
 ));

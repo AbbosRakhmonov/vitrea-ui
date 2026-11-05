@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { MyModal } from '../components';
+import { FileText } from 'lucide-react';
+import { MyModal, Section } from '../components';
 import { Button } from '../ui/button';
+import { Input } from '../ui/form';
 
 const meta: Meta<typeof MyModal> = {
   title: 'Components/MyModal',
@@ -9,7 +11,19 @@ const meta: Meta<typeof MyModal> = {
   argTypes: {
     size: {
       control: 'select',
-      options: ['lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', 'full'],
+      options: [
+        'sm',
+        'md',
+        'lg',
+        'xl',
+        '2xl',
+        '3xl',
+        '4xl',
+        '5xl',
+        '6xl',
+        '7xl',
+        'full',
+      ],
     },
   },
 };
@@ -19,45 +33,54 @@ type Story = StoryObj<typeof MyModal>;
 
 export const Default: Story = {
   args: {
-    header: 'Modal Title',
-    trigger: <Button>Open Modal</Button>,
-    children: <p>This is the modal content area.</p>,
+    title: 'Modal title',
+    trigger: <Button>Open modal</Button>,
+    children: <p className="lq-subheadline">This is the modal content area.</p>,
   },
 };
 
 export const WithFooter: Story = {
   args: {
-    header: 'Confirm Action',
-    trigger: <Button>Open with Footer</Button>,
-    children: <p>Are you sure you want to proceed with this action?</p>,
+    title: 'New document',
+    description: 'Fill in the details and save.',
+    icon: <FileText />,
+    trigger: <Button>Open with footer</Button>,
+    children: (
+      <Section title="Details">
+        <Input placeholder="Name" />
+        <Input placeholder="Owner" />
+      </Section>
+    ),
     footer: (
-      <div className="flex gap-2">
+      <>
         <Button variant="secondary">Cancel</Button>
-        <Button>Confirm</Button>
-      </div>
+        <Button>Save</Button>
+      </>
     ),
   },
 };
 
 export const Large: Story = {
   args: {
-    header: 'Large Modal',
+    title: 'Large modal',
     size: '3xl',
-    trigger: <Button>Open Large Modal</Button>,
+    trigger: <Button>Open large modal</Button>,
     children: (
-      <div className="space-y-4">
-        <p>This is a larger modal dialog with more content.</p>
-        <p>It supports multiple paragraphs and rich content.</p>
-      </div>
+      <>
+        <p className="lq-subheadline">A larger dialog with more content.</p>
+        <p className="lq-subheadline">The body scrolls on its own.</p>
+      </>
     ),
   },
 };
 
 export const Fullscreen: Story = {
   args: {
-    header: 'Fullscreen Modal',
+    title: 'Fullscreen modal',
     size: 'full',
-    trigger: <Button>Open Fullscreen</Button>,
-    children: <p>This modal takes up most of the screen.</p>,
+    trigger: <Button>Open fullscreen</Button>,
+    children: (
+      <p className="lq-subheadline">This modal takes up most of the screen.</p>
+    ),
   },
 };

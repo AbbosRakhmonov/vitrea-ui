@@ -57,6 +57,19 @@ app were removed, and class names carry a single prefix.
 
 ### Components
 
+- **MyModal:** one modal layout - header (optional `icon`, `title`,
+  `description`, `headerActions`, close), a body that scrolls on its own and
+  an optional `footer` on a hairline, all on a 24px inset. New sizes `sm`
+  and `md`, `bodyClassName`, `hideClose`; opens focused on the first field.
+  `header` still works (deprecated, use `title`).
+- **Section:** new layout block - a quiet heading (icon, title, description,
+  actions) over content grouped on an inset tile; `plain` drops the tile.
+- **Sheet:** new `SheetBody`; header, title and footer share the modal's
+  inset and type. **Dialog / AlertDialog:** left-aligned headers, the
+  headline title, opaque modal material on alerts, footers without
+  breakpoint variants (an app's own `flex-col` utility beat `sm:flex-row`).
+- **Labels:** secondary text in a modal or sheet is the plain secondary
+  label - the vibrancy boost is for translucent glass only.
 - **MyPagination:** redesigned as a segmented pager (real buttons,
   `aria-current`, dimmed arrows at either end); `onPageChange` is no longer
   called for the page already shown. New `showPageSelect` prop (default
