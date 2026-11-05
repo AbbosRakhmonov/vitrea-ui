@@ -26,8 +26,7 @@ export type StatusScreenProps = {
 /**
  * A full-screen status page - not found, forbidden, a crash. The canvas with
  * its ambient light and one glass card, all on the theme tokens, so it follows
- * light and dark like every other screen. The product's three versions were
- * hand-painted slate and indigo gradients on a white card in either theme.
+ * light and dark like every other screen.
  */
 export const StatusScreen = ({
   code,

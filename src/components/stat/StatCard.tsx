@@ -22,8 +22,8 @@ export type StatCardProps = {
 /**
  * A KPI tile: icon chip, label, and the number the screen is about.
  *
- * Drop-in for the product's InfoCard — same props, same order — so adopting it
- * is an import change rather than an edit to every call site.
+ * Props follow the common info-card shape (icon, title, value), so it can
+ * replace one with an import change rather than an edit to every call site.
  */
 export const StatCard = React.memo(function StatCard({
   icon,

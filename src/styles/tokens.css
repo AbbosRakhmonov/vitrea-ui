@@ -400,7 +400,7 @@
    * --font-family-base was referenced by tailwind.config.js but never defined
    * upstream, so font-inter silently fell back. Defined here.
    * SF Pro is not redistributable; Segoe UI Variable is the closest match on
-   * Windows, where operators actually work.
+   * Windows.
    */
   --font-family-base:
     -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI Variable Text',

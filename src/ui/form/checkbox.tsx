@@ -28,8 +28,7 @@ const Checkbox = React.forwardRef<
       'peer size-4 shrink-0 cursor-pointer rounded-[5px] border border-[var(--control-stroke)] transition-colors disabled:cursor-not-allowed disabled:opacity-50',
       'focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-1 focus-visible:outline-none',
       // Checked and mixed share the accent fill with white ink, in both themes
-      // (accent-fill holds 4.7:1 under white). The product had a second,
-      // app-local checkbox on a different blue; this is the only one now.
+      // (accent-fill holds 4.7:1 under white).
       'data-[state=checked]:border-transparent data-[state=checked]:bg-[var(--accent-fill)]',
       'data-[state=indeterminate]:border-transparent data-[state=indeterminate]:bg-[var(--accent-fill)]',
       className

@@ -3,9 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 /**
  * Counts a number up to its target over `duration`.
  *
- * Deliberately dependency-free: the product reaches these components through
- * an import swap, and pulling a counter library into the kit just to keep one
- * animation would put a second copy of it in the bundle.
+ * Deliberately dependency-free: pulling a counter library into the kit for
+ * one animation would put a second copy of it in an app that already has one.
  *
  * Honours prefers-reduced-motion by landing on the final value immediately —
  * the number still updates, it simply does not travel.

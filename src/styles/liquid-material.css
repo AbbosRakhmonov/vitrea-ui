@@ -4,12 +4,12 @@
  * The spec's core rule: chrome is glass, content is a solid surface.
  *   chrome  — sidebar, page toolbar, date field, segmented control,
  *             pagination buttons, popover          -> .lq-glass
- *   content — platform cards, charts, tables, lists -> .lq-card
+ *   content — cards, charts, tables, lists          -> .lq-card
  *
  * Everything lives in @layer components so a Tailwind utility on the same
  * element always wins. This file loads after Tailwind's utilities, and an
  * unlayered rule here would outrank them regardless of specificity — the bug
- * that silently broke modal positioning earlier in this project.
+ * that once silently broke modal positioning.
  * ========================================================================== */
 
 @layer components {
@@ -18,16 +18,14 @@
   /* Glass only reads when something sits under it. The page root carries the
    * two ambient beams that give the material something to refract; without
    * this, glass over a flat page is indistinguishable from flat paint. */
-  .lq-canvas,
-  .ph-canvas {
+  .lq-canvas {
     position: relative;
     isolation: isolate;
     min-height: 100%;
     background-color: var(--bg-canvas);
   }
 
-  .lq-canvas::before,
-  .ph-canvas::before {
+  .lq-canvas::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -48,8 +46,7 @@
    *   1 translucent fill   2 backdrop blur + saturate
    *   3 hairline stroke + top rim   4 elevation   5 specular edge (::before)
    */
-  .lq-glass,
-  .ph-glass {
+  .lq-glass {
     --_fill: var(--glass-fill);
     --_shadow: var(--shadow-glass);
 
@@ -71,8 +68,7 @@
 
   /* Specular edge: bright at top-left, soft at bottom-right. A masked
    * gradient border is the only way to vary a ring's colour around its path. */
-  .lq-glass::before,
-  .ph-glass::before {
+  .lq-glass::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -100,27 +96,22 @@
   /* An edge-anchored glass panel: a sheet, an inspector, a drawer.
    * Only the leading edge is rounded, because the other three sit flush with
    * the viewport and a radius there would show a sliver of page behind it. */
-  .lq-sheet,
-  .ph-sheet {
+  .lq-sheet {
     border-radius: 0;
   }
-  .lq-sheet--right,
-  .ph-sheet--right {
+  .lq-sheet--right {
     border-start-start-radius: var(--radius-xl);
     border-end-start-radius: var(--radius-xl);
   }
-  .lq-sheet--left,
-  .ph-sheet--left {
+  .lq-sheet--left {
     border-start-end-radius: var(--radius-xl);
     border-end-end-radius: var(--radius-xl);
   }
-  .lq-sheet--top,
-  .ph-sheet--top {
+  .lq-sheet--top {
     border-end-start-radius: var(--radius-xl);
     border-end-end-radius: var(--radius-xl);
   }
-  .lq-sheet--bottom,
-  .ph-sheet--bottom {
+  .lq-sheet--bottom {
     border-start-start-radius: var(--radius-xl);
     border-start-end-radius: var(--radius-xl);
   }
@@ -129,8 +120,7 @@
    * and lit harder: a lower fill lets the content beneath show through, a
    * stronger saturate keeps it vivid, and an inner glow along the bottom edge
    * plus the top rim make the edge read as a curved, light-catching lens. */
-  .lq-glass--menu,
-  .ph-glass--menu {
+  .lq-glass--menu {
     --_fill: var(--glass-fill-menu);
     --_shadow: var(--shadow-menu);
     -webkit-backdrop-filter: blur(30px) saturate(210%);
@@ -144,46 +134,39 @@
   }
 
   /* A KPI tile rests on the canvas rather than floating above it. */
-  .lq-stat.lq-glass,
-  .ph-stat.ph-glass {
+  .lq-stat.lq-glass {
     --_shadow: var(--shadow-rest);
   }
 
   /* Content glass — the KPI tile's material carried to a content card (a
-   * chart, a table, a platform card): same fill, blur and rim, and the same
+   * chart, a table, a summary card): same fill, blur and rim, and the same
    * light rest shadow rather than the floating panel's deeper one. */
-  .lq-glass--content,
-  .ph-glass--content {
+  .lq-glass--content {
     --_shadow: var(--shadow-rest);
   }
 
   /* Glass is never stacked. A card or tile inside glass becomes a quiet
    * translucent fill, so the material underneath still shows through it. */
   .lq-glass .lq-card,
-  .ph-glass .ph-card,
-  .lq-glass .lq-tile,
-  .ph-glass .ph-tile {
+  .lq-glass .lq-tile {
     background-color: var(--fill-4);
     box-shadow: none;
   }
 
   /* Clear variant — for glass over imagery. */
-  .lq-glass--clear,
-  .ph-glass--clear {
+  .lq-glass--clear {
     --_fill: var(--glass-fill-clear);
   }
 
   /* A control-sized surface sits lower than a panel. */
-  .lq-glass--control,
-  .ph-glass--control {
+  .lq-glass--control {
     --_shadow: var(--shadow-control);
     border-radius: var(--radius-full);
   }
 
   /* Glass is never layered on glass: the inner one would double-blur and cost
    * a second compositing layer. Nested, it becomes a plain translucent fill. */
-  .lq-glass .lq-glass,
-  .ph-glass .ph-glass {
+  .lq-glass .lq-glass {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -192,8 +175,7 @@
 
   /* The content layer. Solid on purpose — tables, charts and lists must stay
    * legible and must not each cost a backdrop sample. */
-  .lq-card,
-  .ph-card {
+  .lq-card {
     border-radius: var(--radius-lg);
     background-color: var(--bg-raised);
     box-shadow: var(--shadow-card);
@@ -201,23 +183,20 @@
 
   /* A card inside a card is not raised twice: it recedes to the inset surface
    * and drops its own shadow, the way a tile sits inside its card. */
-  .lq-card .lq-card,
-  .ph-card .ph-card {
+  .lq-card .lq-card {
     background-color: var(--bg-inset);
     box-shadow: none;
   }
 
   /* A tile inside a card. Concentric: the card is 24 with 12px of padding,
    * so the tile that touches its corner is 24 − 12 = 12. */
-  .lq-tile,
-  .ph-tile {
+  .lq-tile {
     border-radius: var(--radius-md);
     background-color: var(--bg-inset);
   }
 
   /* A floating solid element — menus and popovers that are not glass. */
-  .lq-elevated,
-  .ph-elevated {
+  .lq-elevated {
     border-radius: var(--radius-md);
     background-color: var(--bg-elevated);
     box-shadow: var(--shadow-control);
@@ -225,118 +204,95 @@
 
   /* ============================================================== type === */
 
-  .lq-large-title,
-  .ph-large-title {
+  .lq-large-title {
     font: 700 34px / 1.2 var(--font-text);
     letter-spacing: -0.022em;
   }
-  .lq-title-1,
-  .ph-title-1 {
+  .lq-title-1 {
     font: 700 28px / 1.21 var(--font-text);
     letter-spacing: -0.021em;
   }
-  .lq-title-2,
-  .ph-title-2 {
+  .lq-title-2 {
     font: 700 22px / 1.27 var(--font-text);
     letter-spacing: -0.02em;
   }
-  .lq-title-3,
-  .ph-title-3 {
+  .lq-title-3 {
     font: 600 20px / 1.25 var(--font-text);
     letter-spacing: -0.017em;
   }
-  .lq-headline,
-  .ph-headline {
+  .lq-headline {
     font: 600 17px / 1.29 var(--font-text);
     letter-spacing: -0.012em;
   }
-  .lq-body,
-  .ph-body {
+  .lq-body {
     font: 400 17px / 1.41 var(--font-text);
     letter-spacing: -0.012em;
   }
-  .lq-callout,
-  .ph-callout {
+  .lq-callout {
     font: 400 16px / 1.31 var(--font-text);
     letter-spacing: -0.009em;
   }
-  .lq-subheadline,
-  .ph-subheadline {
+  .lq-subheadline {
     font: 400 15px / 1.33 var(--font-text);
     letter-spacing: -0.006em;
   }
-  .lq-footnote,
-  .ph-footnote {
+  .lq-footnote {
     font: 400 13px / 1.38 var(--font-text);
   }
-  .lq-caption-1,
-  .ph-caption-1 {
+  .lq-caption-1 {
     font: 400 12px / 1.33 var(--font-text);
   }
-  .lq-caption-2,
-  .ph-caption-2 {
+  .lq-caption-2 {
     font: 400 11px / 1.18 var(--font-text);
   }
 
   /* Numerals use the rounded face and always line up in columns. */
   .lq-numeral-l,
-  .ph-numeral-l,
   .lq-numeral-m,
-  .ph-numeral-m,
-  .lq-numeral-s,
-  .ph-numeral-s {
+  .lq-numeral-s {
     font-family: var(--font-rounded);
     font-variant-numeric: tabular-nums;
     font-feature-settings: 'tnum';
   }
-  .lq-numeral-l,
-  .ph-numeral-l {
+  .lq-numeral-l {
     font-size: 34px;
     font-weight: 700;
     line-height: 1.18;
     letter-spacing: -0.022em;
   }
-  .lq-numeral-m,
-  .ph-numeral-m {
+  .lq-numeral-m {
     font-size: 22px;
     font-weight: 700;
     line-height: 1.27;
     letter-spacing: -0.02em;
   }
-  .lq-numeral-s,
-  .ph-numeral-s {
+  .lq-numeral-s {
     font-size: 15px;
     font-weight: 600;
     line-height: 1.33;
   }
-  .lq-code,
-  .ph-code {
+  .lq-code {
     font: 400 13px / 1.38 var(--font-mono);
   }
 
   /* Text colours are tokens, never the series colour. */
-  .lq-label,
-  .ph-label {
+  .lq-label {
     color: var(--label);
   }
-  .lq-label-2,
-  .ph-label-2 {
+  .lq-label-2 {
     color: var(--label-2);
   }
-  .lq-label-3,
-  .ph-label-3 {
+  .lq-label-3 {
     color: var(--label-3);
   }
-  .lq-link,
-  .ph-link {
+  .lq-link {
     color: var(--link);
   }
 
   /* ========================================================== controls === */
 
   /* Every control is a capsule. */
-  .lq-btn,
-  .ph-btn {
+  .lq-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -353,71 +309,59 @@
       box-shadow var(--duration-fast) var(--ease-liquid);
   }
 
-  .lq-btn:active,
-  .ph-btn:active {
+  .lq-btn:active {
     transform: scale(0.96);
   }
 
-  .lq-btn:focus-visible,
-  .ph-btn:focus-visible {
+  .lq-btn:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 
   .lq-btn:disabled,
-  .ph-btn:disabled,
-  .lq-btn[aria-disabled='true'],
-  .ph-btn[aria-disabled='true'] {
+  .lq-btn[aria-disabled='true'] {
     opacity: 0.4;
     pointer-events: none;
   }
 
   /* sm / md / lg — lg meets the 44px touch minimum. */
-  .lq-btn--sm,
-  .ph-btn--sm {
+  .lq-btn--sm {
     height: 32px;
     padding-inline: var(--space-3);
     font-size: 13px;
   }
-  .lq-btn--md,
-  .ph-btn--md {
+  .lq-btn--md {
     height: 38px;
     padding-inline: var(--space-4);
   }
-  .lq-btn--lg,
-  .ph-btn--lg {
+  .lq-btn--lg {
     height: 44px;
     padding-inline: var(--space-5);
     font-size: 17px;
   }
 
-  .lq-btn--icon,
-  .ph-btn--icon {
+  .lq-btn--icon {
     width: 38px;
     height: 38px;
     padding: 0;
   }
-  .lq-btn--icon.lq-btn--lg,
-  .ph-btn--icon.ph-btn--lg {
+  .lq-btn--icon.lq-btn--lg {
     width: 44px;
     height: 44px;
   }
 
   /* Primary — the only filled control. */
-  .lq-btn--primary,
-  .ph-btn--primary {
+  .lq-btn--primary {
     background-color: var(--accent-fill);
     color: var(--on-accent);
     box-shadow: var(--shadow-control);
   }
-  .lq-btn--primary:hover,
-  .ph-btn--primary:hover {
+  .lq-btn--primary:hover {
     filter: brightness(1.06);
   }
 
   /* Glass — the default control on the chrome layer. */
-  .lq-btn--glass,
-  .ph-btn--glass {
+  .lq-btn--glass {
     background-color: var(--glass-fill);
     color: var(--label);
     -webkit-backdrop-filter: blur(var(--glass-blur))
@@ -434,45 +378,37 @@
    * lit top rim) without a second backdrop blur: glass is never stacked on
    * glass, because the inner layer would sample an already-blurred backdrop
    * and cost another compositing pass. */
-  .lq-btn--tinted,
-  .ph-btn--tinted {
+  .lq-btn--tinted {
     background-color: var(--fill-3);
     color: var(--label);
     box-shadow:
       inset 0 0 0 0.5px var(--glass-stroke),
       inset 0 1px 0 0 var(--glass-rim-soft);
   }
-  .lq-btn--tinted:hover,
-  .ph-btn--tinted:hover {
+  .lq-btn--tinted:hover {
     background-color: var(--fill-2);
   }
   .lq-btn--tinted:active,
-  .ph-btn--tinted:active,
-  .lq-btn--tinted[data-state='open'],
-  .ph-btn--tinted[data-state='open'] {
+  .lq-btn--tinted[data-state='open'] {
     background-color: var(--fill-1);
   }
 
   /* Inside a glass panel, buttons go plain — glass is never stacked. */
-  .lq-btn--plain,
-  .ph-btn--plain {
+  .lq-btn--plain {
     background-color: transparent;
     color: var(--accent);
     padding-inline: var(--space-2);
   }
-  .lq-btn--plain:hover,
-  .ph-btn--plain:hover {
+  .lq-btn--plain:hover {
     background-color: var(--fill-3);
   }
-  .lq-btn--plain:active,
-  .ph-btn--plain:active {
+  .lq-btn--plain:active {
     background-color: var(--fill-1);
   }
 
   /* ================================================ segmented control === */
 
-  .lq-segmented,
-  .ph-segmented {
+  .lq-segmented {
     position: relative;
     display: inline-flex;
     padding: 2px;
@@ -488,16 +424,14 @@
 
   /* On a solid content card the control sits in the card, not over the page:
    * a grey track, no backdrop sample. Glass belongs to the chrome layer. */
-  .lq-segmented--inset,
-  .ph-segmented--inset {
+  .lq-segmented--inset {
     background-color: var(--fill-3);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     box-shadow: none;
   }
 
-  .lq-segmented__item,
-  .ph-segmented__item {
+  .lq-segmented__item {
     border: 0;
     background: transparent;
     border-radius: var(--radius-full);
@@ -511,9 +445,7 @@
   }
 
   .lq-segmented__item[aria-selected='true'],
-  .ph-segmented__item[aria-selected='true'],
-  .lq-segmented__item[data-selected='true'],
-  .ph-segmented__item[data-selected='true'] {
+  .lq-segmented__item[data-selected='true'] {
     background-color: var(--bg-raised);
     color: var(--label);
     font-weight: 600;
@@ -523,8 +455,7 @@
   /* ============================================================ badge === */
 
   /* Status never travels on colour alone — the dot is paired with its word. */
-  .lq-badge,
-  .ph-badge {
+  .lq-badge {
     display: inline-flex;
     align-items: center;
     gap: var(--space-1);
@@ -535,8 +466,7 @@
     color: var(--label-2);
   }
 
-  .lq-badge__dot,
-  .ph-badge__dot {
+  .lq-badge__dot {
     width: 6px;
     height: 6px;
     border-radius: var(--radius-full);
@@ -544,92 +474,34 @@
     flex: none;
   }
 
-  .lq-badge--green,
-  .ph-badge--green {
+  .lq-badge--green {
     background-color: var(--green-soft);
     color: var(--green-text);
   }
-  .lq-badge--red,
-  .ph-badge--red {
+  .lq-badge--red {
     background-color: var(--red-soft);
     color: var(--red-text);
   }
-  .lq-badge--orange,
-  .ph-badge--orange {
+  .lq-badge--orange {
     background-color: var(--orange-soft);
     color: var(--orange-text);
   }
-  .lq-badge--accent,
-  .ph-badge--accent {
+  .lq-badge--accent {
     background-color: var(--accent-soft);
     color: var(--accent);
   }
 
-  /* ===================================================== platform mark === */
-
-  .lq-mark,
-  .ph-mark {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    color: var(--label);
-  }
-  .lq-mark__dot,
-  .ph-mark__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: var(--radius-full);
-    flex: none;
-    background-color: var(--_platform, var(--label-2));
-  }
-  .lq-mark--sm .lq-mark__dot,
-  .ph-mark--sm .ph-mark__dot {
-    width: 8px;
-    height: 8px;
-  }
-
-  .lq-platform-youtube,
-  .ph-platform-youtube {
-    --_platform: var(--platform-youtube);
-  }
-  .lq-platform-facebook,
-  .ph-platform-facebook {
-    --_platform: var(--platform-facebook);
-  }
-  .lq-platform-instagram,
-  .ph-platform-instagram {
-    --_platform: var(--platform-instagram);
-  }
-  .lq-platform-threads,
-  .ph-platform-threads {
-    --_platform: var(--platform-threads);
-  }
-  .lq-platform-telegram,
-  .ph-platform-telegram {
-    --_platform: var(--platform-telegram);
-  }
-  .lq-platform-x,
-  .ph-platform-x {
-    --_platform: var(--platform-x);
-  }
-  .lq-platform-tiktok,
-  .ph-platform-tiktok {
-    --_platform: var(--platform-tiktok);
-  }
-
   /* ============================================================ meter === */
 
-  .lq-meter,
-  .ph-meter {
+  .lq-meter {
     height: 6px;
     border-radius: var(--radius-full);
     background-color: var(--fill-3);
     overflow: hidden;
   }
-  /* Meters are never painted in a platform colour — they read as magnitude,
+  /* Meters are never painted in a category colour — they read as magnitude,
    * not identity. */
-  .lq-meter__bar,
-  .ph-meter__bar {
+  .lq-meter__bar {
     height: 100%;
     border-radius: var(--radius-full);
     background-color: var(--accent);
@@ -638,8 +510,7 @@
 
   /* ========================================================= stat card === */
 
-  .lq-stat,
-  .ph-stat {
+  .lq-stat {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
@@ -647,8 +518,7 @@
     border-radius: var(--radius-lg);
   }
   /* The icon chip is concentric to the 16px padding: 24 − 16 = 8. */
-  .lq-stat__chip,
-  .ph-stat__chip {
+  .lq-stat__chip {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -667,9 +537,7 @@
    * behind happens to be light. Raise contrast, add a little weight, and open
    * the tracking slightly — Apple's vibrancy, approximated. */
   .lq-glass .lq-label-2,
-  .ph-glass .ph-label-2,
-  .lq-vibrant-2,
-  .ph-vibrant-2 {
+  .lq-vibrant-2 {
     color: color-mix(in srgb, var(--label) 62%, var(--label-2));
     font-weight: 500;
     letter-spacing: 0.004em;
@@ -680,8 +548,7 @@
   /* Floating chrome overlapping scrolling content gets a fade, not a rule.
    * Put this on the scroll container; it masks the first and last few pixels
    * so content dissolves into the chrome instead of being cut by a line. */
-  .lq-edge-fade,
-  .ph-edge-fade {
+  .lq-edge-fade {
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0,
@@ -703,7 +570,7 @@
   /* Glass should arrive as a material, not as a rectangle fading in: the blur
    * builds up while the surface scales into place. Radix drives this from
    * data-state, so it works for every portalled atom without extra props. */
-  @keyframes ph-materialize-in {
+  @keyframes lq-materialize-in {
     from {
       opacity: 0;
       transform: scale(0.96);
@@ -719,7 +586,7 @@
     }
   }
 
-  @keyframes ph-materialize-out {
+  @keyframes lq-materialize-out {
     from {
       opacity: 1;
       transform: scale(1);
@@ -730,56 +597,46 @@
     }
   }
 
-  .lq-glass[data-state='open'],
-  .ph-glass[data-state='open'] {
-    animation: ph-materialize-in var(--duration-base) var(--ease-liquid);
+  .lq-glass[data-state='open'] {
+    animation: lq-materialize-in var(--duration-base) var(--ease-liquid);
   }
-  .lq-glass[data-state='closed'],
-  .ph-glass[data-state='closed'] {
-    animation: ph-materialize-out var(--duration-fast) var(--ease-liquid);
+  .lq-glass[data-state='closed'] {
+    animation: lq-materialize-out var(--duration-fast) var(--ease-liquid);
   }
 
   /* ======================================================== interaction === */
 
-  .lq-interactive,
-  .ph-interactive {
+  .lq-interactive {
     transition:
       background-color var(--duration-fast) var(--ease-liquid),
       transform var(--duration-fast) var(--ease-liquid);
   }
-  .lq-interactive:hover,
-  .ph-interactive:hover {
+  .lq-interactive:hover {
     background-color: var(--fill-3);
   }
-  .lq-interactive:active,
-  .ph-interactive:active {
+  .lq-interactive:active {
     background-color: var(--fill-1);
   }
   .lq-interactive[aria-current='page'],
-  .ph-interactive[aria-current='page'],
-  .lq-interactive[data-selected='true'],
-  .ph-interactive[data-selected='true'] {
+  .lq-interactive[data-selected='true'] {
     background-color: var(--fill-2);
     color: var(--label);
     font-weight: 600;
   }
-  .lq-interactive:focus-visible,
-  .ph-interactive:focus-visible {
+  .lq-interactive:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 
   /* Modal scrim. A modal is chrome, so what is behind it is dimmed and
    * lightly blurred rather than covered with a flat wash. */
-  .lq-scrim,
-  .ph-scrim {
+  .lq-scrim {
     background-color: var(--scrim);
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
   }
 
-  .lq-separator,
-  .ph-separator {
+  .lq-separator {
     border: 0;
     border-top: 0.5px solid var(--separator);
   }
@@ -799,22 +656,12 @@
   inherits: false;
   initial-value: 0px;
 }
-@property --ph-fade-top {
-  syntax: '<length>';
-  inherits: false;
-  initial-value: 0px;
-}
 @property --lq-fade-bottom {
   syntax: '<length>';
   inherits: false;
   initial-value: 0px;
 }
-@property --ph-fade-bottom {
-  syntax: '<length>';
-  inherits: false;
-  initial-value: 0px;
-}
-@keyframes ph-scroll-fade {
+@keyframes lq-scroll-fade {
   0% {
     --lq-fade-top: 0px;
     --lq-fade-bottom: var(--space-6);
@@ -831,8 +678,7 @@
   }
 }
 @supports (animation-timeline: scroll()) {
-  .lq-scroll-fade,
-  .ph-scroll-fade {
+  .lq-scroll-fade {
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0,
@@ -847,7 +693,7 @@
       #000 calc(100% - var(--lq-fade-bottom)),
       transparent 100%
     );
-    animation: ph-scroll-fade linear both;
+    animation: lq-scroll-fade linear both;
     animation-timeline: scroll(self);
   }
 }
@@ -861,52 +707,39 @@
   (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
 ) {
   .lq-glass,
-  .ph-glass,
   .lq-btn--glass,
-  .ph-btn--glass,
-  .lq-segmented,
-  .ph-segmented {
+  .lq-segmented {
     background-color: var(--bg-raised);
   }
-  .lq-glass::before,
-  .ph-glass::before {
+  .lq-glass::before {
     display: none;
   }
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .lq-scrim,
-  .ph-scrim {
+  .lq-scrim {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
   .lq-glass,
-  .ph-glass,
   .lq-btn--glass,
-  .ph-btn--glass,
-  .lq-segmented,
-  .ph-segmented {
+  .lq-segmented {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     background-color: var(--bg-raised);
   }
-  .lq-glass::before,
-  .ph-glass::before {
+  .lq-glass::before {
     display: none;
   }
-  .lq-canvas::before,
-  .ph-canvas::before {
+  .lq-canvas::before {
     display: none;
   }
 }
 
 @media (prefers-contrast: more) {
   .lq-glass,
-  .ph-glass,
   .lq-btn--glass,
-  .ph-btn--glass,
-  .lq-segmented,
-  .ph-segmented {
+  .lq-segmented {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     background-color: var(--bg-raised);
@@ -914,31 +747,23 @@
       inset 0 0 0 1px var(--label-2),
       var(--shadow-control);
   }
-  .lq-glass::before,
-  .ph-glass::before {
+  .lq-glass::before {
     display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .lq-glass[data-state='open'],
-  .ph-glass[data-state='open'],
-  .lq-glass[data-state='closed'],
-  .ph-glass[data-state='closed'] {
+  .lq-glass[data-state='closed'] {
     animation: none;
   }
   .lq-btn,
-  .ph-btn,
   .lq-segmented__item,
-  .ph-segmented__item,
   .lq-interactive,
-  .ph-interactive,
-  .lq-meter__bar,
-  .ph-meter__bar {
+  .lq-meter__bar {
     transition: none;
   }
-  .lq-btn:active,
-  .ph-btn:active {
+  .lq-btn:active {
     transform: none;
   }
 }

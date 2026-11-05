@@ -1,7 +1,7 @@
 /* ============================================================================
  * Liquid Glass — compatibility bridge
  * ----------------------------------------------------------------------------
- * Carries the design onto markup that already exists, so the product adopts it
+ * Carries the design onto markup that already exists, so an app adopts it
  * without its components being rewritten and without anything being renamed.
  *
  * Most of the work is already done by the token layer: every primitive
@@ -12,16 +12,16 @@
  *
  * Hence two layers:
  *   @layer components  — defaults a utility on the same element may override
- *   @layer ph-overrides — the few rules the spec states unconditionally, which
- *                        therefore have to beat the utility
+ *   @layer liquid-overrides — the few rules the spec states unconditionally,
+ *                        which therefore have to beat the utility
  *
- * Declaring ph-overrides here appends it after Tailwind's own layers (layer
+ * Declaring liquid-overrides here appends it after Tailwind's own layers (layer
  * order follows first appearance), so it outranks `utilities` while still
  * losing to unlayered CSS and inline styles — a deliberate escape hatch, and
  * much narrower than making these rules unlayered.
  * ========================================================================== */
 
-@layer liquid-overrides, ph-overrides;
+@layer liquid-overrides;
 
 @layer liquid-overrides {
   /* The spec is unconditional: every control is a capsule. Each Button
@@ -29,8 +29,8 @@
    * without touching a component or a call site.
    *
    * Scoped to controls: bg-item-* is also a plain fill on rows and panels,
-   * and unscoped this turned a 1248px queue row into a capsule and bent its
-   * status stripe into an arc. inline-flex is the Button base (it also
+   * and unscoped this turned a full-width list row into a capsule and bent
+   * its status stripe into an arc. inline-flex is the Button base (it also
    * catches an asChild Button rendered as a div); button and a cover the
    * rest, such as a calendar's selected day. */
   :is(button, a, .inline-flex):is(
@@ -39,8 +39,7 @@
     .bg-item-tertiary,
     .bg-item-ghost,
     .bg-item-destructive,
-    .lq-btn--tinted,
-    .ph-btn--tinted
+    .lq-btn--tinted
   ) {
     border-radius: var(--radius-full);
   }
@@ -181,8 +180,7 @@
  * child's backdrop root, so the child's own blur does not soften them - even
  * 94% left a legible ghost. Light on light collapses legibility, so a nested
  * menu is solid; the lit edges keep it in the same family. */
-.lq-glass .selectform__menu.selectform__menu,
-.ph-glass .selectform__menu.selectform__menu {
+.lq-glass .selectform__menu.selectform__menu {
   background-color: var(--bg-elevated);
 }
 .selectform__menu-list.selectform__menu-list {
@@ -265,17 +263,16 @@
 /* ===================================================== sheet footer === */
 
 /* A sheet's footer holds one primary action and quieter ones around it
- * (cancel, clear, logs, remote view). Those were white bordered boxes and
- * tertiary text next to a capsule; in a footer they are all the same tinted
- * capsule, so every form in the product ends the same way - whatever button
- * variant its code happens to use. In ph-overrides: the button's own
+ * (cancel, clear, secondary links). Rather than white bordered boxes and
+ * tertiary text next to a capsule, in a footer they are all the same tinted
+ * capsule, so every form ends the same way - whatever button
+ * variant its code happens to use. In liquid-overrides: the button's own
  * background utility would beat a components-layer rule. */
 @layer liquid-overrides {
   /* The same capsule for a secondary button on a glass card's toolbar
    * ("Templates" next to the primary add) - a white bordered box there was a
    * second surface stacked on the glass. */
   .lq-glass .bg-item-secondary,
-  .ph-glass .bg-item-secondary,
   [data-slot='sheet-footer'] :is(.bg-item-secondary, .bg-item-tertiary) {
     border-color: transparent;
     border-radius: var(--radius-full);
@@ -286,7 +283,6 @@
       inset 0 1px 0 0 var(--glass-rim-soft);
   }
   .lq-glass .bg-item-secondary:hover,
-  .ph-glass .bg-item-secondary:hover,
   [data-slot='sheet-footer'] :is(.bg-item-secondary, .bg-item-tertiary):hover {
     background-color: var(--fill-2);
   }
@@ -308,8 +304,7 @@
  * the calendar; glass never stacks, so there it is the solid elevated
  * surface, keeping the lit edge. Unlayered: Tailwind's background utility on
  * the popover would win inside a layer. */
-body:has(.lq-scrim) [data-radix-popper-content-wrapper] > .lq-glass.lq-glass,
-body:has(.ph-scrim) [data-radix-popper-content-wrapper] > .ph-glass.ph-glass {
+body:has(.lq-scrim) [data-radix-popper-content-wrapper] > .lq-glass.lq-glass {
   background-color: var(--bg-elevated);
 }
 
@@ -363,7 +358,7 @@ body:has(.ph-scrim) [data-radix-popper-content-wrapper] > .ph-glass.ph-glass {
 
 /* Radix moves focus to a sheet's, dialog's or menu's own container when it
  * opens, and the browser drew its focus ring around the whole panel - in dark
- * a bright white frame on the account sheet. The container is not a control;
+ * a bright white frame around the whole sheet. The container is not a control;
  * focus inside it (fields, buttons, menu items) keeps its own ring. */
 [role='dialog']:focus-visible,
 [role='alertdialog']:focus-visible,
@@ -377,8 +372,7 @@ body:has(.ph-scrim) [data-radix-popper-content-wrapper] > .ph-glass.ph-glass {
 /* Glass toasts (see ui/toast): label-coloured text on the menu material, the
  * status carried by the icon's colour and its word. Unlayered and doubled to
  * win over sonner's injected rules; sonner keeps positioning and motion. */
-.lq-toast.lq-toast,
-.ph-toast.ph-toast {
+.lq-toast.lq-toast {
   --_fill: var(--glass-fill-menu);
   --_shadow: var(--shadow-menu);
   display: flex;
@@ -392,8 +386,7 @@ body:has(.ph-scrim) [data-radix-popper-content-wrapper] > .ph-glass.ph-glass {
   letter-spacing: -0.006em;
   pointer-events: auto;
 }
-.lq-toast__icon.lq-toast__icon,
-.ph-toast__icon.ph-toast__icon {
+.lq-toast__icon.lq-toast__icon {
   display: flex;
   flex: none;
   margin: 0;
@@ -403,43 +396,35 @@ body:has(.ph-scrim) [data-radix-popper-content-wrapper] > .ph-glass.ph-glass {
   justify-content: center;
   color: var(--accent);
 }
-.lq-toast__icon svg,
-.ph-toast__icon svg {
+.lq-toast__icon svg {
   width: 22px;
   height: 22px;
 }
-.lq-toast--success .lq-toast__icon,
-.ph-toast--success .ph-toast__icon {
+.lq-toast--success .lq-toast__icon {
   color: var(--green);
 }
-.lq-toast--error .lq-toast__icon,
-.ph-toast--error .ph-toast__icon {
+.lq-toast--error .lq-toast__icon {
   color: var(--red);
 }
-.lq-toast--warning .lq-toast__icon,
-.ph-toast--warning .ph-toast__icon {
+.lq-toast--warning .lq-toast__icon {
   color: var(--orange);
 }
-.lq-toast__content.lq-toast__content,
-.ph-toast__content.ph-toast__content {
+.lq-toast__content.lq-toast__content {
   display: flex;
   flex: 1;
   min-width: 0;
   flex-direction: column;
   gap: 2px;
 }
-.lq-toast__title.lq-toast__title,
-.ph-toast__title.ph-toast__title {
+.lq-toast__title.lq-toast__title {
   font-weight: 600;
 }
-.lq-toast__description.lq-toast__description,
-.ph-toast__description.ph-toast__description {
+.lq-toast__description.lq-toast__description {
   color: var(--label-2);
   font-size: 13px;
   font-weight: 400;
 }
-.lq-toast__close.lq-toast__close,
-.ph-toast__close.ph-toast__close {
+.lq-toast__close.lq-toast__close {
   position: absolute;
   top: -6px;
   left: -6px;
@@ -460,13 +445,10 @@ body:has(.ph-scrim) [data-radix-popper-content-wrapper] > .ph-glass.ph-glass {
   transition: opacity var(--duration-fast) var(--ease-liquid);
 }
 .lq-toast:hover .lq-toast__close,
-.ph-toast:hover .ph-toast__close,
-.lq-toast__close:focus-visible,
-.ph-toast__close:focus-visible {
+.lq-toast__close:focus-visible {
   opacity: 1;
 }
-.lq-toast__close svg,
-.ph-toast__close svg {
+.lq-toast__close svg {
   width: 14px;
   height: 14px;
 }
@@ -476,8 +458,7 @@ body:has(.ph-scrim) [data-radix-popper-content-wrapper] > .ph-glass.ph-glass {
 /* Radix tabs in TabsList type="segmented" take the segmented-control item
  * look; the trigger's own utilities (h-7, hover fill) are overridden here,
  * unlayered and doubled. */
-.lq-segmented > [role='tab'][role='tab'],
-.ph-segmented > [role='tab'][role='tab'] {
+.lq-segmented > [role='tab'][role='tab'] {
   flex: none;
   height: auto;
   border-radius: var(--radius-full);
@@ -486,13 +467,11 @@ body:has(.ph-scrim) [data-radix-popper-content-wrapper] > .ph-glass.ph-glass {
   color: var(--label-2);
   background-color: transparent;
 }
-.lq-segmented > [role='tab'][data-state='inactive']:hover,
-.ph-segmented > [role='tab'][data-state='inactive']:hover {
+.lq-segmented > [role='tab'][data-state='inactive']:hover {
   color: var(--label);
   background-color: transparent !important;
 }
-.lq-segmented > [role='tab'][data-state='active'][data-state='active'],
-.ph-segmented > [role='tab'][data-state='active'][data-state='active'] {
+.lq-segmented > [role='tab'][data-state='active'][data-state='active'] {
   background-color: var(--bg-raised);
   color: var(--label);
   font-weight: 600;

@@ -24,7 +24,7 @@ export type ShareBarProps = {
  * Part-to-whole for a handful of parts: one bar split into segments, with a
  * legend that carries the numbers.
  *
- * Used where the product had a two- or three-slice donut. A donut asks the eye
+ * Use it in place of a two- or three-slice donut. A donut asks the eye
  * to compare arc angles; a single bar compares lengths along one axis, which
  * is read faster and more accurately, and the figures sit beside it instead of
  * in a ring centre. Segments are separated by a 2px gap so neighbours never

@@ -4,7 +4,7 @@ import { phToastClassNames, phToastIcons } from '../ui/toast';
 /**
  * The kit ships the toast *look*, not the runtime: the app keeps rendering
  * sonner's `<Toaster>` and calling `toast()` from its own copy of sonner, and
- * spreads {@link phToasterProps} onto it. These stories render the glass
+ * spreads {@link liquidToasterProps} onto it. These stories render the glass
  * capsule statically from the exported `phToastClassNames` and `phToastIcons`
  * so the appearance can be reviewed without the sonner runtime.
  */

@@ -36,12 +36,8 @@ export const Default: Story = {
   render: () => (
     <div className="mx-auto max-w-2xl">
       <Stepper>
-        <StepperItem
-          id="account"
-          title="Account"
-          description="Choose a platform"
-        >
-          <Panel>Pick the social account to incubate.</Panel>
+        <StepperItem id="account" title="Account" description="Choose a plan">
+          <Panel>Pick the plan that fits your team.</Panel>
           <StepperFooter />
         </StepperItem>
         <StepperItem id="plan" title="Plan" description="Set the schedule">

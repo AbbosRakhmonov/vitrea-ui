@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { cn } from '../../lib';
 import { dayjs } from '../../lib/day';
 
-// The product's language codes mapped to BCP 47 tags the browser's locale
+// Supported language codes mapped to BCP 47 tags the browser's locale
 // data understands.
 const INTL_LOCALE: Record<string, string> = {
   cyr: 'uz-Cyrl',
@@ -443,8 +443,8 @@ function Calendar({
         ...classNames,
       }}
       components={memoizedComponents}
-      // The week starts on Monday in every interface language the product
-      // ships (uz, ru, en-GB usage); a caller can still override it.
+      // The week starts on Monday (ISO 8601, and uz, ru and en-GB usage); a
+      // caller can still override it.
       weekStartsOn={1}
       {...props}
       mode={'single'}

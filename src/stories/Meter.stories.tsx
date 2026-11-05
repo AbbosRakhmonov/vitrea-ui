@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A labelled magnitude row: name on the left, value on the right, bar beneath. Meters are never tinted with a platform colour — a meter reads as magnitude, and colour there would read as identity. Pass `total` to also show each row as a share of the whole.',
+          'A labelled magnitude row: name on the left, value on the right, bar beneath. Meters are never tinted with a category colour — a meter reads as magnitude, and colour there would read as identity. Pass `total` to also show each row as a share of the whole.',
       },
     },
   },
@@ -38,7 +38,7 @@ export const Default: Story = {
       </div>
     ),
   ],
-  args: { name: 'likes', value: 820, maxValue: 1000 },
+  args: { name: 'reads', value: 820, maxValue: 1000 },
 };
 
 export const WithShare: Story = {
@@ -49,16 +49,16 @@ export const WithShare: Story = {
       </div>
     ),
   ],
-  args: { name: 'comments', value: 240, maxValue: 1000, total: 1820 },
+  args: { name: 'writes', value: 240, maxValue: 1000, total: 1820 },
 };
 
 export const List: Story = {
-  args: { name: 'likes', value: 820, maxValue: 820 },
+  args: { name: 'reads', value: 820, maxValue: 820 },
   render: () => (
     <div className="lq-card w-[360px] p-4">
       {[
-        { name: 'likes', value: 820 },
-        { name: 'comments', value: 240 },
+        { name: 'reads', value: 820 },
+        { name: 'writes', value: 240 },
         { name: 'shares', value: 96 },
         { name: 'saves', value: 48 },
       ].map((a, i) => (

@@ -11,7 +11,7 @@ import type { CSSProperties, ReactNode } from 'react';
  * Toasts in the Liquid Glass language. The kit ships the look, not the
  * runtime: the app keeps rendering sonner's <Toaster> and calling toast() from
  * its own copy of sonner - a second, bundled sonner would hold a second toast
- * queue and nothing would appear. Spread {@link phToasterProps} on the Toaster.
+ * queue and nothing would appear. Spread {@link liquidToasterProps} on the Toaster.
  *
  * A toast is a glass capsule with label-coloured text; the status lives in the
  * icon's colour and its word, never in a coloured slab (the old toasts were
@@ -60,4 +60,3 @@ export const liquidToasterProps = {
     classNames: liquidToastClassNames,
   },
 };
-export const phToasterProps = liquidToasterProps;

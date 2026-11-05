@@ -8,7 +8,7 @@ export type MeterProps = {
   maxValue: number;
   /**
    * Accepted for call-site compatibility and deliberately not painted. The
-   * spec is explicit that meters and buttons are never tinted with a platform
+   * spec is explicit that meters and buttons are never tinted with a category
    * colour: a meter reads as magnitude, and colour there would read as
    * identity — the same hue would then mean two different things on one screen.
    */
@@ -18,7 +18,7 @@ export type MeterProps = {
   index?: number;
   /**
    * The sum the row is a share of. When given, the share is shown beside the
-   * value, so "12" also reads as "a third of everything on this platform".
+   * value, so "12" also reads as "a third of the whole".
    */
   total?: number;
   /** 'lg' for a card whose whole job is the ranking: a heavier bar and type. */

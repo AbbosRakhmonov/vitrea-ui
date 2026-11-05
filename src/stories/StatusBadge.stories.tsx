@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'A status pill. `children` is required, not optional: status always travels with its word — a bare coloured dot says nothing to a red-green colourblind operator, and in a device fleet that distinction is the whole point.',
+          'A status pill. `children` is required, not optional: status always travels with its word — a bare coloured dot says nothing to a red-green colourblind reader, and between online and offline that distinction is the whole point.',
       },
     },
   },

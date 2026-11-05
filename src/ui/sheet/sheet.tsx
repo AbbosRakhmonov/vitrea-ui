@@ -157,8 +157,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="sheet-footer"
-      // One footer for every form: a hairline above the actions. The product
-      // had two - this one without a rule and an app copy with one.
+      // One footer for every form: a hairline above the actions.
       className={cn(
         'mt-auto flex flex-col gap-2 border-t border-[var(--separator)] p-4',
         className

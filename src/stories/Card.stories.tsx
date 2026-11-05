@@ -59,7 +59,7 @@ export const WithActions: Story = {
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <div className="size-2 rounded-full bg-blue-500" />
-            <span className="text-sm">New comment on your post</span>
+            <span className="text-sm">New reply to your message</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="size-2 rounded-full bg-green-500" />

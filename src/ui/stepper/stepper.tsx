@@ -17,7 +17,7 @@ interface StepperItemProps {
   title: string;
   description?: string;
   children: React.ReactNode;
-  /** Runs before leaving the step; returning false keeps the operator on it. */
+  /** Runs before leaving the step; returning false keeps the user on it. */
   validate?: () => boolean | Promise<boolean>;
 }
 

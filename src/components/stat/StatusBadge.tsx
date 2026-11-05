@@ -25,8 +25,8 @@ const TONE_CLASS: Record<StatusTone, string> = {
  *
  * `children` is required rather than optional because the spec is explicit:
  * status always travels with its word. Green and red differ only in hue, so a
- * bare coloured dot says nothing to a red-green colourblind operator — and in
- * a device fleet the difference between those two is the whole point.
+ * bare coloured dot says nothing to a red-green colourblind reader — and
+ * between online and offline that difference is the whole point.
  */
 export const StatusBadge = React.memo(function StatusBadge({
   tone = 'neutral',

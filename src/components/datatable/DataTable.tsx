@@ -167,7 +167,7 @@ export interface DataTableProps<
  * const payload = { items: [{ id: 1, title: 'Hello' }], page: 1, limit: 20, totalPages: 1 };
  *
  * <DataTable<Row>
- *   tableKey="posts"
+ *   tableKey="articles"
  *   columns={[{ key: 'title', name: 'Title' }]}
  *   rowKey="id"
  *   dataSource={payload}

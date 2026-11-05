@@ -7,7 +7,7 @@ export type PageHeaderProps = {
   title: React.ReactNode;
   /**
    * Shown on a sub-page: a back button before the title. A sub-page reached
-   * from a list (a persona's logs, the finished queues) otherwise has no way
+   * from a list (a record's history, an archive) otherwise has no way
    * back but the browser's.
    */
   onBack?: () => void;

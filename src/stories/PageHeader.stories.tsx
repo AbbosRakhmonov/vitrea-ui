@@ -35,7 +35,7 @@ export const Default: Story = {
 };
 
 export const WithBackButton: Story = {
-  args: { title: "Persona's logs", backLabel: 'Back' },
+  args: { title: 'Activity log', backLabel: 'Back' },
 };
 
 export const WithActions: Story = {

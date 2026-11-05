@@ -7,13 +7,13 @@
  *
  *   tokens.css           primitive token names (shadcn-style), pointed at Apple values
  *   liquid-tokens.css   the Liquid Glass spec's own vocabulary
- *   liquid-material.css .ph-canvas / .ph-glass / .ph-card and the controls
+ *   liquid-material.css .lq-canvas / .lq-glass / .lq-card and the controls
  *   liquid-bridge.css   carries the design onto markup that already exists
  *
  * tokens.css keeps the 24 inherited primitives looking right; the two Liquid Glass
  * files are the spec itself, and are what all new work uses.
  *
- * There is deliberately only ONE .ph-glass definition. An earlier material
+ * There is deliberately only ONE .lq-glass definition. An earlier material
  * pass defined the same class with a different blur and tint; having both
  * meant the unlayered one silently won and the panel rendered at 30px blur
  * instead of the spec's 24px.
