@@ -119,6 +119,9 @@
    * screenshots), so they are more opaque than chrome glass: at 40% red and
    * green rows bled through and placeholders went unreadable. */
   --glass-fill-menu: rgb(255 255 255 / 82%);
+  /* Sheets and dialogs: the heaviest surface. At the chrome fill (58%) the
+   * canvas light and the page behind showed through as blobs and ghosts. */
+  --glass-fill-modal: rgb(246 246 248 / 90%);
   --glass-glow: rgb(255 255 255 / 45%);
 
   /* The dim behind a modal surface, paired with .lq-scrim's light 2px blur.
@@ -236,6 +239,7 @@
   --glass-rim: rgb(255 255 255 / 30%);
   --glass-rim-soft: rgb(255 255 255 / 10%);
   --glass-fill-menu: rgb(36 36 38 / 82%);
+  --glass-fill-modal: rgb(30 30 32 / 88%);
   --glass-glow: rgb(255 255 255 / 8%);
   /* Heavier on a black ground, where 18% would barely register. */
   --scrim: rgb(0 0 0 / 45%);

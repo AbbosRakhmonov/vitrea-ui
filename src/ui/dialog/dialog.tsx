@@ -67,7 +67,7 @@ const DialogContent = React.forwardRef<
           // elevation, so `border` and `shadow-lg` are gone.
           // outline-none: with nothing focusable inside, Radix focuses the
           // panel itself, and the browser drew its black focus ring around it.
-          'lq-glass rounded-6 sm:rounded-7 fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6 duration-200 outline-none',
+          'lq-glass lq-glass--modal rounded-6 sm:rounded-7 fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6 duration-200 outline-none',
           className
         )}
         {...props}

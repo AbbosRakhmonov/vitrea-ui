@@ -120,6 +120,12 @@
    * and lit harder: a lower fill lets the content beneath show through, a
    * stronger saturate keeps it vivid, and an inner glow along the bottom edge
    * plus the top rim make the edge read as a curved, light-catching lens. */
+  /* Modal surfaces (sheet, dialog) take the modal fill. */
+  .lq-glass.lq-sheet,
+  .lq-glass.lq-glass--modal {
+    --_fill: var(--glass-fill-modal);
+  }
+
   .lq-glass--menu {
     --_fill: var(--glass-fill-menu);
     --_shadow: var(--shadow-menu);
