@@ -123,8 +123,9 @@
   .lq-glass--menu {
     --_fill: var(--glass-fill-menu);
     --_shadow: var(--shadow-menu);
-    -webkit-backdrop-filter: blur(30px) saturate(210%);
-    backdrop-filter: blur(30px) saturate(210%);
+    /* 210% saturation amplified whatever sat behind into colour blotches. */
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+    backdrop-filter: blur(30px) saturate(140%);
     box-shadow:
       inset 0 0 0 0.5px var(--glass-stroke),
       inset 0 1px 0 0 var(--glass-rim),
@@ -446,7 +447,7 @@
 
   .lq-segmented__item[aria-selected='true'],
   .lq-segmented__item[data-selected='true'] {
-    background-color: var(--bg-raised);
+    background-color: var(--segmented-thumb);
     color: var(--label);
     font-weight: 600;
     box-shadow: var(--shadow-thumb);
@@ -467,6 +468,10 @@
   }
 
   .lq-badge__dot {
+    /* An app base rule that colours every element would otherwise set the
+     * dot's own colour, and currentColor became the text colour, not the
+     * badge tone. */
+    color: inherit;
     width: 6px;
     height: 6px;
     border-radius: var(--radius-full);
@@ -489,6 +494,39 @@
   .lq-badge--accent {
     background-color: var(--accent-soft);
     color: var(--accent);
+  }
+
+  /* ============================================================ field === */
+
+  /* Every text field, select and search: a solid surface, a hairline rim,
+   * and on focus the accent rim with a soft halo (no offset double ring).
+   * In @layer components, so a utility on the same element still wins. */
+  .lq-field {
+    background-color: var(--field-bg);
+    border: 1px solid var(--field-stroke);
+    color: var(--label);
+    transition:
+      border-color var(--duration-fast) var(--ease-liquid),
+      box-shadow var(--duration-fast) var(--ease-liquid);
+  }
+  .lq-field:hover:not(:disabled):not(:focus-visible):not(:focus-within) {
+    border-color: var(--field-stroke-hover);
+  }
+  .lq-field:focus-visible,
+  .lq-field:focus-within {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .lq-field--error,
+  .lq-field[aria-invalid='true'] {
+    border-color: var(--red);
+  }
+  .lq-field--error:focus-visible,
+  .lq-field--error:focus-within,
+  .lq-field[aria-invalid='true']:focus-visible {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px var(--red-soft);
   }
 
   /* ============================================================ meter === */

@@ -41,6 +41,9 @@ export type DateRangePickerProps = Omit<
   inputProps?: InputProps;
   disabled?: boolean;
   defaultPresets?: PresetType[];
+  /** Popover alignment to the field. Use "start" for a field on the left of
+   *  the page, or the popover opens leftward over the sidebar. */
+  align?: 'start' | 'center' | 'end';
 };
 
 /**
@@ -68,6 +71,7 @@ export const DateRangePicker = ({
   disabled,
   error,
   inputProps,
+  align = 'end',
   ...props
 }: DateRangePickerProps) => {
   const { t } = useTranslation();
@@ -190,10 +194,10 @@ export const DateRangePicker = ({
           />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="flex w-auto p-0" align="end" side={'bottom'}>
+      <PopoverContent className="flex w-auto p-0" align={align} side={'bottom'}>
         <div
           className={
-            'border-border-alpha-light flex flex-col space-y-1 border-e p-2'
+            'flex flex-col space-y-1 border-e border-[var(--separator)] p-2'
           }
         >
           {presets.map((preset, index) => (
@@ -208,47 +212,59 @@ export const DateRangePicker = ({
             </Button>
           ))}
         </div>
-        <Calendar
-          {...props}
-          className={'border-border-alpha-light border-e'}
-          mode="single"
-          endMonth={date?.to}
-          selected={date?.from}
-          selectedToDate={date?.to}
-          selectedFromDate={date?.from}
-          timeZone={timezone}
-          disabled={
-            date?.to
-              ? {
-                  after: date.to,
-                }
-              : undefined
-          }
-          onSelect={(from) => {
-            setDate({ ...date, from: from as Date | undefined });
-          }}
-        />
-        <Calendar
-          {...props}
-          mode="single"
-          startMonth={date?.from}
-          selected={date?.to}
-          timeZone={timezone}
-          disabled={
-            date?.from
-              ? {
-                  before: date.from,
-                }
-              : undefined
-          }
-          selectedToDate={date?.to}
-          selectedFromDate={date?.from}
-          onSelect={(to) => {
-            if (date) {
-              handleRangeSelect({ ...date, to: to as Date | undefined });
+        {/* Two pickers, not two months: the left one sets the start and the
+            right one the end. Labelled, or the same month twice read as a
+            duplicated calendar. */}
+        <div className="flex flex-col border-e border-[var(--separator)]">
+          <span className="lq-footnote lq-label-2 px-4 pt-3">
+            {t('Start date')}
+          </span>
+          <Calendar
+            {...props}
+            mode="single"
+            endMonth={date?.to}
+            selected={date?.from}
+            selectedToDate={date?.to}
+            selectedFromDate={date?.from}
+            timeZone={timezone}
+            disabled={
+              date?.to
+                ? {
+                    after: date.to,
+                  }
+                : undefined
             }
-          }}
-        />
+            onSelect={(from) => {
+              setDate({ ...date, from: from as Date | undefined });
+            }}
+          />
+        </div>
+        <div className="flex flex-col">
+          <span className="lq-footnote lq-label-2 px-4 pt-3">
+            {t('End date')}
+          </span>
+          <Calendar
+            {...props}
+            mode="single"
+            startMonth={date?.from}
+            selected={date?.to}
+            timeZone={timezone}
+            disabled={
+              date?.from
+                ? {
+                    before: date.from,
+                  }
+                : undefined
+            }
+            selectedToDate={date?.to}
+            selectedFromDate={date?.from}
+            onSelect={(to) => {
+              if (date) {
+                handleRangeSelect({ ...date, to: to as Date | undefined });
+              }
+            }}
+          />
+        </div>
       </PopoverContent>
     </Popover>
   );

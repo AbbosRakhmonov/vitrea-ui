@@ -160,6 +160,10 @@ const TabsList = forwardRef<
               ref={ref}
               className={cn(
                 full && '!flex',
+                // A full-width segmented control shares its width between the
+                // tabs; without this they kept their own width, bunched in the
+                // middle of a stretched track.
+                full && type === 'segmented' && 'lq-segmented--fill',
                 'min-w-max',
                 tabsListVariants({
                   rounded: type === 'segmented' ? null : rounded,
@@ -203,6 +207,10 @@ const TabsList = forwardRef<
         ref={ref}
         className={cn(
           full && '!flex',
+          // A full-width segmented control shares its width between the
+          // tabs; without this they kept their own width, bunched in the
+          // middle of a stretched track.
+          full && type === 'segmented' && 'lq-segmented--fill',
           tabsListVariants({
             rounded: type === 'segmented' ? null : rounded,
             variant: type === 'segmented' ? null : variant,

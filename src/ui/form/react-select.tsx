@@ -1,15 +1,18 @@
+import { ChevronDown, X } from 'lucide-react';
 import {
-  type ComponentPropsWithoutRef,
-  type JSX,
-  type ReactNode,
   useCallback,
   useEffect,
   useMemo,
   useState,
+  type ComponentPropsWithoutRef,
+  type JSX,
+  type ReactNode,
 } from 'react';
 import Select, {
   components,
+  type ClearIndicatorProps,
   type ControlProps,
+  type DropdownIndicatorProps,
   type GroupBase,
   type InputProps,
   type MenuProps,
@@ -170,9 +173,9 @@ export const ReactSelect = ({
             className={twMerge(
               props.className,
               className,
-              '!border-border-alpha-strong focus-within:!ring-offset-bg focus-within:!ring-item-primary !min-h-10 !rounded-lg !bg-transparent !ring-0 !outline-none focus-within:!ring-2 focus-within:!ring-offset-2',
+              '!min-h-10 !rounded-[10px] !border !border-[var(--field-stroke)] !bg-[var(--field-bg)] !shadow-none !outline-none focus-within:!border-[var(--accent)] focus-within:!shadow-[0_0_0_3px_var(--accent-soft)] hover:!border-[var(--field-stroke-hover)]',
               error &&
-                'focus-within:!ring-item-destructive placeholder:!text-item-destructive !border-item-destructive !text-item-destructive'
+                'placeholder:!text-item-destructive !text-item-destructive !border-[var(--red)] focus-within:!border-[var(--red)] focus-within:!shadow-[0_0_0_3px_var(--red-soft)]'
             )}
           />
         </div>
@@ -233,7 +236,7 @@ export const ReactSelect = ({
           {...props}
           className={twMerge([
             props.className,
-            'text-body-sm-regular !rounded-md border-blue-200 !bg-blue-100 !py-0 !text-blue-700',
+            'text-body-sm-regular !rounded-full !border-0 !bg-[var(--accent-soft)] !py-0 !text-[var(--accent)]',
           ])}
         />
       ),
@@ -249,6 +252,31 @@ export const ReactSelect = ({
           className={twMerge([props.className, '!text-primary'])}
         />
       ),
+      // Thin Lucide glyphs in the secondary label colour; the defaults took
+      // the page's text colour and drew a heavy black cross and caret.
+      DropdownIndicator: (
+        props: DropdownIndicatorProps<
+          string | number | Option,
+          boolean,
+          GroupBase<string | number | Option>
+        >
+      ) => (
+        <components.DropdownIndicator {...props} className="!px-2 !py-0">
+          <ChevronDown className="size-4 text-[var(--label-2)]" />
+        </components.DropdownIndicator>
+      ),
+      ClearIndicator: (
+        props: ClearIndicatorProps<
+          string | number | Option,
+          boolean,
+          GroupBase<string | number | Option>
+        >
+      ) => (
+        <components.ClearIndicator {...props} className="!px-1 !py-0">
+          <X className="size-3.5 text-[var(--label-2)]" />
+        </components.ClearIndicator>
+      ),
+      IndicatorSeparator: () => null,
     };
   }, [className, containerProps, error]);
 

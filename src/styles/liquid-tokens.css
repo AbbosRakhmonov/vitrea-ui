@@ -17,6 +17,15 @@
   --bg-raised: #ffffff;
   --bg-inset: #f2f2f7;
   --bg-elevated: #ffffff;
+  /* The selected segment of a segmented control. Light: the raised white.
+   * Dark: lighter than its track, as on macOS — the raised surface
+   * (#1c1c1e) was darker than the fill-3 track and the thumb disappeared. */
+  --segmented-thumb: #ffffff;
+  /* Form fields (input, select, textarea, search): one solid surface with a
+   * hairline, so the glass behind a sheet never shows through a field. */
+  --field-bg: #ffffff;
+  --field-stroke: rgb(0 0 0 / 12%);
+  --field-stroke-hover: rgb(0 0 0 / 22%);
 
   /* Ambient light behind the canvas. Glass only reads when something sits
    * under it, so these two beams are what make the material visible at all. */
@@ -86,6 +95,14 @@
   --orange: #ff9500;
   --orange-text: #c93400;
   --orange-soft: rgb(255 149 0 / 12%);
+  /* Category tones for badges: systemPurple / Teal / Indigo, each with a
+   * text shade that holds 4.5:1 on its own soft fill. */
+  --purple-text: #8944ab;
+  --purple-soft: rgb(175 82 222 / 12%);
+  --teal-text: #00748f;
+  --teal-soft: rgb(48 176 199 / 14%);
+  --indigo-text: #3634a3;
+  --indigo-soft: rgb(88 86 214 / 12%);
 
   /* ------------------------------------------------------------- glass --- */
   --glass-fill: rgb(255 255 255 / 58%);
@@ -98,7 +115,10 @@
   /* Menus and popovers: thinner glass than a panel, so what lies beneath
    * shows through and the lit edges carry the shape. 58% white over a white
    * card read as plain paint. */
-  --glass-fill-menu: rgb(255 255 255 / 40%);
+  /* Menus and popovers hold text over arbitrary content (coloured badges,
+   * screenshots), so they are more opaque than chrome glass: at 40% red and
+   * green rows bled through and placeholders went unreadable. */
+  --glass-fill-menu: rgb(255 255 255 / 82%);
   --glass-glow: rgb(255 255 255 / 45%);
 
   /* The dim behind a modal surface, paired with .lq-scrim's light 2px blur.
@@ -158,6 +178,10 @@
   --bg-raised: #1c1c1e;
   --bg-inset: #2c2c2e;
   --bg-elevated: #3a3a3c;
+  --segmented-thumb: #636366;
+  --field-bg: #2c2c2e;
+  --field-stroke: rgb(255 255 255 / 12%);
+  --field-stroke-hover: rgb(255 255 255 / 22%);
 
   --ambient-1: rgb(10 132 255 / 24%);
   --ambient-2: rgb(100 210 255 / 14%);
@@ -199,13 +223,19 @@
   --orange: #ff9f0a;
   --orange-text: #ffb340;
   --orange-soft: rgb(255 159 10 / 20%);
+  --purple-text: #da8fff;
+  --purple-soft: rgb(191 90 242 / 22%);
+  --teal-text: #5de6ff;
+  --teal-soft: rgb(64 200 224 / 20%);
+  --indigo-text: #a7aaff;
+  --indigo-soft: rgb(94 92 230 / 24%);
 
   --glass-fill: rgb(44 44 46 / 55%);
   --glass-fill-clear: rgb(255 255 255 / 8%);
   --glass-stroke: rgb(255 255 255 / 12%);
   --glass-rim: rgb(255 255 255 / 30%);
   --glass-rim-soft: rgb(255 255 255 / 10%);
-  --glass-fill-menu: rgb(44 44 46 / 45%);
+  --glass-fill-menu: rgb(36 36 38 / 82%);
   --glass-glow: rgb(255 255 255 / 8%);
   /* Heavier on a black ground, where 18% would barely register. */
   --scrim: rgb(0 0 0 / 45%);

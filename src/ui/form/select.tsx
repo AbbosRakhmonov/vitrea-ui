@@ -59,10 +59,10 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'border-border-alpha-strong focus:ring-primary data-placeholder:[&>span]:text-body-sm-regular! flex h-10 w-full items-center justify-between rounded-lg border px-3 py-2 focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
-      'focus:ring-offset-bg data-placeholder:[&>span]:text-secondary/70 focus:ring-item-primary focus:ring-2 focus:ring-offset-2',
+      'lq-field data-placeholder:[&>span]:text-body-sm-regular! flex h-10 w-full items-center justify-between rounded-[10px] px-3 py-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
+      'data-placeholder:[&>span]:text-secondary',
       variant === 'failure' &&
-        'focus:ring-destructive border-destructive text-destructive! data-placeholder:[&>span]:text-destructive',
+        'lq-field--error text-destructive! data-placeholder:[&>span]:text-destructive',
       className
     )}
     {...props}

@@ -14,59 +14,53 @@ import { cn } from '../../lib';
  * @property {'default' | 'full'} rounded - The border-radius of the badge.
  */
 export const badgeVariants = cva(
-  'inline-flex flex-nowrap whitespace-nowrap justify-center items-center border px-2.5 text-body-2xs-medium dark:border [&>svg]:size-3.5 gap-1',
+  // One badge: a tinted capsule on the theme tokens, no border. The solid
+  // and "-outlined" variants of the old kit (Tailwind 100/500 fills, a 1px
+  // rim, white ink) turned into saturated blocks in dark; both names now
+  // resolve to the same soft tint, so every call site follows.
+  'inline-flex flex-nowrap whitespace-nowrap justify-center items-center gap-1 rounded-full border-0 px-2 text-[12px] leading-none font-medium [&>svg]:size-3.5 [&>svg]:text-current',
   {
     variants: {
       type: {
-        default: '!text-white before:hidden ',
-        status:
-          '!text-primary !border-border-alpha-subtle !bg-transparent before:hidden ',
+        default: 'before:hidden',
+        status: 'before:hidden',
+        // A leading dot in the tone colour.
         indicator:
-          '!text-white before:content-[""] before:inline-block before:size-2 before:rounded-xs',
-        icon: '!text-white [&>svg]:!text-white p-0.5 before:hidden ',
+          'before:inline-block before:size-1.5 before:rounded-full before:bg-current before:content-[""]',
+        icon: 'p-0.5 before:hidden',
       },
       variant: {
-        default: 'bg-neutral-950 dark:bg-neutral-0 before:bg-white',
-        gray: 'bg-gray-500 [&>svg]:text-gray-700 before:bg-gray-700',
-        blue: 'bg-blue-500 [&>svg]:text-blue-700 before:bg-blue-700',
-        cyan: 'bg-cyan-500 [&>svg]:text-cyan-700 before:bg-cyan-700',
-        // White on systemGreen is 2:1; the fill/ink pair holds 5:1+ in both themes.
-        green:
-          'bg-[var(--green-fill)] !text-[var(--on-green)] [&>svg]:!text-[var(--on-green)] before:bg-[var(--on-green)]',
-        lime: 'bg-lime-500 [&>svg]:text-lime-700 before:bg-lime-700',
-        // Orange carries dark ink, as Apple's does - white on it is 2.2:1.
-        orange:
-          'bg-orange-500 !text-[rgb(0_0_0/85%)] [&>svg]:!text-[rgb(0_0_0/85%)] before:bg-[rgb(0_0_0/85%)]',
-        red: 'bg-red-500 [&>svg]:text-red-700 before:bg-red-700',
-        purple: 'bg-purple-500 [&>svg]:text-purple-700 before:bg-purple-700',
-        indigo: 'bg-indigo-500 [&>svg]:text-indigo-700 before:bg-indigo-700',
-        'default-outlined':
-          '!bg-item-primary-secondary !text-primary border-border-alpha-subtle [&>svg]:!text-primary  before:bg-primary',
-        'gray-outlined':
-          '!bg-neutral-alpha-5 !text-secondary [&>svg]:!text-gray-700 before:bg-gray-700',
-        'blue-outlined':
-          '!bg-blue-100 !text-blue-700 border-blue-200 [&>svg]:!text-blue-700 before:bg-blue-700',
-        'cyan-outlined':
-          '!bg-cyan-100 !text-cyan-700 border-cyan-200 [&>svg]:!text-cyan-700 before:bg-cyan-700',
-        'green-outlined':
-          '!bg-green-100 !text-green-700 border-green-200 [&>svg]:!text-green-700 before:bg-green-700',
-        'lime-outlined':
-          '!bg-lime-100 !text-lime-700 border-lime-200 [&>svg]:!text-lime-700 before:bg-lime-700',
+        default: '!bg-[var(--fill-3)] !text-[var(--label)]',
+        'default-outlined': '!bg-[var(--fill-3)] !text-[var(--label)]',
+        gray: '!bg-[var(--fill-3)] !text-[var(--label-2)]',
+        'gray-outlined': '!bg-[var(--fill-3)] !text-[var(--label-2)]',
+        blue: '!bg-[var(--accent-soft)] !text-[var(--accent)]',
+        'blue-outlined': '!bg-[var(--accent-soft)] !text-[var(--accent)]',
+        cyan: '!bg-[var(--teal-soft)] !text-[var(--teal-text)]',
+        'cyan-outlined': '!bg-[var(--teal-soft)] !text-[var(--teal-text)]',
+        green: '!bg-[var(--green-soft)] !text-[var(--green-text)]',
+        'green-outlined': '!bg-[var(--green-soft)] !text-[var(--green-text)]',
+        lime: '!bg-[var(--green-soft)] !text-[var(--green-text)]',
+        'lime-outlined': '!bg-[var(--green-soft)] !text-[var(--green-text)]',
+        orange: '!bg-[var(--orange-soft)] !text-[var(--orange-text)]',
         'orange-outlined':
-          '!bg-orange-100 !text-orange-700 border-orange-200 [&>svg]:!text-orange-700 before:bg-orange-700',
-        'red-outlined':
-          '!bg-red-100 !text-red-700 border-red-200 [&>svg]:!text-red-700 before:bg-red-700',
+          '!bg-[var(--orange-soft)] !text-[var(--orange-text)]',
+        red: '!bg-[var(--red-soft)] !text-[var(--red-text)]',
+        'red-outlined': '!bg-[var(--red-soft)] !text-[var(--red-text)]',
+        purple: '!bg-[var(--purple-soft)] !text-[var(--purple-text)]',
         'purple-outlined':
-          '!bg-purple-100 !text-purple-700 border-purple-200 [&>svg]:!text-purple-700 before:bg-purple-700',
+          '!bg-[var(--purple-soft)] !text-[var(--purple-text)]',
+        indigo: '!bg-[var(--indigo-soft)] !text-[var(--indigo-text)]',
         'indigo-outlined':
-          '!bg-indigo-100 !text-indigo-700 border-indigo-200 [&>svg]:!text-indigo-700 before:bg-indigo-700',
+          '!bg-[var(--indigo-soft)] !text-[var(--indigo-text)]',
       },
       size: {
         sm: 'h-5 min-w-5',
         lg: 'h-6 min-w-6',
       },
       rounded: {
-        default: 'rounded-md',
+        // Kept for call-site compatibility; badges are capsules.
+        default: 'rounded-full',
         full: 'rounded-full',
       },
     },

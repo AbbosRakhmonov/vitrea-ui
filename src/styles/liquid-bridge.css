@@ -467,12 +467,17 @@ body:has(.lq-scrim) [data-radix-popper-content-wrapper] > .lq-glass.lq-glass {
   color: var(--label-2);
   background-color: transparent;
 }
+.lq-segmented--fill > [role='tab'][role='tab'] {
+  flex: 1 1 0;
+  min-width: 0;
+}
 .lq-segmented > [role='tab'][data-state='inactive']:hover {
   color: var(--label);
   background-color: transparent !important;
 }
-.lq-segmented > [role='tab'][data-state='active'][data-state='active'] {
-  background-color: var(--bg-raised);
+.lq-segmented > [role='tab'][data-state='active'][data-state='active'],
+.lq-segmented > [role='tab'][aria-selected='true'][aria-selected='true'] {
+  background-color: var(--segmented-thumb);
   color: var(--label);
   font-weight: 600;
   box-shadow: var(--shadow-thumb);

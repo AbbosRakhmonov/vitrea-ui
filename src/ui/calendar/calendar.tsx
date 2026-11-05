@@ -305,14 +305,18 @@ function Calendar({
           {...rest}
           className={twMerge(
             'size-7 cursor-pointer rounded-sm',
+            // Today and the days inside a range: a soft accent tint with the
+            // numeral in the label colour. Accent text on an accent tint fell
+            // under 3:1 in dark.
             (modifiers.today ||
               (selectedFromDate &&
                 selectedFromDate <= day.date &&
                 selectedToDate &&
                 selectedToDate >= day.date)) &&
-              'bg-item-tertiary text-item-primary',
+              'bg-[var(--accent-soft)] text-[var(--label)]',
+            // The chosen day: the solid accent with white ink in both themes.
             modifiers.selected &&
-              'bg-item-primary dark:text-primary text-white',
+              'bg-[var(--accent-fill)] font-semibold !text-white',
             // Days from the neighbouring months are context, not choices.
             modifiers.outside && 'text-[var(--label-3)]',
             modifiers.disabled && 'pointer-events-none opacity-50'

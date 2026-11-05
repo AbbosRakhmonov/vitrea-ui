@@ -8,7 +8,7 @@ describe('Badge Component', () => {
     render(<Badge>Default</Badge>);
     const badge = screen.getByText('Default');
     expect(badge).toBeInTheDocument();
-    expect(badge).toHaveClass('bg-neutral-950');
+    expect(badge).toHaveClass('!bg-[var(--fill-3)]', 'rounded-full');
   });
 
   it('applies custom className', () => {
@@ -47,13 +47,14 @@ describe('Badge Component', () => {
   it('renders with a color variant', () => {
     render(<Badge variant="blue">Blue</Badge>);
     const badge = screen.getByText('Blue');
-    expect(badge).toHaveClass('bg-blue-500');
+    expect(badge).toHaveClass('!bg-[var(--accent-soft)]');
   });
 
-  it('renders with an outlined variant', () => {
+  it('renders an outlined variant as the same tint as its tone', () => {
     render(<Badge variant="blue-outlined">Outlined</Badge>);
     const badge = screen.getByText('Outlined');
-    expect(badge).toHaveClass('!bg-blue-100');
+    expect(badge).toHaveClass('!bg-[var(--accent-soft)]');
+    expect(badge).not.toHaveClass('border');
   });
 
   it('supports rendering an icon inside', () => {

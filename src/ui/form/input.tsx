@@ -20,17 +20,16 @@ const inputVariants = cva(
     // ps/pe rather than px: tailwind-merge can only drop a side a caller
     // overrides if the base names that side. With px here, a caller asking for
     // pe-14 to clear a trailing icon kept both, and px won on source order.
-    'h-10 w-full rounded-lg ps-2.5 pe-2.5 py-2 flex border border-border-alpha-strong',
-    'placeholder:text-secondary placeholder:text-body-sm-regular disabled:cursor-not-allowed disabled:opacity-50',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-bg focus-visible:ring-offset-2 focus-visible:ring-ring'
+    'lq-field h-10 w-full rounded-[10px] ps-2.5 pe-2.5 py-2 flex',
+    'placeholder:text-secondary placeholder:text-body-sm-regular disabled:cursor-not-allowed disabled:opacity-50'
   ),
   {
     variants: {
       variant: {
-        default: 'focus-visible:ring-item-primary',
+        default: '',
         // The red border and the message under the field carry the error; the
         // value and its placeholder keep their colours so they stay readable.
-        failure: 'focus-visible:ring-item-destructive border-item-destructive',
+        failure: 'lq-field--error',
       },
     },
     defaultVariants: {
