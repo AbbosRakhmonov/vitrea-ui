@@ -159,6 +159,19 @@ export default defineConfig({
         },
       },
       {
+        // Component unit tests outside the kanban suite. Before this project
+        // existed, nothing picked them up and they never ran.
+        extends: true,
+        test: {
+          name: 'unit',
+          include: ['src/**/*.test.{ts,tsx}'],
+          exclude: ['src/components/kanban/**'],
+          environment: 'jsdom',
+          browser: { enabled: false },
+          setupFiles: ['./src/setupTests.ts'],
+        },
+      },
+      {
         extends: true,
         plugins: [
           // The plugin will run tests for the stories defined in your Storybook config

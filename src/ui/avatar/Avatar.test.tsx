@@ -112,7 +112,7 @@ describe('Avatar Component', () => {
         'items-center',
         'justify-center',
         'rounded-full',
-        'bg-muted'
+        'bg-[var(--fill-3)]'
       );
     });
 
