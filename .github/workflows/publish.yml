@@ -5,13 +5,15 @@ name: Publish to npm
 # version, so bump "version" in package.json before you tag / release
 # (tag name: vitrea-vX.Y.Z).
 #
+# Authentication is npm Trusted Publishing (OIDC): no token is stored. The
+# package requires 2FA and refuses tokens, so a token could not publish anyway.
+#
 # Requirements:
-#   - Repo secret NPM_TOKEN: an npm "Automation" token (or a granular token
-#     with read-write on all packages) of the account that publishes vitrea-ui.
-#     A token limited to the old @abbosraxmonov/liquid-ui package cannot
-#     create the new one.
-#   - For --provenance the repo must be public and package.json "repository.url"
-#     must match this repo. If the repo is private, drop --provenance below.
+#   - On npmjs.com, vitrea-ui -> Settings -> Trusted Publisher: GitHub Actions,
+#     repository AbbosRakhmonov/vitrea-ui, workflow publish.yml.
+#   - npm 11.5.1 or newer (installed below) and id-token: write.
+#   - A public repository whose URL matches package.json "repository.url";
+#     provenance is then generated automatically.
 on:
   release:
     types: [published]
@@ -23,8 +25,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  id-token: write # required for npm provenance
+  contents: read
+  id-token: write # OIDC token for Trusted Publishing and provenance
 
 jobs:
   publish:
@@ -40,6 +42,10 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org/'
 
+      # Trusted Publishing needs npm 11.5.1+; Node 22 ships npm 10.
+      - name: Update npm
+        run: npm install -g npm@^11.5.1
+
       - name: Install dependencies
         run: npm ci
 
@@ -50,6 +56,4 @@ jobs:
         run: npm run build
 
       - name: Publish to npm
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public

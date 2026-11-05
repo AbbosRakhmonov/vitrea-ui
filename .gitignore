@@ -30,3 +30,6 @@ test-results
 
 # scratch commit-message file; the pre-commit hook git-adds everything
 .msg
+
+# npm pack output
+*.tgz
