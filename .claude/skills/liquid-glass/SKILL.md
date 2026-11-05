@@ -25,8 +25,9 @@ layer and re-samples everything behind it on every paint. A DataTable with 50
 glass rows is 50 such layers and drops frames on the device-fleet screens this
 kit exists for. **Keep concurrent glass surfaces in the single digits.**
 
-When a design asks for glass on a repeating element, use `.lq-glass--static`
-(keeps the look, drops the sampling) or push the material to the container.
+When a design asks for glass on a repeating element, push the material to the
+container and give the repeating element a solid surface (`.lq-tile`,
+`.lq-card`).
 
 ## Token contract — do not rename
 
@@ -38,17 +39,19 @@ Re-pointing a value re-skins all 24 primitives with zero component edits.
 Renaming one breaks every primitive silently, because the utility class still
 exists and just resolves to nothing.
 
-- **Add** new names freely (`--glass-*`, `--lq-elevation-*` are ours).
+- **Add** new names freely (`--glass-*`, `--fill-*`, `--label-*` are ours).
 - **Re-point** inherited values in `src/styles/tokens.css`.
 - **Never rename** an inherited name.
 
 ## File layout and load order
 
 ```
-src/index.css          inherited token declarations + Tailwind  (load 1st)
-src/styles/index.css   @imports the two below                   (load 2nd)
-  ├─ tokens.css        Apple palette, radius, type, easings
-  └─ liquid-glass.css  the material, elevation, fallbacks
+src/index.css                 inherited token declarations + Tailwind (load 1st)
+src/styles/index.css          @imports the four below, in order        (load 2nd)
+  ├─ tokens.css               inherited primitive tokens, re-pointed
+  ├─ liquid-tokens.css        Apple palette, labels, fills, glass fills, radius
+  ├─ liquid-material.css      the material and surfaces (@layer components)
+  └─ liquid-bridge.css        third-party overrides (unlayered, doubled)
 ```
 
 Entries import `'./index.css'` then `'./styles/index.css'` — a pair that sorts
@@ -56,30 +59,45 @@ stably under `prettier-plugin-organize-imports`, which rewrites import order on
 every commit. **Never add a third top-level CSS import to a JS entry**; add it
 to `src/styles/index.css` instead, where CSS `@import` fixes the order.
 
+An app's own Tailwind build loads after the kit's in the same `utilities`
+layer, so a plain app utility beats a kit breakpoint variant on the same
+property (`flex-col` beats `sm:flex-row`). Kit components avoid breakpoint
+variants on layout they own.
+
 ## Material classes
 
 ```
 .lq-glass              base material (required with every variant)
-.lq-glass--thin        blur 20px  — menu, tooltip, segmented control
-.lq-glass--regular     blur 30px  — sidebar, toolbar, popover  (default)
-.lq-glass--thick       blur 50px  — modal, sheet, command palette
-.lq-glass--clear       blur 12px  — over imagery; pair with .lq-scrim
-.lq-glass--static      look without sampling, for scrolling containers
+.lq-glass--menu        menus, popovers, toasts        (--glass-fill-menu, 82%)
+.lq-glass--modal       dialogs; sheets via .lq-sheet  (--glass-fill-modal, ~90%)
+.lq-glass--content     a glass panel over the page
+.lq-glass--control     control-sized glass (segmented, capsules)
+.lq-glass--clear       over imagery; pair with .lq-scrim
 
-.lq-elevation-1..4     resting / floating / modal / window
-.lq-scrim              legibility layer for text on thin or clear glass
-.lq-pressable          gel press (scale 0.97, spring easing)
-.lq-lift               hover lift
-.lq-squircle           superellipse corners where supported
+.lq-card               a raised solid card (--bg-raised + card shadow)
+.lq-tile               an inset group inside a card, sheet or modal
+.lq-elevated           a floating solid element (non-glass menu)
+.lq-field              the one field surface (inputs, selects, pickers)
+.lq-scrim              the backdrop behind modals; legibility over imagery
+.lq-interactive        hover / press feedback
+.lq-label / -2 / -3    label inks; .lq-link the link ink
+.lq-headline, .lq-footnote, .lq-subheadline, .lq-caption-1 ...  type scale
 ```
+
+Composites built on these: `MyModal` (header, scrolling body, hairline
+footer), `Section` (heading over an `.lq-tile` group), `DetailList`,
+`SheetBody` / `SheetFooter`, `PageHeader`, `ActionBar`.
+
+Secondary labels on translucent glass get a vibrancy boost (darker, medium
+weight); opaque modals and sheets (`.lq-glass--modal`, `.lq-sheet`) keep the
+plain secondary label.
 
 `.lq-glass` owns its `::after` pseudo-element (the directional specular rim).
 Do not attach another `::after` to the same element.
 
 Its default `border-radius` is wrapped in `:where()` so it carries zero
 specificity — a `rounded-*` utility on the same element always wins. Keep any
-new defaults inside `:where()` for the same reason; this file loads after the
-Tailwind utilities.
+new defaults inside `:where()` for the same reason.
 
 ## Accessibility — non-negotiable
 
@@ -88,7 +106,7 @@ layer therefore ships four opaque escape hatches, all already implemented:
 
 - `prefers-reduced-transparency: reduce` — blur off, opaque fill
 - `prefers-contrast: more` — material traded for an explicit border
-- `prefers-reduced-motion: reduce` — press and lift disabled
+- `prefers-reduced-motion: reduce` — press and hover motion disabled
 - `@supports not (backdrop-filter)` — opaque fallback
 
 **When adding any glass surface, verify it in all four states.** If text gets

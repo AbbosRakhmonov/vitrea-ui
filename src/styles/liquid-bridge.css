@@ -315,23 +315,38 @@ body:has(.lq-scrim) [data-radix-popper-content-wrapper] > .lq-glass.lq-glass {
  * area was a bright slab. On tokens: an inset fill with a dashed separator,
  * file tiles on the elevated surface, text in the label colours. Unlayered
  * and doubled like the react-select rules, to beat the library's CSS. */
+/* FilePond draws its panel from three pieces (top, centre, bottom) that all
+ * carry .filepond--panel-root, so a border on that class drew a dashed line
+ * around every piece - the stray lines inside the drop area. The pieces take
+ * the fill; the one dashed outline is drawn on the full-size outer panel. */
 .filepond--panel-root.filepond--panel-root {
   background-color: var(--fill-4);
-  border: 1px dashed var(--separator);
+  border: 0;
   border-radius: var(--radius-md);
 }
-.filepond--panel.filepond--panel {
-  border-color: var(--separator);
+.filepond--panel.filepond--panel-root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px dashed var(--separator);
+  border-radius: var(--radius-md);
+  pointer-events: none;
 }
 .filepond--root:hover .filepond--panel-root.filepond--panel-root {
   background-color: var(--fill-3);
 }
+.filepond--root.filepond--root {
+  font-family: inherit;
+}
 .filepond--drop-label.filepond--drop-label {
   color: var(--label-2);
+  font-size: 13px;
+  font-weight: 400;
 }
 .filepond--label-action.filepond--label-action {
   color: var(--link);
-  text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
+  font-weight: 500;
+  text-decoration: none;
 }
 .filepond--item.filepond--item {
   background-color: var(--bg-elevated);
