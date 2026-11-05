@@ -1,5 +1,5 @@
-import { RiCheckLine, RiDeleteBinLine, RiEditLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { CheckIcon, SquarePenIcon, Trash2Icon } from 'lucide-react';
 import { ActionBar } from '../components/layout';
 import { Button } from '../ui/button';
 
@@ -30,15 +30,15 @@ export const Default: Story = {
   render: (args) => (
     <ActionBar {...args}>
       <Button variant="tinted">
-        <RiDeleteBinLine />
+        <Trash2Icon />
         Delete
       </Button>
       <Button variant="tinted">
-        <RiEditLine />
+        <SquarePenIcon />
         Edit
       </Button>
       <Button>
-        <RiCheckLine />
+        <CheckIcon />
         Approve
       </Button>
     </ActionBar>
@@ -49,7 +49,7 @@ export const SingleAction: Story = {
   render: () => (
     <ActionBar>
       <Button>
-        <RiCheckLine />
+        <CheckIcon />
         Save changes
       </Button>
     </ActionBar>

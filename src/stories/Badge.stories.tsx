@@ -1,5 +1,5 @@
-import { RiAlertLine, RiCheckLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { CheckIcon, TriangleAlertIcon } from 'lucide-react';
 import { Badge } from '../ui/badge';
 
 const meta = {
@@ -80,7 +80,7 @@ export const IndicatorBadge: Story = {
 
 export const IconBadge: Story = {
   args: {
-    children: <RiCheckLine />,
+    children: <CheckIcon />,
     type: 'icon',
     variant: 'green',
   },
@@ -147,7 +147,7 @@ export const AllTypes: Story = {
         Indicator
       </Badge>
       <Badge type="icon" variant="red">
-        <RiAlertLine />
+        <TriangleAlertIcon />
       </Badge>
     </div>
   ),

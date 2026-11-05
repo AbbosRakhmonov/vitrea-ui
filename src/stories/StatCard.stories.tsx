@@ -1,9 +1,9 @@
-import {
-  RiCalendarCheckLine,
-  RiMoneyDollarCircleLine,
-  RiUserLine,
-} from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import {
+  CalendarCheckIcon,
+  CircleDollarSignIcon,
+  UserIcon,
+} from 'lucide-react';
 import { fn } from 'storybook/test';
 import { StatCard } from '../components/stat';
 
@@ -44,7 +44,7 @@ export const Glass: Story = {
     ),
   ],
   args: {
-    icon: <RiUserLine />,
+    icon: <UserIcon />,
     title: 'Clients',
     value: 1240,
     material: 'glass',
@@ -61,7 +61,7 @@ export const Solid: Story = {
     ),
   ],
   args: {
-    icon: <RiMoneyDollarCircleLine />,
+    icon: <CircleDollarSignIcon />,
     title: 'Revenue',
     value: '12.4M',
     material: 'solid',
@@ -77,7 +77,7 @@ export const Interactive: Story = {
     ),
   ],
   args: {
-    icon: <RiCalendarCheckLine />,
+    icon: <CalendarCheckIcon />,
     title: 'Bookings today',
     value: 48,
     material: 'glass',

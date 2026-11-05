@@ -1,10 +1,10 @@
-import {
-  RiAddLine,
-  RiArrowLeftLine,
-  RiArrowRightLine,
-  RiSubtractLine,
-} from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  MinusIcon,
+  PlusIcon,
+} from 'lucide-react';
 import {
   Button,
   ButtonGroup,
@@ -55,10 +55,10 @@ export const WithIcons: Story = {
   render: () => (
     <ButtonGroup>
       <Button variant="secondary" size="icon">
-        <RiArrowLeftLine />
+        <ArrowLeftIcon />
       </Button>
       <Button variant="secondary" size="icon">
-        <RiArrowRightLine />
+        <ArrowRightIcon />
       </Button>
     </ButtonGroup>
   ),
@@ -81,11 +81,11 @@ export const WithText: Story = {
     <ButtonGroup>
       <ButtonGroupText>Quantity:</ButtonGroupText>
       <Button variant="secondary" size="icon">
-        <RiSubtractLine />
+        <MinusIcon />
       </Button>
       <ButtonGroupText className="w-12 justify-center">5</ButtonGroupText>
       <Button variant="secondary" size="icon">
-        <RiAddLine />
+        <PlusIcon />
       </Button>
     </ButtonGroup>
   ),
@@ -95,13 +95,13 @@ export const Pagination: Story = {
   render: () => (
     <ButtonGroup>
       <Button variant="secondary" size="icon">
-        <RiArrowLeftLine />
+        <ArrowLeftIcon />
       </Button>
       <Button variant="secondary">1</Button>
       <Button variant="default">2</Button>
       <Button variant="secondary">3</Button>
       <Button variant="secondary" size="icon">
-        <RiArrowRightLine />
+        <ArrowRightIcon />
       </Button>
     </ButtonGroup>
   ),

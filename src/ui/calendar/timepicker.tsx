@@ -1,4 +1,4 @@
-import { RiTimeLine } from '@remixicon/react';
+import { ClockIcon } from 'lucide-react';
 import {
   forwardRef,
   type HTMLAttributes,
@@ -134,7 +134,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(
             error && '[&>svg]:text-item-destructive'
           )}
         >
-          {icon ? icon : <RiTimeLine />}
+          {icon ? icon : <ClockIcon />}
         </span>
 
         <Select

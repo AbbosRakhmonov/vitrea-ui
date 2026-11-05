@@ -1,7 +1,7 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import * as React from 'react';
 
-import { RiCheckLine, RiSubtractLine } from '@remixicon/react';
+import { CheckIcon, MinusIcon } from 'lucide-react';
 import { cn } from '../../lib';
 
 /**
@@ -37,9 +37,9 @@ const Checkbox = React.forwardRef<
   >
     <CheckboxPrimitive.Indicator className="flex size-full items-center justify-center text-[var(--on-accent)]">
       {props.checked === 'indeterminate' ? (
-        <RiSubtractLine className="size-3.5" />
+        <MinusIcon className="size-3.5" />
       ) : (
-        <RiCheckLine className="size-3.5" />
+        <CheckIcon className="size-3.5" />
       )}
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>

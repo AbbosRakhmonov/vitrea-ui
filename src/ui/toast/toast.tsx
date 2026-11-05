@@ -1,10 +1,10 @@
 import {
-  RiAlarmWarningFill,
-  RiCheckboxCircleFill,
-  RiCloseLine,
-  RiInformationFill,
-  RiSpam2Fill,
-} from '@remixicon/react';
+  CircleCheckIcon,
+  InfoIcon,
+  OctagonAlertIcon,
+  SirenIcon,
+  XIcon,
+} from 'lucide-react';
 import type { CSSProperties, ReactNode } from 'react';
 
 /**
@@ -37,11 +37,11 @@ export const liquidToastClassNames: Record<string, string> = {
 export const phToastClassNames = liquidToastClassNames;
 
 export const liquidToastIcons: Record<string, ReactNode> = {
-  success: <RiCheckboxCircleFill />,
-  error: <RiSpam2Fill />,
-  warning: <RiAlarmWarningFill />,
-  info: <RiInformationFill />,
-  close: <RiCloseLine />,
+  success: <CircleCheckIcon />,
+  error: <OctagonAlertIcon />,
+  warning: <SirenIcon />,
+  info: <InfoIcon />,
+  close: <XIcon />,
 };
 export const phToastIcons = liquidToastIcons;
 

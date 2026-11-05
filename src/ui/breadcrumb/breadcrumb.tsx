@@ -1,5 +1,4 @@
-import { RiArrowRightSLine } from '@remixicon/react';
-import { MoreHorizontal } from 'lucide-react';
+import { ChevronRightIcon, MoreHorizontal } from 'lucide-react';
 import type { ReactNode } from 'react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -102,7 +101,7 @@ const BreadcrumbSeparator = ({
     className={cn('text-secondary [&>svg]:size-4', className)}
     {...props}
   >
-    {children ?? <RiArrowRightSLine size={20} />}
+    {children ?? <ChevronRightIcon size={20} />}
   </li>
 );
 BreadcrumbSeparator.displayName = 'BreadcrumbSeparator';

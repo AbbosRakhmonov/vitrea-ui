@@ -1,4 +1,4 @@
-import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import {
   type ButtonHTMLAttributes,
   useCallback,
@@ -174,7 +174,7 @@ const MonthCaption = ({ calendarMonth, setMonth }: MonthCaptionProps) => {
               className="size-7 p-0"
               onClick={() => setYearPosition(yearPosition - 1)}
             >
-              <RiArrowLeftSLine />
+              <ChevronLeftIcon />
             </Button>
             <span className="text-[13px] font-semibold">{t('Year')}</span>
             <Button
@@ -184,7 +184,7 @@ const MonthCaption = ({ calendarMonth, setMonth }: MonthCaptionProps) => {
               className="size-7 p-0"
               onClick={() => setYearPosition(yearPosition + 1)}
             >
-              <RiArrowRightSLine />
+              <ChevronRightIcon />
             </Button>
           </div>
           <div className={'grid w-full grid-cols-4 gap-2'}>
@@ -356,7 +356,7 @@ function Calendar({
         {...props}
         onClick={handlePrevMonth}
       >
-        <RiArrowLeftSLine />
+        <ChevronLeftIcon />
       </Button>
     ),
     [handlePrevMonth]
@@ -370,7 +370,7 @@ function Calendar({
         {...props}
         onClick={handleNextMonth}
       >
-        <RiArrowRightSLine />
+        <ChevronRightIcon />
       </Button>
     ),
     [handleNextMonth]

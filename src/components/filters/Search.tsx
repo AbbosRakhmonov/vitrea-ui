@@ -1,5 +1,5 @@
-import { RiSearchLine } from '@remixicon/react';
 import get from 'lodash.get';
+import { SearchIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard } from '../../enums';
@@ -71,7 +71,7 @@ export const Search = ({
         }
         onClick={() => onSearchChange(search)}
       >
-        <RiSearchLine />
+        <SearchIcon />
       </Button>
     </div>
   );

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { RiEyeCloseLine, RiEyeLine } from '@remixicon/react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import { cn } from '../../lib';
 import { Button } from '../button';
 
@@ -88,7 +88,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               setShowPassword(!showPassword);
             }}
           >
-            {showPassword ? <RiEyeLine /> : <RiEyeCloseLine />}
+            {showPassword ? <EyeIcon /> : <EyeOffIcon />}
           </Button>
         )}
       </div>

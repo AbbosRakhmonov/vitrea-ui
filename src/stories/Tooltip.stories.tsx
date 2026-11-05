@@ -1,5 +1,5 @@
-import { RiInformationLine, RiQuestionLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { CircleHelpIcon, InfoIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
   Tooltip,
@@ -45,7 +45,7 @@ export const OnIcon: Story = {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button variant="ghost" size="icon">
-          <RiInformationLine className="size-4" />
+          <InfoIcon className="size-4" />
         </Button>
       </TooltipTrigger>
       <TooltipContent>
@@ -112,7 +112,7 @@ export const LongContent: Story = {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button variant="ghost" size="icon">
-          <RiQuestionLine className="size-4" />
+          <CircleHelpIcon className="size-4" />
         </Button>
       </TooltipTrigger>
       <TooltipContent className="max-w-[200px]">
@@ -151,7 +151,7 @@ export const FormHelp: Story = {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="ghost" size="icon" className="size-5">
-            <RiQuestionLine className="size-3" />
+            <CircleHelpIcon className="size-3" />
           </Button>
         </TooltipTrigger>
         <TooltipContent>

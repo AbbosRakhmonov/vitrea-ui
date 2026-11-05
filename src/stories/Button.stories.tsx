@@ -1,5 +1,5 @@
-import { RiAddLine, RiSearchLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { PlusIcon, SearchIcon } from 'lucide-react';
 import { fn } from 'storybook/test';
 import { Button } from '../ui/button';
 
@@ -94,7 +94,7 @@ export const ExtraSmall: Story = {
 
 export const IconButton: Story = {
   args: {
-    children: <RiSearchLine />,
+    children: <SearchIcon />,
     size: 'icon',
     'aria-label': 'Search',
   },
@@ -104,7 +104,7 @@ export const WithIcon: Story = {
   args: {
     children: (
       <>
-        <RiAddLine />
+        <PlusIcon />
         Add Item
       </>
     ),
@@ -138,7 +138,7 @@ export const AllSizes: Story = {
       <Button size="sm">Small</Button>
       <Button size="xs">Extra Small</Button>
       <Button size="icon">
-        <RiSearchLine />
+        <SearchIcon />
       </Button>
     </div>
   ),

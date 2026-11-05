@@ -1,5 +1,5 @@
-import { RiLock2Line, RiSearchLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { LockIcon, SearchIcon } from 'lucide-react';
 import { StatusScreen } from '../components/layout';
 import { Button } from '../ui/button';
 
@@ -38,7 +38,7 @@ export const NotFound: Story = {
   args: {
     code: '404',
     tone: 'accent',
-    icon: <RiSearchLine />,
+    icon: <SearchIcon />,
     title: 'Page not found',
     description: 'The page you were looking for has moved or never existed.',
   },
@@ -51,7 +51,7 @@ export const Forbidden: Story = {
   args: {
     code: '403',
     tone: 'red',
-    icon: <RiLock2Line />,
+    icon: <LockIcon />,
     title: 'Access denied',
     description: 'You do not have permission to view this shop.',
   },

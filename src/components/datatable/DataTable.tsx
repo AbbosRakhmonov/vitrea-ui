@@ -1,7 +1,6 @@
-import { RiArrowDownSLine, RiLayoutColumnLine } from '@remixicon/react';
 import get from 'lodash.get';
 import isEmpty from 'lodash.isempty';
-import { RefreshCw } from 'lucide-react';
+import { ChevronDownIcon, Columns3Icon, RefreshCw } from 'lucide-react';
 import { type ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useColumns } from '../../hooks';
@@ -324,11 +323,11 @@ export const DataTable = <
                     >
                       {columnsVisibilityProps?.title || (
                         <>
-                          <RiLayoutColumnLine />{' '}
+                          <Columns3Icon />{' '}
                           <span className={'hidden md:inline!'}>
                             {t('Customize columns')}
                           </span>
-                          <RiArrowDownSLine />
+                          <ChevronDownIcon />
                         </>
                       )}
                     </Button>

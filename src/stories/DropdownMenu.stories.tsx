@@ -1,5 +1,5 @@
-import { RiLogoutBoxLine, RiSettings3Line, RiUserLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { LogOutIcon, SettingsIcon, UserIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
   DropdownMenu,
@@ -39,18 +39,18 @@ export const Default: Story = {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <RiUserLine />
+          <UserIcon />
           Profile
           <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <RiSettings3Line />
+          <SettingsIcon />
           Settings
           <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <RiLogoutBoxLine />
+          <LogOutIcon />
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

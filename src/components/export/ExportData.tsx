@@ -1,4 +1,4 @@
-import { RiArrowDownSLine, RiFileChartLine } from '@remixicon/react';
+import { ChevronDownIcon, FileChartColumnIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
@@ -81,10 +81,10 @@ export const ExportData = ({
           {loading ? (
             <Spin className={'text-item-primary'} />
           ) : (
-            <RiFileChartLine />
+            <FileChartColumnIcon />
           )}{' '}
           <span className={'hidden md:inline!'}>{title || t('Export')}</span>
-          <RiArrowDownSLine />
+          <ChevronDownIcon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" {...contentProps}>

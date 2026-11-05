@@ -1,9 +1,5 @@
-import {
-  RiAlertLine,
-  RiErrorWarningLine,
-  RiInformationLine,
-} from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { CircleAlertIcon, InfoIcon, TriangleAlertIcon } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
 const meta = {
@@ -28,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: (args) => (
     <Alert {...args}>
-      <RiInformationLine className="size-4" />
+      <InfoIcon className="size-4" />
       <AlertTitle>Information</AlertTitle>
       <AlertDescription>
         This is a default alert message with some important information.
@@ -43,7 +39,7 @@ export const Default: Story = {
 export const Warning: Story = {
   render: (args) => (
     <Alert {...args}>
-      <RiAlertLine className="size-4" />
+      <TriangleAlertIcon className="size-4" />
       <AlertTitle>Warning</AlertTitle>
       <AlertDescription>
         This action may have unintended consequences. Please proceed with
@@ -59,7 +55,7 @@ export const Warning: Story = {
 export const Destructive: Story = {
   render: (args) => (
     <Alert {...args}>
-      <RiErrorWarningLine className="size-4" />
+      <CircleAlertIcon className="size-4" />
       <AlertTitle>Error</AlertTitle>
       <AlertDescription>
         Something went wrong. Please try again or contact support.
@@ -84,17 +80,17 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex w-100 flex-col gap-4">
       <Alert variant="default">
-        <RiInformationLine className="size-4" />
+        <InfoIcon className="size-4" />
         <AlertTitle>Default Alert</AlertTitle>
         <AlertDescription>This is a default alert.</AlertDescription>
       </Alert>
       <Alert variant="warning">
-        <RiAlertLine className="size-4" />
+        <TriangleAlertIcon className="size-4" />
         <AlertTitle>Warning Alert</AlertTitle>
         <AlertDescription>This is a warning alert.</AlertDescription>
       </Alert>
       <Alert variant="destructive">
-        <RiErrorWarningLine className="size-4" />
+        <CircleAlertIcon className="size-4" />
         <AlertTitle>Destructive Alert</AlertTitle>
         <AlertDescription>This is a destructive alert.</AlertDescription>
       </Alert>

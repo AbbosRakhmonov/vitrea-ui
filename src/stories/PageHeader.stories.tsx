@@ -1,5 +1,5 @@
-import { RiAddLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { PlusIcon } from 'lucide-react';
 import { fn } from 'storybook/test';
 import { PageHeader } from '../components/layout';
 import { Button } from '../ui/button';
@@ -44,7 +44,7 @@ export const WithActions: Story = {
       {...args}
       actions={
         <Button>
-          <RiAddLine />
+          <PlusIcon />
           New shop
         </Button>
       }

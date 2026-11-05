@@ -1,4 +1,4 @@
-import { RiArrowDownSLine, RiPlayList2Line } from '@remixicon/react';
+import { ChevronDownIcon, ListVideoIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
@@ -56,9 +56,9 @@ export const Actions = ({
           size={'sm'}
           className={'ml-auto rounded-lg px-3'}
         >
-          <RiPlayList2Line />{' '}
+          <ListVideoIcon />{' '}
           <span className={'hidden md:inline!'}>{title || t('Actions')}</span>
-          <RiArrowDownSLine />
+          <ChevronDownIcon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" {...contentProps}>

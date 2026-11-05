@@ -1,5 +1,5 @@
-import { RiHomeLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { HouseIcon } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -51,7 +51,7 @@ export const WithIcon: Story = {
       <BreadcrumbList>
         <BreadcrumbItem>
           <a href="#" className="flex items-center gap-1 hover:underline">
-            <RiHomeLine className="size-4" />
+            <HouseIcon className="size-4" />
             Home
           </a>
         </BreadcrumbItem>

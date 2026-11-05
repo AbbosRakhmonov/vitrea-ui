@@ -1,5 +1,5 @@
-import { RiArrowDownSLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { ChevronDownIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '../ui/button';
 import {
@@ -32,7 +32,7 @@ export const Default: Story = {
           </h4>
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm">
-              <RiArrowDownSLine
+              <ChevronDownIcon
                 className={`size-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
               />
               <span className="sr-only">Toggle</span>
@@ -93,7 +93,7 @@ export const FAQ: Story = {
           <CollapsibleTrigger asChild>
             <div className="hover:bg-muted flex cursor-pointer items-center justify-between rounded-lg border p-4">
               <span className="font-medium">What is a collapsible?</span>
-              <RiArrowDownSLine
+              <ChevronDownIcon
                 className={`size-4 transition-transform ${open1 ? 'rotate-180' : ''}`}
               />
             </div>
@@ -111,7 +111,7 @@ export const FAQ: Story = {
           <CollapsibleTrigger asChild>
             <div className="hover:bg-muted flex cursor-pointer items-center justify-between rounded-lg border p-4">
               <span className="font-medium">How does it work?</span>
-              <RiArrowDownSLine
+              <ChevronDownIcon
                 className={`size-4 transition-transform ${open2 ? 'rotate-180' : ''}`}
               />
             </div>
@@ -128,7 +128,7 @@ export const FAQ: Story = {
           <CollapsibleTrigger asChild>
             <div className="hover:bg-muted flex cursor-pointer items-center justify-between rounded-lg border p-4">
               <span className="font-medium">Is it accessible?</span>
-              <RiArrowDownSLine
+              <ChevronDownIcon
                 className={`size-4 transition-transform ${open3 ? 'rotate-180' : ''}`}
               />
             </div>
@@ -158,7 +158,7 @@ export const NestedContent: Story = {
         <CollapsibleTrigger asChild>
           <div className="hover:bg-muted flex cursor-pointer items-center justify-between p-4">
             <span className="font-medium">Advanced Settings</span>
-            <RiArrowDownSLine
+            <ChevronDownIcon
               className={`size-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
             />
           </div>

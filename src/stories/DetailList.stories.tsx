@@ -1,5 +1,5 @@
-import { RiGlobalLine, RiMapPinLine, RiUserLine } from '@remixicon/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { GlobeIcon, MapPinIcon, UserIcon } from 'lucide-react';
 import { DetailList } from '../components/layout';
 
 const meta = {
@@ -34,9 +34,9 @@ export const Default: Story = {
   args: {
     title: 'Персона',
     items: [
-      { label: 'Full name', value: 'Abbos Rakhmonov', icon: <RiUserLine /> },
-      { label: 'Country', value: 'Uzbekistan', icon: <RiGlobalLine /> },
-      { label: 'City', value: 'Tashkent', icon: <RiMapPinLine /> },
+      { label: 'Full name', value: 'Abbos Rakhmonov', icon: <UserIcon /> },
+      { label: 'Country', value: 'Uzbekistan', icon: <GlobeIcon /> },
+      { label: 'City', value: 'Tashkent', icon: <MapPinIcon /> },
       { label: 'Token', value: 'ph_8f21c0a9', mono: true },
       { label: 'Latitude', value: undefined },
     ],
