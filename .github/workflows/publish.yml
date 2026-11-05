@@ -1,12 +1,15 @@
 name: Publish to npm
 
-# Publishes @abbosraxmonov/liquid-ui to npm when a GitHub Release is published
+# Publishes vitrea-ui to npm when a GitHub Release is published
 # (or manually from the Actions tab). npm refuses to republish an existing
-# version, so bump "version" in package.json before you tag / release.
+# version, so bump "version" in package.json before you tag / release
+# (tag name: vitrea-vX.Y.Z).
 #
 # Requirements:
-#   - Repo secret NPM_TOKEN: an npm "Automation" access token for the account
-#     that owns the @abbosraxmonov scope.
+#   - Repo secret NPM_TOKEN: an npm "Automation" token (or a granular token
+#     with read-write on all packages) of the account that publishes vitrea-ui.
+#     A token limited to the old @abbosraxmonov/liquid-ui package cannot
+#     create the new one.
 #   - For --provenance the repo must be public and package.json "repository.url"
 #     must match this repo. If the repo is private, drop --provenance below.
 on:
@@ -14,7 +17,9 @@ on:
     types: [published]
   push:
     tags:
-      - 'v*'
+      # vitrea-ui releases are tagged vitrea-vX.Y.Z; the plain vX.Y.Z tags
+      # belong to the previous @abbosraxmonov/liquid-ui package.
+      - 'vitrea-v*'
   workflow_dispatch:
 
 permissions:
@@ -46,16 +51,5 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      # After the publish, so a failed release never leaves the package
-      # without a version. npm only unpublishes a version when its rules allow
-      # (age, downloads, dependents); otherwise the version is deprecated.
-      - name: Remove older npm versions (unpublish or deprecate)
-        run: |
-          for v in 0.0.0-stage 0.1.1 0.2.0 1.0.0 1.0.1; do
-            npm unpublish "@abbosraxmonov/liquid-ui@$v" --force               || npm deprecate "@abbosraxmonov/liquid-ui@$v" "Superseded by 2.x - install the latest version."               || true
-          done
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

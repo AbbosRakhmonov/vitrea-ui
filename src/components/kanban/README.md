@@ -8,8 +8,8 @@ import {
   dropColumnHandler,
   type BoardData,
   type BoardProps,
-} from '@abbosraxmonov/liquid-ui/components/kanban';
-import '@abbosraxmonov/liquid-ui/styles.css';
+} from 'vitrea-ui/components/kanban';
+import 'vitrea-ui/styles.css';
 
 type Task = { assignee: string };
 const configMap: BoardProps<Task>['configMap'] = {

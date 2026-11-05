@@ -1,10 +1,10 @@
 <div align="center">
 
-# @abbosraxmonov/liquid-ui
+# vitrea-ui
 
 **Apple Liquid Glass Design Language for React 19, Radix UI & Tailwind CSS v4**
 
-[![npm version](https://img.shields.io/npm/v/@abbosraxmonov/liquid-ui.svg?color=blue&style=flat-square)](https://www.npmjs.com/package/@abbosraxmonov/liquid-ui)
+[![npm version](https://img.shields.io/npm/v/vitrea-ui.svg?color=blue&style=flat-square)](https://www.npmjs.com/package/vitrea-ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -26,7 +26,7 @@
 
 ## 🌟 Overview
 
-`@abbosraxmonov/liquid-ui` is a modern, production-grade UI component library built on the **Apple macOS Tahoe Liquid Glass** design foundation. It provides an uncompromised blend of aesthetic translucency, accessibility, and high runtime performance for complex operator dashboards and consumer applications alike.
+`vitrea-ui` is a modern, production-grade UI component library built on the **Apple macOS Tahoe Liquid Glass** design foundation. It provides an uncompromised blend of aesthetic translucency, accessibility, and high runtime performance for complex operator dashboards and consumer applications alike.
 
 ### Key Highlights
 
@@ -34,7 +34,7 @@
 - 🌓 **Dual Adaptive Themes:** Hand-calibrated **Light** and **Dark (Apple Graphite)** modes driven entirely by semantic design tokens.
 - ♿ **Accessible by Design:** Built on top of Radix UI primitives with full WAI-ARIA compliance, keyboard navigation, and visible focus rings.
 - 🧩 **26+ Primitives & 16+ Composites:** Complete set of atoms (Buttons, Dialogs, Cards) and advanced composites (Virtual Kanban Board, DataTable, DatePickers).
-- 🌲 **Tree-Shakeable Subpaths:** Import granularly (`@abbosraxmonov/liquid-ui/button`, `@abbosraxmonov/liquid-ui/card`) to optimize your production bundle.
+- 🌲 **Tree-Shakeable Subpaths:** Import granularly (`vitrea-ui/button`, `vitrea-ui/card`) to optimize your production bundle.
 
 ---
 
@@ -44,13 +44,13 @@
 
 ```bash
 # npm
-npm install @abbosraxmonov/liquid-ui
+npm install vitrea-ui
 
 # yarn
-yarn add @abbosraxmonov/liquid-ui
+yarn add vitrea-ui
 
 # pnpm
-pnpm add @abbosraxmonov/liquid-ui
+pnpm add vitrea-ui
 ```
 
 > **Peer Dependencies:** `react >= 19.1`, `react-dom >= 19.1`, `react-hook-form ^7.50`, `i18next >= 24`, `react-i18next >= 15`.
@@ -61,18 +61,18 @@ Import the stylesheets in your root entry file (`main.tsx` or `index.tsx`). **Or
 
 ```tsx
 // main.tsx
-import '@abbosraxmonov/liquid-ui/styles.css'; // 1. Base tokens, utilities & Liquid Glass material
+import 'vitrea-ui/styles.css'; // 1. Base tokens, utilities & Liquid Glass material
 import './index.css'; // 2. Your application's custom CSS
-import '@abbosraxmonov/liquid-ui/theme.css'; // 3. (Last): Theme overrides & token enforcement
+import 'vitrea-ui/theme.css'; // 3. (Last): Theme overrides & token enforcement
 ```
 
 ### 3. Usage Example
 
 ```tsx
 import React from 'react';
-import { Button } from '@abbosraxmonov/liquid-ui/button';
-import { Card } from '@abbosraxmonov/liquid-ui/card';
-import { PageHeader } from '@abbosraxmonov/liquid-ui/components/layout';
+import { Button } from 'vitrea-ui/button';
+import { Card } from 'vitrea-ui/card';
+import { PageHeader } from 'vitrea-ui/components/layout';
 
 export function Dashboard() {
   return (
@@ -148,27 +148,27 @@ Theme switching is handled by adding or removing the `.dark` class on the `<html
 
 ### Core Primitives (Atoms)
 
-| Component             | Path                                              | Description                                                          |
-| :-------------------- | :------------------------------------------------ | :------------------------------------------------------------------- |
-| **Accordion**         | `@abbosraxmonov/liquid-ui/accordion`              | Collapsible interactive accordion panels.                            |
-| **Alert & Dialog**    | `@abbosraxmonov/liquid-ui/alert`, `/alert-dialog` | Accessible system banners and modal confirmation dialogs.            |
-| **Avatar & Badge**    | `@abbosraxmonov/liquid-ui/avatar`, `/badge`       | User disc representation and status notification badges.             |
-| **Button**            | `@abbosraxmonov/liquid-ui/button`                 | Primary, Tinted, Glass, Plain and Icon button variants.              |
-| **Calendar & Picker** | `@abbosraxmonov/liquid-ui/calendar`               | Interactive date, time, and multi-range calendar selectors.          |
-| **Card & Sheet**      | `@abbosraxmonov/liquid-ui/card`, `/sheet`         | Glass-morphic containers and edge-anchored slide-out sheets.         |
-| **Form Controls**     | `@abbosraxmonov/liquid-ui/form`                   | Inputs, Checkboxes, Switches, Radio Groups, ReactSelect, HtmlEditor. |
-| **Tabs & Stepper**    | `@abbosraxmonov/liquid-ui/tab`, `/stepper`        | macOS segmented controls and progress steppers.                      |
-| **Toast**             | `@abbosraxmonov/liquid-ui/toast`                  | Glass capsule notification presets for Sonner.                       |
+| Component             | Path                               | Description                                                          |
+| :-------------------- | :--------------------------------- | :------------------------------------------------------------------- |
+| **Accordion**         | `vitrea-ui/accordion`              | Collapsible interactive accordion panels.                            |
+| **Alert & Dialog**    | `vitrea-ui/alert`, `/alert-dialog` | Accessible system banners and modal confirmation dialogs.            |
+| **Avatar & Badge**    | `vitrea-ui/avatar`, `/badge`       | User disc representation and status notification badges.             |
+| **Button**            | `vitrea-ui/button`                 | Primary, Tinted, Glass, Plain and Icon button variants.              |
+| **Calendar & Picker** | `vitrea-ui/calendar`               | Interactive date, time, and multi-range calendar selectors.          |
+| **Card & Sheet**      | `vitrea-ui/card`, `/sheet`         | Glass-morphic containers and edge-anchored slide-out sheets.         |
+| **Form Controls**     | `vitrea-ui/form`                   | Inputs, Checkboxes, Switches, Radio Groups, ReactSelect, HtmlEditor. |
+| **Tabs & Stepper**    | `vitrea-ui/tab`, `/stepper`        | macOS segmented controls and progress steppers.                      |
+| **Toast**             | `vitrea-ui/toast`                  | Glass capsule notification presets for Sonner.                       |
 
 ### Composite Patterns
 
-| Pattern           | Path                                            | Description                                              |
-| :---------------- | :---------------------------------------------- | :------------------------------------------------------- |
-| **Kanban Board**  | `@abbosraxmonov/liquid-ui/components/kanban`    | Native Pragmatic DnD virtualized drag-and-drop board.    |
-| **DataTable**     | `@abbosraxmonov/liquid-ui/components/datatable` | Sortable, filterable, paginated enterprise data table.   |
-| **Layouts**       | `@abbosraxmonov/liquid-ui/components/layout`    | `PageHeader`, `ActionBar`, `DetailList`, `StatusScreen`. |
-| **Filters**       | `@abbosraxmonov/liquid-ui/components/filters`   | `FilterWrapper`, `AppliedFilters`, `SearchWithCtrl`.     |
-| **Media Gallery** | `@abbosraxmonov/liquid-ui/components/gallery`   | Fullscreen zoom and thumbnail carousel gallery.          |
+| Pattern           | Path                             | Description                                              |
+| :---------------- | :------------------------------- | :------------------------------------------------------- |
+| **Kanban Board**  | `vitrea-ui/components/kanban`    | Native Pragmatic DnD virtualized drag-and-drop board.    |
+| **DataTable**     | `vitrea-ui/components/datatable` | Sortable, filterable, paginated enterprise data table.   |
+| **Layouts**       | `vitrea-ui/components/layout`    | `PageHeader`, `ActionBar`, `DetailList`, `StatusScreen`. |
+| **Filters**       | `vitrea-ui/components/filters`   | `FilterWrapper`, `AppliedFilters`, `SearchWithCtrl`.     |
+| **Media Gallery** | `vitrea-ui/components/gallery`   | Fullscreen zoom and thumbnail carousel gallery.          |
 
 ---
 

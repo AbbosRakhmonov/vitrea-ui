@@ -17,7 +17,7 @@ export * from './modal';
 export * from './pagination';
 // './scroll' is deliberately not re-exported here: its composite ScrollArea
 // collides with the atom of the same name from ./ui/scroll-area in the root
-// barrel (TS2308). The composite stays reachable at @abbosraxmonov/liquid-ui/components/scroll,
+// barrel (TS2308). The composite stays reachable at vitrea-ui/components/scroll,
 // which is the path consumers actually import it from.
 export * from './stat';
 export * from './theme';

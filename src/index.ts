@@ -1,5 +1,5 @@
 /**
- * @fileoverview Main entry point for the @abbosraxmonov/liquid-ui library.
+ * @fileoverview Main entry point for the vitrea-ui library.
  * Exports all UI components and utility functions.
  */
 

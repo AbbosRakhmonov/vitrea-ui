@@ -1,5 +1,5 @@
 // Adapted from react-kanban-kit (Apache-2.0), Copyright 2024 Hazem braiek.
-// Modified for Liquid UI; see THIRD_PARTY_NOTICES.md.
+// Modified for Vitrea UI; see THIRD_PARTY_NOTICES.md.
 import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';

@@ -19,7 +19,7 @@ specific language governing permissions and limitations under the License.
 
 A full copy is included in `third-party-licenses/Apache-2.0.txt`.
 
-Liquid UI modifications: integration into the composite component layer,
+Vitrea UI modifications: integration into the composite component layer,
 TypeScript types, theme tokens, local board/scroll isolation, immutable move
 helpers, render memoization, functioning preview slots, empty-column rendering,
 per-column drag permissions, configurable CSS properties, examples and tests.

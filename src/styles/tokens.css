@@ -1,5 +1,5 @@
 /* ============================================================================
- * Liquid UI — Apple Liquid Glass token base (macOS Tahoe)
+ * Vitrea UI — Apple Liquid Glass token base (macOS Tahoe)
  * ----------------------------------------------------------------------------
  * Loaded AFTER src/index.css so these values win by cascade order.
  * Deliberately plain CSS (no @apply / no Tailwind layer) so ordering is

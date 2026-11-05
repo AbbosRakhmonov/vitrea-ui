@@ -1,6 +1,17 @@
 # Changelog
 
-## 2.1.0 — 2026-11-05
+## 1.0.0 — 2026-11-05
+
+The first release under the new name. It continues `@abbosraxmonov/liquid-ui`
+2.0.0 (history below) with the changes listed here.
+
+### Renamed
+
+- **Published as `vitrea-ui`** (was `@abbosraxmonov/liquid-ui`). Imports
+  change only in the package name: `@abbosraxmonov/liquid-ui/button` becomes
+  `vitrea-ui/button`, `@abbosraxmonov/liquid-ui/styles.css` becomes
+  `vitrea-ui/styles.css`, and so on. Class names (`lq-*`) and tokens are
+  unchanged.
 
 ### Components
 
@@ -60,6 +71,10 @@
 - **Lucide only.** Breadcrumb, calendar, time picker, checkbox, input, toast
   and the stories used Remix icons beside Lucide ones; `@remixicon/react` is
   no longer a dependency.
+
+---
+
+## Earlier releases as `@abbosraxmonov/liquid-ui`
 
 ## 2.0.0 — 2026-11-05
 

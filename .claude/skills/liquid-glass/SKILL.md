@@ -1,9 +1,9 @@
 ---
 name: liquid-glass
-description: Liquid UI's Apple Liquid Glass design language (macOS Tahoe). Load before styling, adding, or migrating any component in @abbosraxmonov/liquid-ui — it defines which surfaces may use the glass material, the token contract that must not be renamed, and the accessibility and performance rules a glass surface has to satisfy.
+description: Vitrea UI's Apple Liquid Glass design language (macOS Tahoe). Load before styling, adding, or migrating any component in vitrea-ui — it defines which surfaces may use the glass material, the token contract that must not be renamed, and the accessibility and performance rules a glass surface has to satisfy.
 ---
 
-# Liquid Glass — Liquid UI design language
+# Liquid Glass — Vitrea UI design language
 
 Apple's Liquid Glass, calibrated to **macOS Tahoe desktop chrome** (not iOS
 Control Center, not visionOS) because it targets a dense operator dashboard.
@@ -31,7 +31,7 @@ container and give the repeating element a solid surface (`.lq-tile`,
 
 ## Token contract — do not rename
 
-`@abbosraxmonov/liquid-ui` keeps a fixed set of primitive token _names_. Every primitive resolves
+`vitrea-ui` keeps a fixed set of primitive token _names_. Every primitive resolves
 its Tailwind utilities through them: `bg-item-primary` →
 `--color-item-primary-primary`, `rounded-4` → `calc(var(--radius-xs) * 4)`.
 
