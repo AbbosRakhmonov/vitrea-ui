@@ -62,8 +62,8 @@ Import the stylesheets in your root entry file (`main.tsx` or `index.tsx`). **Or
 ```tsx
 // main.tsx
 import '@abbosraxmonov/liquid-ui/styles.css'; // 1. Base tokens, utilities & Liquid Glass material
-import './index.css';                         // 2. Your application's custom CSS
-import '@abbosraxmonov/liquid-ui/theme.css';  // 3. (Last): Theme overrides & token enforcement
+import './index.css'; // 2. Your application's custom CSS
+import '@abbosraxmonov/liquid-ui/theme.css'; // 3. (Last): Theme overrides & token enforcement
 ```
 
 ### 3. Usage Example
@@ -76,20 +76,22 @@ import { PageHeader } from '@abbosraxmonov/liquid-ui/components/layout';
 
 export function Dashboard() {
   return (
-    <div className="min-h-screen lq-canvas p-6 space-y-6">
-      <PageHeader 
-        title="Workspace Overview" 
+    <div className="lq-canvas min-h-screen space-y-6 p-6">
+      <PageHeader
+        title="Workspace Overview"
         actions={
           <div className="flex gap-2">
             <Button variant="tinted">Export</Button>
             <Button variant="default">New Project</Button>
           </div>
-        } 
+        }
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Card material="glass" className="p-6">
-          <h3 className="text-lg font-medium text-[var(--label)]">Liquid Glass Surface</h3>
+          <h3 className="text-lg font-medium text-[var(--label)]">
+            Liquid Glass Surface
+          </h3>
           <p className="mt-1 text-sm text-[var(--label-2)]">
             Translucent frosted backdrop with specular rim highlights.
           </p>
@@ -100,7 +102,9 @@ export function Dashboard() {
         </Card>
 
         <Card material="solid" className="p-6">
-          <h3 className="text-lg font-medium text-[var(--label)]">Solid Surface</h3>
+          <h3 className="text-lg font-medium text-[var(--label)]">
+            Solid Surface
+          </h3>
           <p className="mt-1 text-sm text-[var(--label-2)]">
             High-contrast opaque ground for dense data readability.
           </p>
@@ -115,16 +119,16 @@ export function Dashboard() {
 
 ## 🎨 Design System & The Liquid Glass Principle
 
-### The Golden Rule: *Glass is Chrome, Never Content*
+### The Golden Rule: _Glass is Chrome, Never Content_
 
 In Liquid Glass, blur and translucency are reserved for persistent navigation, overlays, floating chrome, and contextual controls. Dense content (such as table rows, form inputs, and list feeds) remains on opaque or solid tile surfaces to prevent GPU composite bloat and preserve legibility.
 
-| Surface Type | When to Use | Recommended Material |
-| :--- | :--- | :--- |
-| **Chrome & Shell** | Navigation, Sidebars, Toolbars, ActionBars | `.lq-glass` / `<Card material="glass">` |
-| **Overlays** | Modals, Sheets, Drawers, Dropdowns, Popovers | `.lq-glass` with `.lq-scrim` |
-| **Interactive Controls** | Buttons, Segmented Tabs, Status Badges | `.lq-btn`, `.lq-segmented`, `.lq-badge` |
-| **Repeating Data** | Table rows, List cards, KPI tiles | Solid tiles (`var(--fill-4)`) |
+| Surface Type             | When to Use                                  | Recommended Material                    |
+| :----------------------- | :------------------------------------------- | :-------------------------------------- |
+| **Chrome & Shell**       | Navigation, Sidebars, Toolbars, ActionBars   | `.lq-glass` / `<Card material="glass">` |
+| **Overlays**             | Modals, Sheets, Drawers, Dropdowns, Popovers | `.lq-glass` with `.lq-scrim`            |
+| **Interactive Controls** | Buttons, Segmented Tabs, Status Badges       | `.lq-btn`, `.lq-segmented`, `.lq-badge` |
+| **Repeating Data**       | Table rows, List cards, KPI tiles            | Solid tiles (`var(--fill-4)`)           |
 
 ### Color Tokens
 
@@ -144,27 +148,27 @@ Theme switching is handled by adding or removing the `.dark` class on the `<html
 
 ### Core Primitives (Atoms)
 
-| Component | Path | Description |
-| :--- | :--- | :--- |
-| **Accordion** | `@abbosraxmonov/liquid-ui/accordion` | Collapsible interactive accordion panels. |
-| **Alert & Dialog** | `@abbosraxmonov/liquid-ui/alert`, `/alert-dialog` | Accessible system banners and modal confirmation dialogs. |
-| **Avatar & Badge** | `@abbosraxmonov/liquid-ui/avatar`, `/badge` | User disc representation and status notification badges. |
-| **Button** | `@abbosraxmonov/liquid-ui/button` | Primary, Tinted, Glass, Plain and Icon button variants. |
-| **Calendar & Picker** | `@abbosraxmonov/liquid-ui/calendar` | Interactive date, time, and multi-range calendar selectors. |
-| **Card & Sheet** | `@abbosraxmonov/liquid-ui/card`, `/sheet` | Glass-morphic containers and edge-anchored slide-out sheets. |
-| **Form Controls** | `@abbosraxmonov/liquid-ui/form` | Inputs, Checkboxes, Switches, Radio Groups, ReactSelect, HtmlEditor. |
-| **Tabs & Stepper** | `@abbosraxmonov/liquid-ui/tab`, `/stepper` | macOS segmented controls and progress steppers. |
-| **Toast** | `@abbosraxmonov/liquid-ui/toast` | Glass capsule notification presets for Sonner. |
+| Component             | Path                                              | Description                                                          |
+| :-------------------- | :------------------------------------------------ | :------------------------------------------------------------------- |
+| **Accordion**         | `@abbosraxmonov/liquid-ui/accordion`              | Collapsible interactive accordion panels.                            |
+| **Alert & Dialog**    | `@abbosraxmonov/liquid-ui/alert`, `/alert-dialog` | Accessible system banners and modal confirmation dialogs.            |
+| **Avatar & Badge**    | `@abbosraxmonov/liquid-ui/avatar`, `/badge`       | User disc representation and status notification badges.             |
+| **Button**            | `@abbosraxmonov/liquid-ui/button`                 | Primary, Tinted, Glass, Plain and Icon button variants.              |
+| **Calendar & Picker** | `@abbosraxmonov/liquid-ui/calendar`               | Interactive date, time, and multi-range calendar selectors.          |
+| **Card & Sheet**      | `@abbosraxmonov/liquid-ui/card`, `/sheet`         | Glass-morphic containers and edge-anchored slide-out sheets.         |
+| **Form Controls**     | `@abbosraxmonov/liquid-ui/form`                   | Inputs, Checkboxes, Switches, Radio Groups, ReactSelect, HtmlEditor. |
+| **Tabs & Stepper**    | `@abbosraxmonov/liquid-ui/tab`, `/stepper`        | macOS segmented controls and progress steppers.                      |
+| **Toast**             | `@abbosraxmonov/liquid-ui/toast`                  | Glass capsule notification presets for Sonner.                       |
 
 ### Composite Patterns
 
-| Pattern | Path | Description |
-| :--- | :--- | :--- |
-| **Kanban Board** | `@abbosraxmonov/liquid-ui/components/kanban` | Native Pragmatic DnD virtualized drag-and-drop board. |
-| **DataTable** | `@abbosraxmonov/liquid-ui/components/datatable` | Sortable, filterable, paginated enterprise data table. |
-| **Layouts** | `@abbosraxmonov/liquid-ui/components/layout` | `PageHeader`, `ActionBar`, `DetailList`, `StatusScreen`. |
-| **Filters** | `@abbosraxmonov/liquid-ui/components/filters` | `FilterWrapper`, `AppliedFilters`, `SearchWithCtrl`. |
-| **Media Gallery** | `@abbosraxmonov/liquid-ui/components/gallery` | Fullscreen zoom and thumbnail carousel gallery. |
+| Pattern           | Path                                            | Description                                              |
+| :---------------- | :---------------------------------------------- | :------------------------------------------------------- |
+| **Kanban Board**  | `@abbosraxmonov/liquid-ui/components/kanban`    | Native Pragmatic DnD virtualized drag-and-drop board.    |
+| **DataTable**     | `@abbosraxmonov/liquid-ui/components/datatable` | Sortable, filterable, paginated enterprise data table.   |
+| **Layouts**       | `@abbosraxmonov/liquid-ui/components/layout`    | `PageHeader`, `ActionBar`, `DetailList`, `StatusScreen`. |
+| **Filters**       | `@abbosraxmonov/liquid-ui/components/filters`   | `FilterWrapper`, `AppliedFilters`, `SearchWithCtrl`.     |
+| **Media Gallery** | `@abbosraxmonov/liquid-ui/components/gallery`   | Fullscreen zoom and thumbnail carousel gallery.          |
 
 ---
 

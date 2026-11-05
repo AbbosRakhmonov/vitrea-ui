@@ -3,6 +3,7 @@
 ## 1.0.1 — 2026-11-04
 
 ### Documentation & Showcase
+
 - Deployed interactive Storybook showcase to GitHub Pages: [abbosrakhmonov.github.io/liquid-ui](https://abbosrakhmonov.github.io/liquid-ui/).
 - Updated README with live interactive demo banner, component catalog breakdown, and usage guidelines.
 

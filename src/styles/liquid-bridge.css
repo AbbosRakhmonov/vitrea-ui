@@ -24,7 +24,6 @@
 @layer liquid-overrides, ph-overrides;
 
 @layer liquid-overrides {
-
   /* The spec is unconditional: every control is a capsule. Each Button
    * variant carries exactly one bg-item-* class, so this covers all five
    * without touching a component or a call site.
@@ -40,8 +39,7 @@
     .bg-item-tertiary,
     .bg-item-ghost,
     .bg-item-destructive,
-    .lq-btn--tinted
-    .ph-btn--tinted
+    .lq-btn--tinted .ph-btn--tinted
   ) {
     border-radius: var(--radius-full);
   }
@@ -263,7 +261,6 @@
  * variant its code happens to use. In ph-overrides: the button's own
  * background utility would beat a components-layer rule. */
 @layer liquid-overrides {
-
   /* The same capsule for a secondary button on a glass card's toolbar
    * ("Templates" next to the primary add) - a white bordered box there was a
    * second surface stacked on the glass. */
