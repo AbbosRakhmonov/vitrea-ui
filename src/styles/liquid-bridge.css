@@ -39,9 +39,19 @@
     .bg-item-tertiary,
     .bg-item-ghost,
     .bg-item-destructive,
-    .lq-btn--tinted .ph-btn--tinted
+    .lq-btn--tinted,
+    .ph-btn--tinted
   ) {
     border-radius: var(--radius-full);
+  }
+
+  /* text-item-primary shares --color-item-primary-primary with the solid
+   * button fill, and the fill is --accent-fill: #0071e3 in both themes so
+   * white text on it keeps its contrast. As text on a dark surface that same
+   * blue falls to ~3:1. Text and glyphs take --accent, the per-theme accent
+   * (identical to the fill in light, #0a84ff in dark). */
+  .text-item-primary {
+    color: var(--accent);
   }
 }
 

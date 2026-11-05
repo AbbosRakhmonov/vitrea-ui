@@ -23,7 +23,10 @@
   height: 100%;
   min-height: 0;
   border-radius: var(--kanban-column-radius, 10px);
-  background: var(--kanban-column-background, var(--bg-inset));
+  /* --fill-4, not --bg-inset: inset is the canvas colour, so on a page the
+   * column vanished and its footer looked detached from it. A translucent
+   * fill reads as a lane on the canvas and inside glass, in both themes. */
+  background: var(--kanban-column-background, var(--fill-4));
 }
 
 .rkk-column {
