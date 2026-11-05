@@ -49,6 +49,9 @@
 
 - **Sheets and dialogs** use an opaque modal material (`.lq-glass--modal`),
   so the page behind no longer shows through a form.
+- **FilePond audio and video:** an audio file reads as a plain card (accent
+  play button, timeline and download icon on tokens; the library drew them
+  white); over an image or video the file name stays white.
 - **FilePond:** one dashed outline on the drop area. Each panel piece carries
   `.filepond--panel-root`, so the border drew a line around every piece.
 

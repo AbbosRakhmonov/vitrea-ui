@@ -369,6 +369,57 @@ body:has(.lq-scrim) [data-radix-popper-content-wrapper] > .lq-glass.lq-glass {
   color: var(--accent);
 }
 
+/* Over an image or video preview FilePond lays the file name on a black
+ * gradient: there it stays white. */
+.filepond--item:has(
+    .filepond--image-preview-wrapper,
+    .filepond--media-preview video
+  )
+  .filepond--file-info-main,
+.filepond--item:has(
+    .filepond--image-preview-wrapper,
+    .filepond--media-preview video
+  )
+  .filepond--file-info-sub {
+  color: #fff;
+}
+
+/* The download glyph is a mask painted with background-color (white in the
+ * library): the secondary label on a plain card, white over a picture. */
+.filepond--download-icon.filepond--download-icon {
+  background-color: var(--label-2);
+}
+.filepond--download-icon.filepond--download-icon:hover {
+  background-color: var(--accent);
+}
+.filepond--item:has(
+    .filepond--image-preview-wrapper,
+    .filepond--media-preview video
+  )
+  .filepond--download-icon {
+  background-color: #fff;
+}
+
+/* An audio file has no picture behind its name, so it drops the gradient and
+ * reads as a plain card: an accent play button and a timeline on tokens (the
+ * library draws both white, invisible on a light card). */
+.filepond--media-preview-wrapper:has(.audioplayer)::before {
+  display: none;
+}
+.filepond--media-preview .playpausebtn.playpausebtn {
+  background-color: var(--accent);
+  background-size: 12px;
+}
+.filepond--media-preview .playpausebtn.playpausebtn:hover {
+  background-color: color-mix(in srgb, var(--accent) 85%, #000);
+}
+.filepond--media-preview .timeline.timeline {
+  background: var(--fill-2);
+}
+.filepond--media-preview .playhead.playhead {
+  background: var(--accent);
+}
+
 /* ================================================== overlay focus ring === */
 
 /* Radix moves focus to a sheet's, dialog's or menu's own container when it
