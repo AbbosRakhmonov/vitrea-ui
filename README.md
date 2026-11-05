@@ -13,12 +13,12 @@
 <br />
 
 <p align="center">
-  <a href="https://abbosrakhmonov.github.io/liquid-ui/">
+  <a href="https://abbosrakhmonov.github.io/vitrea-ui/">
     <img src="https://img.shields.io/badge/Live%20Demo-Explore%20Components%20in%20Storybook-blue?style=for-the-badge&logo=storybook&logoColor=white" alt="Live Storybook Showcase" />
   </a>
 </p>
 
-[**Explore Live Interactive Demo →**](https://abbosrakhmonov.github.io/liquid-ui/)
+[**Explore Live Interactive Demo →**](https://abbosrakhmonov.github.io/vitrea-ui/)
 
 </div>
 
@@ -178,8 +178,8 @@ To explore and test components locally:
 
 ```bash
 # Clone the repository
-git clone https://github.com/AbbosRakhmonov/liquid-ui.git
-cd liquid-ui
+git clone https://github.com/AbbosRakhmonov/vitrea-ui.git
+cd vitrea-ui
 
 # Install dependencies
 npm ci
