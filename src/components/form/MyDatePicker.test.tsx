@@ -73,6 +73,14 @@ describe('MyDatePicker', () => {
     expect(day('2000-11-16')).toBeEnabled();
   });
 
+  it('keeps the icon in the input box, apart from the error message', () => {
+    render(<Harness />);
+    const input = screen.getByRole('textbox');
+    const box = input.closest('div.relative')!.parentElement!;
+    expect(box.querySelector('svg')).toBeInTheDocument();
+    expect(box.querySelector('p')).not.toBeInTheDocument();
+  });
+
   it('renders the helper text', () => {
     render(<Harness helperText="At least 13 years old" />);
     expect(screen.getByText('At least 13 years old')).toBeInTheDocument();

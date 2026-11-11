@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.1 — 2026-11-11
+
+### Fixed
+
+- **MyDatePicker:** the calendar icon stays centred on the input when an
+  error message is shown (the message shared the icon's box and pushed it
+  down).
+- **MyDatePicker:** `helperText` is the 12px secondary caption, not body text.
+
 ## 1.1.0 — 2026-11-11
 
 ### Components

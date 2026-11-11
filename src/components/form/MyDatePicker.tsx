@@ -128,32 +128,37 @@ export const MyDatePicker = <TFieldValues extends FieldValues>({
             <Popover>
               <PopoverTrigger asChild>
                 <div className={'relative'}>
-                  <FormControl>
-                    <Input
-                      {...inputProps}
-                      variant={
-                        get(formState.errors, `${name}.message`)
-                          ? 'failure'
-                          : 'default'
-                      }
-                      disabled={disabled}
-                      {...field}
-                      readOnly
-                      placeholder={placeholder || t('Pick a date')}
-                      value={
-                        field.value && parse(field.value).isValid()
-                          ? parse(field.value).format(format)
-                          : ''
-                      }
-                      className={cn('m-0 pe-8 text-start', className)}
+                  {/* The icon is centred on the input alone: the message
+                   * below used to share its box, so an error pushed the icon
+                   * off-centre. */}
+                  <div className={'relative'}>
+                    <FormControl>
+                      <Input
+                        {...inputProps}
+                        variant={
+                          get(formState.errors, `${name}.message`)
+                            ? 'failure'
+                            : 'default'
+                        }
+                        disabled={disabled}
+                        {...field}
+                        readOnly
+                        placeholder={placeholder || t('Pick a date')}
+                        value={
+                          field.value && parse(field.value).isValid()
+                            ? parse(field.value).format(format)
+                            : ''
+                        }
+                        className={cn('m-0 pe-8 text-start', className)}
+                      />
+                    </FormControl>
+                    <Calendar1
+                      className={cn(
+                        'text-secondary absolute top-1/2 right-2 size-5 -translate-y-1/2',
+                        disabled && 'pointer-events-none opacity-50'
+                      )}
                     />
-                  </FormControl>
-                  <Calendar1
-                    className={cn(
-                      'text-secondary absolute top-1/2 right-2 size-5 -translate-y-1/2',
-                      disabled && 'pointer-events-none opacity-50'
-                    )}
-                  />
+                  </div>
                   <FormMessage
                     className={cn(floatingError && 'absolute -bottom-5')}
                   />
@@ -191,7 +196,7 @@ export const MyDatePicker = <TFieldValues extends FieldValues>({
               )}
             </Popover>
             {helperText && (
-              <FormDescription className="lq-footnote mt-1 text-[var(--label-2)]">
+              <FormDescription className="text-body-xs-regular! text-secondary mt-1">
                 {helperText}
               </FormDescription>
             )}
