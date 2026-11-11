@@ -1,6 +1,6 @@
 name: Publish to npm
 
-# Publishes vitrea-ui to npm when a GitHub Release is published
+# Stages vitrea-ui for npm when a GitHub Release is published
 # (or manually from the Actions tab). npm refuses to republish an existing
 # version, so bump "version" in package.json before you tag / release
 # (tag name: vitrea-vX.Y.Z).
@@ -8,10 +8,17 @@ name: Publish to npm
 # Authentication is npm Trusted Publishing (OIDC): no token is stored. The
 # package requires 2FA and refuses tokens, so a token could not publish anyway.
 #
+# The release is STAGED, not published: the trusted publisher is allowed
+# `npm stage publish` only (a direct `npm publish` answers 403 "OIDC
+# permission denied for this action"). After this workflow succeeds, a
+# maintainer approves it with 2FA - npmjs.com -> Staged Packages -> Approve,
+# or `npm stage approve <stage-id>` - and only then is the version live.
+#
 # Requirements:
 #   - On npmjs.com, vitrea-ui -> Settings -> Trusted Publisher: GitHub Actions,
-#     repository AbbosRakhmonov/vitrea-ui, workflow publish.yml.
-#   - npm 11.5.1 or newer (installed below) and id-token: write.
+#     repository AbbosRakhmonov/vitrea-ui, workflow publish.yml, allowed
+#     action "npm stage publish".
+#   - npm 11.15.0 or newer (installed below), Node 22.14+ and id-token: write.
 #   - A public repository whose URL matches package.json "repository.url";
 #     provenance is then generated automatically.
 on:
@@ -42,9 +49,9 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org/'
 
-      # Trusted Publishing needs npm 11.5.1+; Node 22 ships npm 10.
+      # Staged publishing needs npm 11.15.0+; Node 22 ships npm 10.
       - name: Update npm
-        run: npm install -g npm@^11.5.1
+        run: npm install -g npm@^11.15.0
 
       - name: Install dependencies
         run: npm ci
@@ -55,5 +62,5 @@ jobs:
       - name: Build package
         run: npm run build
 
-      - name: Publish to npm
-        run: npm publish --access public
+      - name: Stage the release on npm (approve it on npmjs.com)
+        run: npm stage publish --access public
