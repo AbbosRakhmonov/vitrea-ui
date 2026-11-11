@@ -52,6 +52,22 @@ const calendarName = (
 export const DATE = 'DD.MM.YYYY';
 
 /**
+ * The `selected` prop as a Date: a string is read with `format`. Returns
+ * `undefined` for an empty or unparseable value.
+ */
+const parseSelected = (
+  selected: Date | string | undefined,
+  format: string | undefined
+) => {
+  if (!selected) return undefined;
+  const parsed =
+    format && typeof selected === 'string'
+      ? dayjs(selected, format)
+      : dayjs(selected);
+  return parsed.isValid() ? parsed.toDate() : undefined;
+};
+
+/**
  * Props for the Calendar component.
  * Extends react-day-picker base props in single selection mode with convenience props.
  *
@@ -393,18 +409,17 @@ function Calendar({
     ]
   );
 
+  // An empty or unparseable value selects nothing; it must never reach
+  // DayPicker as an Invalid Date (its month formatter throws a RangeError).
+  const selectedDate = useMemo(
+    () => parseSelected(props.selected, format),
+    [props.selected, format]
+  );
+  const selectedTime = selectedDate?.getTime();
+
   useEffect(() => {
-    const selected = props.selected;
-    if (selected) {
-      if (!format) {
-        setMonth(dayjs(selected).startOf('month').toDate());
-      } else {
-        setMonth(dayjs(selected, format).startOf('month').toDate());
-      }
-    } else {
-      setMonth(dayjs().startOf('month').toDate());
-    }
-  }, [props.selected, format]);
+    setMonth(dayjs(selectedTime).startOf('month').toDate());
+  }, [selectedTime]);
 
   return (
     <DayPicker
@@ -470,7 +485,7 @@ function Calendar({
           }
         }
       }}
-      selected={dayjs(props.selected, format).toDate()}
+      selected={selectedDate}
       month={month}
     />
   );

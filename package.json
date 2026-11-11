@@ -1,6 +1,6 @@
 {
   "name": "vitrea-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "UI kit — Apple Liquid Glass design language on React.js, Radix UI, TailwindCSS, Typescript",
   "keywords": [
     "liquid-glass",

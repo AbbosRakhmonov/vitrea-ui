@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.1 — 2026-11-11
+
+### Fixed
+
+- **Calendar / date pickers:** picking a day, or opening a picker that holds
+  a formatted string value (`format="DD-MM-YYYY"`), threw
+  `RangeError: Invalid time value` and took the host app down. The dayjs
+  `customParseFormat` plugin was tree-shaken out of the build, so
+  `dayjs(value, format)` returned an Invalid Date. The plugin is now part of
+  the exported `dayjs` binding and survives the build.
+- **Calendar:** an empty or unparseable `selected` value selects nothing and
+  shows the current month instead of reaching DayPicker as an Invalid Date.
+  Without a value, today is no longer marked as selected.
+
 ## 1.0.0 — 2026-11-05
 
 The first release under the new name. It continues `@abbosraxmonov/liquid-ui`
