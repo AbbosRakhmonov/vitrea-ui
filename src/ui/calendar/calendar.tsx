@@ -283,7 +283,30 @@ function Calendar({
   ...props
 }: CalendarProps) {
   const { t, i18n } = useTranslation();
-  const [month, setMonth] = useState<Date>(dayjs().startOf('month').toDate());
+
+  // An empty or unparseable value selects nothing; it must never reach
+  // DayPicker as an Invalid Date (its month formatter throws a RangeError).
+  const selectedDate = useMemo(
+    () => parseSelected(props.selected, format),
+    [props.selected, format]
+  );
+  const selectedTime = selectedDate?.getTime();
+  // The month is controlled here (for the month/year caption), so DayPicker's
+  // own `defaultMonth` never applied: a birth-date picker opened on the
+  // current month even when every day in it was disabled.
+  // Keyed by the month, not the instant: a caller passing a fresh Date each
+  // render must not snap the user's navigation back.
+  const defaultMonthTime = props.defaultMonth
+    ? dayjs(props.defaultMonth).startOf('month').valueOf()
+    : undefined;
+  const openingMonth = (selected?: number, fallback?: number) =>
+    dayjs(selected ?? fallback)
+      .startOf('month')
+      .toDate();
+
+  const [month, setMonth] = useState<Date>(() =>
+    openingMonth(selectedTime, defaultMonthTime)
+  );
 
   // Memoized weekday component
   const MemoizedWeekday = useCallback(
@@ -409,17 +432,9 @@ function Calendar({
     ]
   );
 
-  // An empty or unparseable value selects nothing; it must never reach
-  // DayPicker as an Invalid Date (its month formatter throws a RangeError).
-  const selectedDate = useMemo(
-    () => parseSelected(props.selected, format),
-    [props.selected, format]
-  );
-  const selectedTime = selectedDate?.getTime();
-
   useEffect(() => {
-    setMonth(dayjs(selectedTime).startOf('month').toDate());
-  }, [selectedTime]);
+    setMonth(openingMonth(selectedTime, defaultMonthTime));
+  }, [selectedTime, defaultMonthTime]);
 
   return (
     <DayPicker

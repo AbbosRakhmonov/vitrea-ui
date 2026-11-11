@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.2 — 2026-11-11
+
+### Fixed
+
+- **Calendar:** `defaultMonth` is honoured - with nothing selected the
+  calendar opens on that month instead of the current one (the month is
+  controlled for the caption, so DayPicker's own `defaultMonth` never
+  applied). It is keyed by the month, so a caller passing a new Date each
+  render does not snap the user's navigation back.
+
 ## 1.1.1 — 2026-11-11
 
 ### Fixed

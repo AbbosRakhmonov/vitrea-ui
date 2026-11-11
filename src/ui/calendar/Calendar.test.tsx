@@ -49,6 +49,43 @@ describe('Calendar', () => {
     ).toBeInTheDocument();
   });
 
+  it('opens on defaultMonth when nothing is selected', () => {
+    render(<Calendar mode="single" defaultMonth={new Date(2013, 10, 1)} />);
+    expect(
+      screen.getByRole('grid').querySelector('[data-day="2013-11-15"]')
+    ).toBeInTheDocument();
+  });
+
+  it('keeps the navigated month when defaultMonth is re-created', () => {
+    const { rerender } = render(
+      <Calendar mode="single" defaultMonth={new Date(2013, 10, 1, 9)} />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /next month/i }));
+    expect(
+      screen.getByRole('grid').querySelector('[data-day="2013-12-15"]')
+    ).toBeInTheDocument();
+    rerender(
+      <Calendar mode="single" defaultMonth={new Date(2013, 10, 1, 10)} />
+    );
+    expect(
+      screen.getByRole('grid').querySelector('[data-day="2013-12-15"]')
+    ).toBeInTheDocument();
+  });
+
+  it('prefers the selected value over defaultMonth', () => {
+    render(
+      <Calendar
+        mode="single"
+        format="DD-MM-YYYY"
+        selected="15-11-2000"
+        defaultMonth={new Date(2013, 10, 1)}
+      />
+    );
+    expect(
+      screen.getByRole('grid').querySelector('[data-day="2000-11-15"]')
+    ).toBeInTheDocument();
+  });
+
   it('renders without a value', () => {
     render(<Calendar mode="single" />);
     expect(screen.getByRole('grid')).toBeInTheDocument();
