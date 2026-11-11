@@ -14,7 +14,9 @@ describe('dayjs (lib/day)', () => {
 
 describe('Calendar', () => {
   it('opens on the month of a formatted string value', () => {
-    render(<Calendar format="DD-MM-YYYY" selected="15-11-2000" />);
+    render(
+      <Calendar mode="single" format="DD-MM-YYYY" selected="15-11-2000" />
+    );
     const grid = screen.getByRole('grid');
     expect(grid).toBeInTheDocument();
     expect(grid.querySelector('[data-day="2000-11-15"]')).toBeInTheDocument();
@@ -23,7 +25,12 @@ describe('Calendar', () => {
   it('emits the picked day in the given format', () => {
     const onSelect = vi.fn();
     render(
-      <Calendar format="DD-MM-YYYY" selected="15-11-2000" onSelect={onSelect} />
+      <Calendar
+        mode="single"
+        format="DD-MM-YYYY"
+        selected="15-11-2000"
+        onSelect={onSelect}
+      />
     );
     const day = screen
       .getByRole('grid')
@@ -33,7 +40,9 @@ describe('Calendar', () => {
   });
 
   it('renders the current month for an unparseable value', () => {
-    render(<Calendar format="DD-MM-YYYY" selected="not a date" />);
+    render(
+      <Calendar mode="single" format="DD-MM-YYYY" selected="not a date" />
+    );
     const today = dayjs().format('YYYY-MM-DD');
     expect(
       screen.getByRole('grid').querySelector(`[data-day="${today}"]`)
@@ -41,7 +50,7 @@ describe('Calendar', () => {
   });
 
   it('renders without a value', () => {
-    render(<Calendar />);
+    render(<Calendar mode="single" />);
     expect(screen.getByRole('grid')).toBeInTheDocument();
   });
 });
