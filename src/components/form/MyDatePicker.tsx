@@ -1,6 +1,8 @@
 import get from 'lodash.get';
 import { Calendar1 } from 'lucide-react';
+import type { ReactNode } from 'react';
 import type { FieldPath, FieldValues } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { cn, dayjs } from '../../lib';
 import {
   Calendar,
@@ -10,6 +12,7 @@ import {
 } from '../../ui/calendar';
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   type FormItemProps,
@@ -29,6 +32,20 @@ export type MyDatePickerProps<TFieldValues extends FieldValues> =
     Omit<CalendarProps, 'mode' | 'disabled' | 'required'> & {
       /** Date format string for display. */
       format?: string;
+      /**
+       * Format of the field VALUE. When set, the field holds (and receives)
+       * a string in this dayjs format - e.g. `"DD-MM-YYYY"` for a value the
+       * API takes as text. Without it the value is a `Date`.
+       */
+      valueFormat?: string;
+      /**
+       * Days that cannot be picked (a react-day-picker matcher: a date, a
+       * range, `{ before }` / `{ after }`, a function, or an array of those).
+       * `disabled` is taken by the field itself, hence the separate name.
+       */
+      disabledDates?: CalendarProps['disabled'];
+      /** Hint shown under the field. */
+      helperText?: ReactNode;
       /** Props passed to the underlying Input component. */
       inputProps?: Omit<InputProps, 'onSelect'>;
       /** Placeholder text when no date is selected. */
@@ -43,7 +60,7 @@ export type MyDatePickerProps<TFieldValues extends FieldValues> =
 
 /**
  * MyDatePicker shows a calendar popover to pick a single date, integrated with react-hook-form.
- * Can also be used standalone when no control/name are provided.
+ * It needs both `control` and `name`; without them it renders nothing.
  *
  * @template TFieldValues - Form values type used by react-hook-form.
  * @param control - The `react-hook-form` control object.
@@ -52,6 +69,9 @@ export type MyDatePickerProps<TFieldValues extends FieldValues> =
  * @param required - Whether the field is required.
  * @param rules - The `react-hook-form` validation rules.
  * @param format - The date format for display.
+ * @param valueFormat - Format of the field value; when set the value is a string, otherwise a Date.
+ * @param disabledDates - Days that cannot be picked (react-day-picker matcher).
+ * @param helperText - Hint shown under the field.
  * @param placeholder - The placeholder text when no date selected.
  * @param floatingError - Whether to show the error message in a floating container.
  * @param register - The `react-hook-form` register function.
@@ -69,6 +89,9 @@ export const MyDatePicker = <TFieldValues extends FieldValues>({
   required,
   rules,
   format = DATE,
+  valueFormat,
+  disabledDates,
+  helperText,
   floatingError,
   placeholder,
   disabled,
@@ -78,6 +101,14 @@ export const MyDatePicker = <TFieldValues extends FieldValues>({
   inputProps,
   ...props
 }: MyDatePickerProps<TFieldValues>) => {
+  const { t } = useTranslation();
+
+  /** The field value as dayjs: a string is read with `valueFormat`. */
+  const parse = (value: unknown) =>
+    valueFormat && typeof value === 'string'
+      ? dayjs(value, valueFormat)
+      : dayjs(value as Date | string);
+
   return (
     (name && control && (
       <FormField<TFieldValues, FieldPath<TFieldValues>>
@@ -88,7 +119,10 @@ export const MyDatePicker = <TFieldValues extends FieldValues>({
           <FormItem>
             {label && (
               <FormLabel className={'block'}>
-                {label} {required && <span className={'text-red-600'}>*</span>}
+                {label}{' '}
+                {required && (
+                  <span className={'text-[var(--red-text)]'}>*</span>
+                )}
               </FormLabel>
             )}
             <Popover>
@@ -105,11 +139,11 @@ export const MyDatePicker = <TFieldValues extends FieldValues>({
                       disabled={disabled}
                       {...field}
                       readOnly
-                      placeholder={placeholder || 'Pick a date'}
+                      placeholder={placeholder || t('Pick a date')}
                       value={
-                        field.value
-                          ? dayjs(field.value).format(format)
-                          : undefined
+                        field.value && parse(field.value).isValid()
+                          ? parse(field.value).format(format)
+                          : ''
                       }
                       className={cn('m-0 pe-8 text-start', className)}
                     />
@@ -130,20 +164,24 @@ export const MyDatePicker = <TFieldValues extends FieldValues>({
                   <Calendar
                     {...props}
                     mode="single"
+                    format={valueFormat}
+                    disabled={disabledDates}
                     selected={field.value}
                     onSelect={field.onChange}
                   />
                   {showTime && (
                     <div className={'px-4 pb-3'}>
                       <TimePicker
-                        value={dayjs(field.value as Date).format('HH:mm')}
+                        value={parse(field.value).format('HH:mm')}
                         onChange={(time) => {
                           const [hour, minute] = time.split(':');
+                          const next = parse(field.value)
+                            .set('hour', Number(hour))
+                            .set('minute', Number(minute));
                           field.onChange(
-                            dayjs(field.value)
-                              .set('hour', Number(hour))
-                              .set('minute', Number(minute))
-                              .toDate()
+                            valueFormat
+                              ? next.format(valueFormat)
+                              : next.toDate()
                           );
                         }}
                       />
@@ -152,6 +190,11 @@ export const MyDatePicker = <TFieldValues extends FieldValues>({
                 </PopoverContent>
               )}
             </Popover>
+            {helperText && (
+              <FormDescription className="lq-footnote mt-1 text-[var(--label-2)]">
+                {helperText}
+              </FormDescription>
+            )}
           </FormItem>
         )}
       />

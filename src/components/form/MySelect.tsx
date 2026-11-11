@@ -71,7 +71,9 @@ export const MySelect = <TFieldValues extends FieldValues>({
               {label && (
                 <FormLabel className={'block'}>
                   {label}{' '}
-                  {required && <span className={'text-red-600'}>*</span>}
+                  {required && (
+                    <span className={'text-[var(--red-text)]'}>*</span>
+                  )}
                 </FormLabel>
               )}
               <div>

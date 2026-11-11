@@ -87,7 +87,10 @@ export const MyShadcnSelect = <TFieldValues extends FieldValues>({
             <FormItem>
               {label && (
                 <FormLabel>
-                  {label} {required && <span className="text-red-600">*</span>}
+                  {label}{' '}
+                  {required && (
+                    <span className="text-[var(--red-text)]">*</span>
+                  )}
                 </FormLabel>
               )}
               <div>

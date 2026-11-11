@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.1.0 — 2026-11-11
+
+### Components
+
+- **MyDatePicker:** new `valueFormat` - the field then holds and receives a
+  string in that dayjs format (e.g. `"DD-MM-YYYY"`) instead of a `Date`;
+  `format` stays the display format. Without `valueFormat` nothing changes.
+  With `showTime` the time change is written in the same format.
+- **MyDatePicker:** new `disabledDates` (a react-day-picker matcher) blocks
+  days in the calendar, and `helperText` shows a hint under the field.
+- **MyDatePicker:** the default placeholder is translated (`t('Pick a date')`),
+  and an unparseable value shows an empty field instead of "Invalid Date".
+
+### Fixed
+
+- **Required marks:** the asterisk of every form component uses the
+  `--red-text` token instead of a fixed red, so it is legible in the dark
+  theme too.
+
 ## 1.0.1 — 2026-11-11
 
 ### Fixed

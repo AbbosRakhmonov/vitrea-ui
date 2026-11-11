@@ -56,7 +56,8 @@ export const MyTimePicker = <TFieldValues extends FieldValues>({
         <FormItem>
           {label && (
             <FormLabel className={'block'}>
-              {label} {required && <span className={'text-red-600'}>*</span>}
+              {label}{' '}
+              {required && <span className={'text-[var(--red-text)]'}>*</span>}
             </FormLabel>
           )}{' '}
           <div>

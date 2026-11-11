@@ -59,3 +59,26 @@ export const CustomFormat: Story = {
     placeholder: 'DD/MM/YYYY',
   },
 };
+
+/** The field value is a string in `valueFormat`; `format` is only the display. */
+export const StringValue: Story = {
+  render: (args) => <Template {...args} />,
+  args: {
+    name: 'date',
+    label: 'Date (value "DD-MM-YYYY")',
+    valueFormat: 'DD-MM-YYYY',
+    format: 'DD.MM.YYYY',
+    placeholder: 'DD.MM.YYYY',
+  },
+};
+
+export const DisabledDatesWithHelperText: Story = {
+  render: (args) => <Template {...args} />,
+  args: {
+    name: 'birthdate',
+    label: 'Date of Birth',
+    required: true,
+    disabledDates: { after: new Date() },
+    helperText: 'Future dates cannot be picked',
+  },
+};
