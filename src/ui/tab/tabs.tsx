@@ -237,7 +237,7 @@ const TabsTrigger = forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      'text-body-xs-medium relative box-border inline-flex h-7 flex-1 cursor-pointer items-center justify-center px-3 py-1 whitespace-nowrap transition-all outline-none disabled:pointer-events-none disabled:opacity-50',
+      'text-body-xs-medium relative box-border inline-flex h-7 flex-1 cursor-pointer items-center justify-center px-3 py-1 whitespace-nowrap transition-[color,background-color,box-shadow] outline-none disabled:pointer-events-none disabled:opacity-50',
       'data-[state=inactive]:hover:!bg-item-tertiary-hover data-[state=inactive]:hover:text-primary',
       'data-[state=active]:text-primary',
       className

@@ -311,7 +311,7 @@ const MyGalleryComponent = ({
         {(selectedIndex || 0) > 0 && (
           <button
             onClick={goToPrevious}
-            className="bg-opacity-50 hover:bg-opacity-70 bg-bg text-secondary absolute top-1/2 left-2 z-50 -translate-y-1/2 rounded-full p-3 transition-all"
+            className="bg-opacity-50 hover:bg-opacity-70 bg-bg text-secondary absolute top-1/2 left-2 z-50 -translate-y-1/2 rounded-full p-3 transition-[background-color]"
             title="Previous (←)"
           >
             <ChevronLeft size={24} />
@@ -322,7 +322,7 @@ const MyGalleryComponent = ({
         {(selectedIndex || 0) < images.length - 1 && (
           <button
             onClick={goToNext}
-            className="bg-opacity-0 hover:bg-opacity-100 text-secondary bg-bg absolute top-1/2 right-2 z-50 -translate-y-1/2 rounded-full p-3 transition-all"
+            className="bg-opacity-0 hover:bg-opacity-100 text-secondary bg-bg absolute top-1/2 right-2 z-50 -translate-y-1/2 rounded-full p-3 transition-[background-color]"
             title="Next (→)"
           >
             <ChevronRight size={24} />
@@ -344,7 +344,7 @@ const MyGalleryComponent = ({
                 <div
                   key={image.id}
                   className={cn(
-                    `hover:border-item-primary h-16 min-w-16 shrink-0 cursor-pointer rounded border-3 border-transparent transition-all`,
+                    `hover:border-item-primary h-16 min-w-16 shrink-0 cursor-pointer rounded border-3 border-transparent transition-[border-color]`,
                     index == selectedIndex && 'border-item-primary'
                   )}
                   onClick={() => setSelectedIndex(index)}

@@ -272,9 +272,11 @@
  */
 :root {
   --destructive: 356 100% 42%; /* #d70015, red-text */
-  /* Labels — macOS: label 85%, secondary 50%, tertiary 26%, quaternary 10% */
+  /* Labels — macOS: label 85%, tertiary 26%, quaternary 10%. Secondary is the
+   * solid --label-2, not macOS 50% black: at 50% small text sat at 3.9:1 on a
+   * white surface, under the 4.5:1 it needs. */
   --color-item-primary: rgb(0 0 0 / 85%);
-  --color-item-secondary: rgb(0 0 0 / 50%);
+  --color-item-secondary: var(--label-2);
   --color-item-tertiary: rgb(0 0 0 / 26%);
   --color-item-quaternary: rgb(0 0 0 / 10%);
 

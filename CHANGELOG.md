@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.1.4 — 2026-11-25
+
+### Fixed
+
+- **Secondary text:** `text-secondary` (`--color-item-secondary`) resolves to
+  the solid `--label-2` in the light theme instead of 50% black, which sat at
+  3.9:1 on a white surface. Empty states, helper text and table captions now
+  clear 4.5:1.
+- **Badge:** the blue variant uses `--link` for its text; `--accent` on its
+  own soft tint was 3.8:1.
+- **Transitions:** tabs, progress, stepper, accordion, gallery, theme toggle
+  and the HTML editor name the properties they animate instead of
+  `transition-all`.
+- **Progress:** a bar with a label inside is 20px tall and its label 13px;
+  the label was 10px in a 6px bar. A bar without a label is unchanged.
+
 ## 1.1.3 — 2026-11-25
 
 ### Fixed

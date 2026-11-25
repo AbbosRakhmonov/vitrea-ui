@@ -34,7 +34,9 @@ function Progress({
     <ProgressPrimitive.Root
       data-slot="progress"
       className={cn(
-        'relative h-1.5 w-full overflow-hidden rounded-full bg-[var(--fill-3)]',
+        'relative w-full overflow-hidden rounded-full bg-[var(--fill-3)]',
+        // A bar that carries a label is tall enough to hold 13px text.
+        children != null ? 'h-5' : 'h-1.5',
         className
       )}
       {...props}
@@ -42,13 +44,13 @@ function Progress({
       <ProgressPrimitive.Indicator
         data-slot="progress-indicator"
         className={cn(
-          'h-full w-full flex-1 rounded-full transition-all duration-[var(--duration-base)] ease-[var(--ease-liquid)]',
+          'h-full w-full flex-1 rounded-full transition-transform duration-[var(--duration-base)] ease-[var(--ease-liquid)]',
           TONE[tone]
         )}
         style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
       />
       {children != null && (
-        <div className="absolute inset-y-0 left-1 flex items-center text-[10px] leading-none font-semibold text-[var(--on-accent)]">
+        <div className="absolute inset-y-0 left-2 flex items-center text-[13px] leading-none font-semibold text-[var(--on-accent)]">
           {children}
         </div>
       )}

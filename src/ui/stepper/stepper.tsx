@@ -172,7 +172,7 @@ const StepperHeader = React.memo(() => {
         </div>
         <div className="h-1.5 w-full rounded-full bg-[var(--fill-3)]">
           <div
-            className="h-1.5 rounded-full bg-[var(--accent)] transition-all duration-[var(--duration-base)] ease-[var(--ease-liquid)]"
+            className="h-1.5 rounded-full bg-[var(--accent)] transition-[width] duration-[var(--duration-base)] ease-[var(--ease-liquid)]"
             style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
           />
         </div>

@@ -10,7 +10,7 @@ import type { ElementDataType } from '../../types';
  * @property {'default'|'failure'|'success'} variant - Visual state of the input.
  */ const editorVariants = cva(
   cn(
-    'quill-editor w-full rounded-lg bg-transparent transition-all',
+    'quill-editor w-full rounded-lg bg-transparent transition-[border-color,box-shadow]',
     'border border-border-alpha-strong [&_.ql-toolbar]:bg-muted/50 [&_.ql-editor.ql-blank::before]:text-body-sm-light',
     'focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-bg focus-within:ring-offset-2 focus-within:ring-offset-background',
     'disabled:cursor-not-allowed disabled:opacity-50'

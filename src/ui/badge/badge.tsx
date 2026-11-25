@@ -34,8 +34,9 @@ export const badgeVariants = cva(
         'default-outlined': '!bg-[var(--fill-3)] !text-[var(--label)]',
         gray: '!bg-[var(--fill-3)] !text-[var(--label-2)]',
         'gray-outlined': '!bg-[var(--fill-3)] !text-[var(--label-2)]',
-        blue: '!bg-[var(--accent-soft)] !text-[var(--accent)]',
-        'blue-outlined': '!bg-[var(--accent-soft)] !text-[var(--accent)]',
+        // --link, not --accent: accent on its own soft tint is 3.8:1 at this size.
+        blue: '!bg-[var(--accent-soft)] !text-[var(--link)]',
+        'blue-outlined': '!bg-[var(--accent-soft)] !text-[var(--link)]',
         cyan: '!bg-[var(--teal-soft)] !text-[var(--teal-text)]',
         'cyan-outlined': '!bg-[var(--teal-soft)] !text-[var(--teal-text)]',
         green: '!bg-[var(--green-soft)] !text-[var(--green-text)]',
