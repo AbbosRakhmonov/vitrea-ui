@@ -50,7 +50,7 @@ const DetailListBase = ({ title, items, className }: DetailListProps) => (
             <dd
               className={cn(
                 'ml-auto min-w-0 truncate text-right text-[13px] font-medium text-[var(--label)]',
-                item.mono && 'font-mono text-[12px]'
+                item.mono && 'font-mono text-[13px]'
               )}
               title={typeof item.value === 'string' ? item.value : undefined}
             >

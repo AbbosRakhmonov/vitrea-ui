@@ -46,7 +46,14 @@ const inputVariants = cva(
  */
 export interface InputProps
   extends React.ComponentProps<'input'>,
-    VariantProps<typeof inputVariants> {}
+    VariantProps<typeof inputVariants> {
+  /**
+   * Accessible names for the password visibility toggle, so an app can pass
+   * translated text. Default to English.
+   */
+  showPasswordLabel?: string;
+  hidePasswordLabel?: string;
+}
 
 /**
  * Input - Text input with optional password visibility toggle.
@@ -57,7 +64,17 @@ export interface InputProps
  * ```
  */
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, variant, ...props }, ref) => {
+  (
+    {
+      className,
+      type,
+      variant,
+      showPasswordLabel = 'Show password',
+      hidePasswordLabel = 'Hide password',
+      ...props
+    },
+    ref
+  ) => {
     const [isPassword, setIsPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -81,6 +98,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={'button'}
             size={'icon'}
             variant={'tertiary'}
+            aria-label={showPassword ? hidePasswordLabel : showPasswordLabel}
             className={
               'absolute top-1 right-1 size-8 cursor-pointer rounded-md p-2 ring-0! ring-offset-0!'
             }

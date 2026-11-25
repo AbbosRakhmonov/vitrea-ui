@@ -48,7 +48,7 @@ const SecretValueBase = ({
 
   return (
     <span className={cn('inline-flex min-w-0 items-center gap-1.5', className)}>
-      <span className="truncate font-mono text-[12px]">
+      <span className="truncate font-mono text-[13px]">
         {visible ? value : '••••••••'}
       </span>
       <button

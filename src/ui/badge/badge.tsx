@@ -18,7 +18,7 @@ export const badgeVariants = cva(
   // and "-outlined" variants of the old kit (Tailwind 100/500 fills, a 1px
   // rim, white ink) turned into saturated blocks in dark; both names now
   // resolve to the same soft tint, so every call site follows.
-  'inline-flex flex-nowrap whitespace-nowrap justify-center items-center gap-1 rounded-full border-0 px-2 text-[12px] leading-none font-medium [&>svg]:size-3.5 [&>svg]:text-current',
+  'inline-flex flex-nowrap whitespace-nowrap justify-center items-center gap-1 rounded-full border-0 px-2 text-[13px] leading-none font-medium [&>svg]:size-3.5 [&>svg]:text-current',
   {
     variants: {
       type: {

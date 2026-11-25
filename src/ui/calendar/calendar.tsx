@@ -315,7 +315,7 @@ function Calendar({
         {...props}
         // Weekday names are a quiet header, not the loudest text in the
         // grid: in the black weight the three-letter names ran together.
-        className={'text-[11px] font-medium text-[var(--label-2)]'}
+        className={'text-[13px] font-medium text-[var(--label-2)]'}
       >
         {props.children}
       </Weekday>

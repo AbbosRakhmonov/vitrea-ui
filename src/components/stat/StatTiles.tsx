@@ -71,13 +71,13 @@ export const StatTiles = React.memo(function StatTiles({
             role={interactive ? 'button' : undefined}
             tabIndex={interactive ? 0 : undefined}
             className={cn(
-              'lq-tile flex flex-col justify-between gap-1.5 px-3 py-2',
+              'lq-tile flex min-w-0 flex-col justify-between gap-1.5 px-3 py-2',
               spans && (columns === 3 ? 'col-span-3' : 'col-span-2'),
               interactive && 'lq-interactive cursor-pointer'
             )}
           >
             <span
-              className="lq-caption-1 block"
+              className="lq-caption-1 block [overflow-wrap:anywhere]"
               style={{ color: TONE_COLOR[t.tone ?? 'neutral'] }}
             >
               {t.label}

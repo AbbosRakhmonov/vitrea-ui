@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.3 — 2026-11-25
+
+### Fixed
+
+- **Input:** the password visibility toggle has an accessible name
+  ("Show password" / "Hide password"); pass `showPasswordLabel` and
+  `hidePasswordLabel` for translated text.
+- **Badge, `.lq-badge`:** 13px instead of 12px, so status text clears the
+  13px floor for text in dense tables.
+- **Calendar:** weekday names are 13px instead of 11px.
+- **DetailList, SecretValue:** monospace values are 13px instead of 12px.
+- **StatTiles:** a long one-word label breaks inside its tile instead of
+  being clipped at the tile edge.
+
 ## 1.1.2 — 2026-11-11
 
 ### Fixed
