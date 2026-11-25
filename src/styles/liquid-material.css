@@ -469,7 +469,8 @@
     border-radius: var(--radius-full);
     padding: 3px var(--space-2);
     font: 500 13px / 1.23 var(--font-text);
-    background-color: var(--fill-3);
+    /* --fill-4: --label-2 on --fill-3 was 4.3:1, just under AA. */
+    background-color: var(--fill-4);
     color: var(--label-2);
   }
 
@@ -499,7 +500,8 @@
   }
   .lq-badge--accent {
     background-color: var(--accent-soft);
-    color: var(--accent);
+    /* --link, not --accent: accent on its own soft tint is 3.8:1. */
+    color: var(--link);
   }
 
   /* ============================================================ field === */

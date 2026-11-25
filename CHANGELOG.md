@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.5 — 2026-11-25
+
+### Fixed
+
+- **`.lq-badge--accent`:** text uses `--link`, like the Badge component's
+  blue variant since 1.1.4; `--accent` on its own soft tint was 3.8:1.
+- **Neutral badges** (`.lq-badge`, Badge `gray`): the fill is `--fill-4`
+  instead of `--fill-3`, so secondary ink on it clears 4.5:1 (it was 4.3:1).
+
 ## 1.1.4 — 2026-11-25
 
 ### Fixed

@@ -32,8 +32,9 @@ export const badgeVariants = cva(
       variant: {
         default: '!bg-[var(--fill-3)] !text-[var(--label)]',
         'default-outlined': '!bg-[var(--fill-3)] !text-[var(--label)]',
-        gray: '!bg-[var(--fill-3)] !text-[var(--label-2)]',
-        'gray-outlined': '!bg-[var(--fill-3)] !text-[var(--label-2)]',
+        // --fill-4 under secondary ink: on --fill-3 it was 4.3:1, just under AA.
+        gray: '!bg-[var(--fill-4)] !text-[var(--label-2)]',
+        'gray-outlined': '!bg-[var(--fill-4)] !text-[var(--label-2)]',
         // --link, not --accent: accent on its own soft tint is 3.8:1 at this size.
         blue: '!bg-[var(--accent-soft)] !text-[var(--link)]',
         'blue-outlined': '!bg-[var(--accent-soft)] !text-[var(--link)]',
